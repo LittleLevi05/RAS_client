@@ -37,6 +37,51 @@ class GameProvider{
                 oddTeamHome:1.8,
                 oddTeamAway:1.7,
                 oddDraw:5.5
+            },
+            {
+                id: 4,
+                teamHome:"Braga",
+                teamAway:"Guimarães",
+                date:"26-04-2022",
+                oddTeamHome:1.8,
+                oddTeamAway:1.7,
+                oddDraw:5.5
+            },
+            {
+                id: 5,
+                teamHome:"Brasil",
+                teamAway:"Argentina",
+                date:"26-04-2022",
+                oddTeamHome:1.8,
+                oddTeamAway:1.7,
+                oddDraw:5.5
+            },
+            {
+                id: 6,
+                teamHome:"Porto",
+                teamAway:"Benfica",
+                date:"26-04-2022",
+                oddTeamHome:1.8,
+                oddTeamAway:1.7,
+                oddDraw:5.5
+            },
+            {
+                id: 7,
+                teamHome:"Bayern",
+                teamAway:"Borussia",
+                date:"26-04-2022",
+                oddTeamHome:1.8,
+                oddTeamAway:1.7,
+                oddDraw:5.5
+            },
+            {
+                id: 8,
+                teamHome:"Milan",
+                teamAway:"Juventus",
+                date:"26-04-2022",
+                oddTeamHome:1.8,
+                oddTeamAway:1.7,
+                oddDraw:5.5
             }
         ]
     }

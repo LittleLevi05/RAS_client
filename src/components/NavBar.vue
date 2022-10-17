@@ -1,25 +1,38 @@
 <template>
     <div class="nav top">
         <div class="col p-90">
-            <a href="/">
-                <img height="50" src="">
+            <a href="">
+                <img height="100" src="@/assets/RasBet_logo.png">
             </a>
             <div>
                 <nav>
                     <ul>
                         <li>
                             <div class="">
-                                <router-link to="/signup">Signup</router-link>
+                                <router-link to="/signup">TODOS</router-link>
                             </div>
                         </li>
                         <li>
                             <div class="">
-                                <router-link to="/login">Login</router-link>
+                                <router-link to="/login">FUTEBOL</router-link>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="">
+                                <router-link to="/signup">BASQUETEBOL</router-link>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="">
+                                <router-link to="/login">TÉNIS</router-link>
                             </div>
                         </li>
                     </ul>
                 </nav>
             </div> 
+            <div>
+                <h4 class="t-white">Bem-vindo, <i>Carlos</i></h4>
+            </div>
         </div> 
     </div>
 </template>
@@ -34,7 +47,7 @@ export default{
 .nav{
     background-color: var(--color-background-nav);
     width: 100%;
-    height: 60px;
+    height: 100px;
     display: flex;  
     align-items: center;
     justify-content: center;
@@ -65,9 +78,24 @@ ul{
 li a{
     color: var(--color-text-white);
     font-weight: bold;
+    text-decoration: none;
+    padding: 10px;
 }
 
 li {
     padding: 10px;
+    border-radius: 20px;
+}
+
+li:hover{
+    background-color: var(--color-white);
+}
+
+li:hover a{
+    color: var(--color-background-nav);
+}
+
+.col{
+    justify-content: space-between;
 }
 </style>
