@@ -1,0 +1,41 @@
+:root{
+    --color-background: #e0e0e0;
+    --color-background-nav: #16350e;
+    --color-text-white: #ffffff;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+html, body{
+    background-color: var(--color-background);
+    background-size: 2000px;
+    font-family: 'Roboto', sans-serif;
+    animation: slide 60s linear infinite;
+}
+
+.page-container{
+    position: relative;
+    min-height: 100vh;
+}
+
+main {
+    padding: 40px;
+    margin-left: 20%;
+    margin-right:20%;
+    margin-top: 60px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 8, 59, 0.2), 0 3px 10px 0 rgba(12, 0, 43, 0.19);
+}
+
+.w-90{
+    width: 90%;
+}
+
+.col{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
