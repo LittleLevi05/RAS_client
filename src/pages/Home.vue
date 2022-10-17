@@ -1,13 +1,19 @@
 <template>
     <main>
-        <h1>Home</h1>
+        <div class="w-70">
+            <GamesList></GamesList>
+        </div>
     </main>
 </template>
 
 <script>
+import GamesList from '@/components/GamesList.vue'
 
 export default{
     name: "HomePage",
+    components:{
+        GamesList
+    }
 }
 
 </script>
