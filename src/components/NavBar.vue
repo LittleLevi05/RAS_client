@@ -30,8 +30,9 @@
                     </ul>
                 </nav>
             </div> 
-            <div>
-                <h4 class="t-white">Bem-vindo, <i>Carlos</i></h4>
+            <div class="col profile">
+                <i class="fas fa-user margin-right-10 t-white"></i>
+                <router-link to="/profile"><h4 class="t-white">Bem-vindo, <i>Carlos</i></h4></router-link>
             </div>
         </div> 
     </div>
@@ -97,5 +98,9 @@ li:hover a{
 
 .col{
     justify-content: space-between;
+}
+
+.profile{
+    cursor: pointer;
 }
 </style>

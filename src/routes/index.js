@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import LoginPage from '@/pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
 import HomePage from '@/pages/Home';
+import ProfilePage from '@/pages/ProfilePage';
 
 const routes = [
     {
@@ -22,6 +23,12 @@ const routes = [
         component: HomePage,
         name: 'home',
         meta: {auth:false}
+    },
+    {
+        path: '/profile',
+        component: ProfilePage,
+        name: 'profile',
+        meta: {auth:true}
     }
 ];
 

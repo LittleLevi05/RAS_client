@@ -7,7 +7,7 @@
                     <h2 class="t-grey">-</h2>
                     <h2 class="t-grey">{{game.teamAway}}</h2>
                 </div>
-                <h5 class="margin-top-5">{{game.date}}</h5>
+                <h5 class="margin-top-5 t-grey-2">{{game.date}}</h5>
             </div>
             <div class="col w-70">
                 <div class="oddSelected row card padding-10 border-radius-20 b-white">
@@ -49,7 +49,13 @@ export default{
 .oddSelected:hover{
     background-color: var(--color-odd-selected);
     cursor: pointer;
-    border: 0px;
+    border: 2px solid var(--color-odd-selected);
+}
+
+.oddSelected{
+    width: 120px;
+    justify-content: center;
+    align-items: center;
 }
 
 </style>
