@@ -75,6 +75,10 @@ main {
     margin-right: 10px;
 }
 
+.margin-right-20{
+    margin-right: 20px;
+}
+
 .margin-right-50{
     margin-right: 50px;
 }
@@ -129,4 +133,63 @@ main {
 
 .t-white{
     color: var(--color-white)
+}
+
+@keyframes modal {
+    0%   {background-color: rgba(0, 0, 0, 0);}
+    100% {background-color: rgba(0,0,0,0.4);}
+}
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1; 
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    animation-name: modal;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes modal-content {
+    0%   {top: 0px}
+    100% {top: 150px;}
+}
+  
+.modal-content {
+    left: 30%;
+    position: absolute;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    animation-name: modal-content;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: 0.5s;
+    transform: scale(1.15);
 }

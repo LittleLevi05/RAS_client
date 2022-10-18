@@ -25,8 +25,42 @@
                 <h4 class="t-grey">Total de ganhos</h4>
                 <h4 class="t-grey margin-top-10">(valor)</h4>
             </div>
-            <div class="col padding-10">
+            <div class="col padding-10" v-on:click="showModal('paymentModal')">
                 <div class="border-radius-20 card-bet padding-10"><h4>Apostar</h4></div>
+            </div>
+        </div>
+
+        <div id="paymentModal" class="modal">
+            <div class="modal-content border-radius-20">
+                <span class="close" v-on:click="closeModal('paymentModal')">&times;</span>
+                <div class="row">
+                    <h2 class="t-grey">PAGAMENTO</h2>
+                    <br>
+                    <br>
+                    <div class="col col-e">
+                        <h4 class="w-30 t-grey-2">Método de pagamento:</h4>
+                        <div class="col w-70">
+                            <div class="card padding-20 card-p margin-right-20">
+                                <img height="50" src="@/assets/Multibanco.png"> 
+                            </div>
+                            <div class="card padding-20 card-p margin-right-20">
+                                <img height="50" src="@/assets/MBWay.png"> 
+                            </div>
+                            <div class="card padding-20 card-p margin-right-20">
+                                <img height="50" src="@/assets/Visa.png"> 
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="col col-progress">
+                       <div class="circle">1</div> 
+                       <hr class="hr-p">
+                       <div class="circle">2</div>
+                       <hr class="hr-p">
+                       <div class="circle">3</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -39,11 +73,42 @@ export default{
         return{
 
         }
+    },
+    methods:{
+        bet(){
+
+        },
+        closeModal(modalID){
+            var modal = document.getElementById(modalID);
+            modal.style.display = "none";
+        },
+        showModal(modalID){
+            var modal = document.getElementById(modalID);
+            modal.style.display = "block";
+        }
     }
 }
 </script>
 
 <style scoped>
+.col-progress{
+    display:flex;
+    align-items: center;
+}
+.hr-p{
+    width: 20px;
+    height: 2px;
+    background-color: var(--color-background-nav);
+}
+.circle{
+    border-radius: 50px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-background);
+}
 .row{
     align-items: center;
 }
@@ -87,5 +152,23 @@ export default{
     display: flex;
     justify-content: center;
     cursor:pointer;
+}
+
+.card-p{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-p:hover{
+    background-color: var(--color-background-nav);
+    cursor: pointer;
+}
+
+.col-e{
+    display: flex;
+    align-items: center;
 }
 </style>
