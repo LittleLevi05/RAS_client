@@ -1,6 +1,6 @@
 <template>
-    <main class="backcolor-sets">
-        <div class="padding-10 border-radius-20 col" style="background-color: white;">
+    <main>
+        <div class="padding-10 border-radius-20 col white-div">
             <div class="div-space">
                 <a href="">
                     <img class="border-radius-20 logo-hw backcolor-sets"  src="@/assets/RasBet_logo.png">
@@ -47,6 +47,16 @@ export default {
 </script>
 
 <style scoped>
+*{
+    padding: 0;
+    margin: 0;
+}
+
+main {
+    min-height: 85.1vh;
+    background-color: var(--color-background-nav);
+}
+
 .login-button {
     background-color: var(--color-odd-selected);
     border-radius: 10px;
@@ -84,6 +94,15 @@ input {
     color: var(--color-background-nav);
 }
 
+.white-div{
+    margin-top: 7rem;
+    margin-bottom: 0rem;
+    margin-left: 20rem;
+    margin-right: 5rem;
+    background-color: white;
+    width: 63%;
+    padding: 20px;
+}
 .col {
     justify-content: flex-start;
 }
