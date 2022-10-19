@@ -32,9 +32,8 @@
                 </div>
 
             </div>
-            <div><img class="border-radius-20 padding-10" src="@/assets/Secundary_Image1.jpg"></div>
+            <img class="border-radius-20 padding-20" src="@/assets/Secundary_Image1.jpg">
         </div>
-
     </main>
 </template>
 
@@ -52,9 +51,16 @@ export default {
     margin: 0;
 }
 
-main {
-    min-height: 85.1vh;
+body{
     background-color: var(--color-background-nav);
+}
+
+main {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-background-nav);
+    min-height: 100vh;
 }
 
 .login-button {
@@ -95,13 +101,13 @@ input {
 }
 
 .white-div{
-    margin-top: 7rem;
-    margin-bottom: 0rem;
-    margin-left: 20rem;
-    margin-right: 5rem;
+    margin-top: 2%;
+    margin-left: 10%;
+    margin-right: 10%;
     background-color: white;
-    width: 63%;
-    padding: 20px;
+    width: 80%;
+    padding: 30px;
+    overflow: hidden;
 }
 .col {
     justify-content: flex-start;

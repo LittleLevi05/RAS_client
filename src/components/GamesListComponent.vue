@@ -39,7 +39,6 @@ export default{
     },
     async mounted(){
         this.games = await GameRepository.getGames()
-        console.log(this.games)
     },
 }
 </script>

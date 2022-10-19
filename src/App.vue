@@ -1,6 +1,6 @@
 <template>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
-  <span v-if="logged"><NavBar></NavBar></span>
+  <span v-if="logged()"><NavBar></NavBar></span> 
   <router-view></router-view>
 </template>
 
@@ -15,7 +15,9 @@ export default {
   }, 
   methods:{
     logged(){
-      return true
+      if(this.$route.name == "login" || this.$route.name == "signup")
+        return false
+      else return true 
     }
   }
 }
