@@ -1,6 +1,6 @@
 <template>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
-  <NavBar></NavBar>
+  <span v-if="logged"><NavBar></NavBar></span>
   <router-view></router-view>
 </template>
 
@@ -12,6 +12,11 @@ export default {
   name: 'App',
   components: {
     NavBar
+  }, 
+  methods:{
+    logged(){
+      return true
+    }
   }
 }
 </script>

@@ -37,28 +37,49 @@
                     <h2 class="t-grey">PAGAMENTO</h2>
                     <br>
                     <br>
-                    <div class="col col-e">
+                    
+                    <div id="payment-1stage" style="display:flex" class="col col-e">
                         <h4 class="w-30 t-grey-2">Método de pagamento:</h4>
                         <div class="col w-70">
-                            <div class="card padding-20 card-p margin-right-20">
+                            <div class="card padding-20 card-p margin-right-20" v-on:click="multibancoMethod">
                                 <img height="50" src="@/assets/Multibanco.png"> 
                             </div>
-                            <div class="card padding-20 card-p margin-right-20">
+                            <div class="card padding-20 card-p margin-right-20" v-on:click="mbwayMethod">
                                 <img height="50" src="@/assets/MBWay.png"> 
                             </div>
-                            <div class="card padding-20 card-p margin-right-20">
+                            <div class="card padding-20 card-p margin-right-20" v-on:click="visaMethod">
                                 <img height="50" src="@/assets/Visa.png"> 
                             </div>
                         </div>
                     </div>
+
+                    <div id="payment-2stage-mbway" style="display:none" class="row">
+                        <div class="col">
+                            <img height="50" src="@/assets/MBWay.png">
+                            <div class="col col-e mbway-infos">
+                                <select class="mbwaySelected">
+                                    <option>+351</option>
+                                </select>
+                                <hr class="margin-right-5 margin-left-5 mbwayHR">
+                                <input placeholder="Nº de telemóvel" class="mbwayInput">
+                            </div>
+                            <div class="row">
+                                <div class="border-radius-10 card-pay padding-10" v-on:click="pay"><h4>PAGAR</h4></div>
+                                <div class="border-radius-10 card-cancel padding-10 margin-top-10"><h4>CANCELAR</h4></div>
+                            </div>
+                        </div>
+                        <br>
+                        <h4 class="t-grey">Será enviada uma notificação para o seu télemovel. Aceite a transação com o seu PIN MB WAY dentro do tempo limite indicado.</h4>
+                    </div>
+
                     <br>
                     <br>
                     <div class="col col-progress">
-                       <div class="circle">1</div> 
+                       <div id="circle-1" style="background:var(--color-background-nav)" class="circle">1</div> 
                        <hr class="hr-p">
-                       <div class="circle">2</div>
+                       <div id="circle-2" class="circle">2</div>
                        <hr class="hr-p">
-                       <div class="circle">3</div>
+                       <div id="circle-3" class="circle">3</div>
                     </div>
                 </div>
             </div>
@@ -75,8 +96,7 @@ export default{
         }
     },
     methods:{
-        bet(){
-
+        pay(){
         },
         closeModal(modalID){
             var modal = document.getElementById(modalID);
@@ -85,6 +105,31 @@ export default{
         showModal(modalID){
             var modal = document.getElementById(modalID);
             modal.style.display = "block";
+        },
+        hideFirstStage(){
+            var content = document.getElementById("payment-1stage");
+            content.style.display = "none";
+        },
+        progressCircle(circleID){
+            var circle = document.getElementById(circleID);
+            circle.style.background="var(--color-background-nav)"
+        },
+        deprogressCircle(circleID){
+            var circle = document.getElementById(circleID);
+            circle.style.background="var(--color-background)"
+        },
+        multibancoMethod(){
+            this.hideFirstStage()    
+        },
+        mbwayMethod(){
+            this.hideFirstStage()
+            this.deprogressCircle("circle-1")
+            this.progressCircle("circle-2")
+            var content = document.getElementById("payment-2stage-mbway");
+            content.style.display = "block";
+        },
+        visaMethod(){
+            this.hideFirstStage()
         }
     }
 }
@@ -111,10 +156,6 @@ export default{
 }
 .row{
     align-items: center;
-}
-
-.col-e{
-    justify-content: space-around;
 }
 
 .oddType{
@@ -150,7 +191,22 @@ export default{
     width: 130px;
     justify-content: center;
     display: flex;
+    cursor:pointer;
+}
+
+.card-pay{
+    background-color: var(--color-odd-selected);
+    width: 130px;
     justify-content: center;
+    display: flex;
+    cursor:pointer;
+}
+
+.card-cancel{
+    background-color: var(--color-background);
+    width: 130px;
+    justify-content: center;
+    display: flex;
     cursor:pointer;
 }
 
@@ -170,5 +226,28 @@ export default{
 .col-e{
     display: flex;
     align-items: center;
+    justify-content: space-around;
+}
+
+.mbwayInput{
+    height: 30px;
+}
+
+.mbwaySelected{
+    height: 30;
+}
+
+.mbwayHR{
+    width: 10px;
+    height: 2px;
+    background-color: var(--color-background-nav);
+}
+
+#payment-1stage{
+    height: 200px;
+}
+
+#payment-2stage-mbway{
+    height: 200px;
 }
 </style>
