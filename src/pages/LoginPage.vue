@@ -14,16 +14,16 @@
                     <br>
                     <br>
                     <br>
-                    <input placeholder="Email" class="border-radius-20 placeholder">
+                    <input placeholder="Email" v-model="this.user.email" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="Password" class="border-radius-20 placeholder">
+                    <input placeholder="Password" v-model="this.user.password" class="border-radius-20 placeholder">
                     <br>
                     <a class="color-sets forgot-pass-sets" href="">Esqueci-me da palavra-passe</a>
                     <br>
                     <br>
                     <br>
-                    <button class="login-button padding-10">
+                    <button v-on:click="login()" class="login-button padding-10">
                         <H4 style="color: var(--color-background-nav);">Aceder</H4>
                     </button>
                     <br>
@@ -42,9 +42,21 @@
 </template>
 
 <script>
+import UserRepository from '@/data/repository/UserRepository';
+import UserModel from '@/data/model/UserModel';
 
 export default {
     name: "LoginPage",
+    data(){
+        return{
+            user: new UserModel()
+        }
+    },
+    methods:{
+        async login(){
+            await UserRepository.login(this.user)
+        }
+    }
 }
 
 </script>
@@ -73,6 +85,10 @@ main {
     border-radius: 10px;
     justify-content: center;
     cursor: pointer;
+}
+
+.login-button:hover{
+    background-color: var(--color-odd-selected-2);
 }
 
 .logo-hw {

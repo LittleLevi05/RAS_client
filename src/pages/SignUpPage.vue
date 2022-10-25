@@ -12,20 +12,20 @@
                     <h1 class="color-sets">REGISTO</h1>
                     <br>
                     <br>
-                    <input placeholder="Email" class="border-radius-20 placeholder">
+                    <input placeholder="Email" v-model="this.user.email" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="Password" class="border-radius-20 placeholder">
+                    <input placeholder="Password" v-model="this.user.password" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="Data de nascimento" class="border-radius-20 placeholder">
+                    <input placeholder="Data de nascimento" v-model="this.user.dateBirthday" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="NIF" class="border-radius-20 placeholder">
+                    <input placeholder="NIF" v-model="this.user.nif" class="border-radius-20 placeholder">
                     <br>
                     <br>
                     <br>
-                    <button class="login-button padding-10">
+                    <button v-on:click="signup()" class="login-button padding-10">
                         <H4 class="color-sets">Concluir</H4>
                     </button>
                     <br>
@@ -38,9 +38,21 @@
 </template>
 
 <script>
+import UserRepository from '@/data/repository/UserRepository';
+import UserModel from '@/data/model/UserModel';
 
 export default {
     name: "SignUpPage",
+    data(){
+        return{
+            user: new UserModel()
+        }
+    },
+    methods:{
+        async signup(){
+            await UserRepository.signup(this.user)
+        }
+    }
 }
 
 </script>
@@ -70,6 +82,10 @@ main {
     height: 40px;
     justify-content: center;
     cursor: pointer;
+}
+
+.login-button:hover{
+    background-color: var(--color-odd-selected-2);
 }
 
 input {
