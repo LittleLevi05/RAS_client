@@ -4,6 +4,7 @@ import LoginPage from '@/pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
 import HomePage from '@/pages/Home';
 import ProfilePage from '@/pages/ProfilePage';
+import OddCreate from '@/pages/OddCreate';
 
 const routes = [
     {
@@ -29,7 +30,13 @@ const routes = [
         component: ProfilePage,
         name: 'profile',
         meta: {auth:true}
-    }
+    },
+    {
+        path: '/odd-create',
+        component: OddCreate,
+        name: 'oddCreate',
+        meta: {auth:true}
+    },
 ];
 
 const router = createRouter({

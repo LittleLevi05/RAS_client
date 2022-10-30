@@ -198,3 +198,19 @@ main {
     transition-duration: 0.5s;
     transform: scale(1.15);
 }
+
+.button-float{
+	position:fixed;
+	bottom:80px;
+    height: 60px;
+    width: 60px;
+	right:40px;
+	background-color:rgb(240, 3, 27);
+	color:#FFF;
+	border-radius:35px;
+	text-align:center;
+}
+
+.my-float{
+	margin-top:22px;
+}

@@ -148,6 +148,9 @@
                 </div>
             </div>
         </div>
+        <div v-if="isAdmin()" v-on:click="this.$router.push('/odd-create')" class="button-float expand but">
+            <i class="fas fa-plus"></i>Criar Evento
+        </div>
     </main>
 </template>
 
@@ -210,6 +213,10 @@ export default{
             if (index > -1) { 
                 this.betsSelected.splice(index, 1);
             }
+        },
+        isAdmin(){
+            // Return true if users is admin
+            return true
         }
     }
 }
@@ -227,6 +234,16 @@ input{
     width: 100%;
 }
 
+.but{
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.but:hover{
+    cursor: pointer;
+}
 .oddSelected:hover{
     background-color: var(--color-odd-selected);
     cursor: pointer;
@@ -239,7 +256,9 @@ input{
     align-items: center;
 }
 
-
+a{
+    text-decoration: none;
+}
 .col-progress{
     display:flex;
     align-items: center;
