@@ -41,18 +41,39 @@ main {
     width: 90%;
 }
 
+.w-60{
+    width: 60%;
+}
+
+.w-40{
+    width: 40%;
+}
+
 .w-70{
     width: 70%;
+}
+
+.w-75{
+    width: 75%;
 }
 
 .w-30{
     width: 30%;
 }
 
+.w-25{
+    width: 25%;
+}
+
 .col{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.expand:hover{
+    transition-duration: 0.5s;
+    transform: scale(1.05);
 }
 
 .row{

@@ -125,6 +125,16 @@ class EventProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }
+
+    async getSoccerEvents(){
+        try{
+            const res = await axios.get(baseUrl + '/soccer-event',{})
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
 }
 
 export default new EventProvider();

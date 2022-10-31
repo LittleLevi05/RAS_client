@@ -1,37 +1,37 @@
 <template>
     <main class="col">
-        <div class="w-70 padding-30">
+        <div class="w-75 padding-30">
             <input class="border-radius-20">
             <br>
             <br>
-            <div v-for="(game,index) in games" :key="game.id">
+            <div v-for="(soccerEvent,index) in soccerEvents" :key="soccerEvent.soccerOddID">
                 <div class="col card margin-top-10 padding-20 border-radius-20 b-grey">
-                    <div class="row w-30 margin-right-50">
+                    <div class="row w-40 margin-right-50">
                         <div class="col">
-                            <h2 class="t-grey">{{game.teamHome}}</h2>
+                            <h3 class="t-grey">{{soccerEvent.team1Name}}</h3>
                             <h2 class="t-grey">-</h2>
-                            <h2 class="t-grey">{{game.teamAway}}</h2>
+                            <h3 class="t-grey">{{soccerEvent.team2Name}}</h3>
                         </div>
-                        <h5 class="margin-top-5 t-grey-2">{{game.date}}</h5>
+                        <h5 class="margin-top-5 t-grey-2">{{soccerEvent.date}}</h5>
                     </div>
-                    <div class="col w-70">
-                        <div v-on:click="this.addBetSelected(index,'teamHome')" class="oddSelected row card padding-10 border-radius-20 b-white">
-                            <h3>{{game.teamHome}}</h3>
-                            <h3 class="margin-top-5">{{game.oddTeamHome}}</h3>
+                    <div class="col w-60">
+                        <div v-on:click="this.addBetSelected(index,'team_1')" class="oddSelected row card padding-10 border-radius-20 b-white">
+                            <h5>{{soccerEvent.team1Name}}</h5>
+                            <h3 class="margin-top-5">{{soccerEvent.oddTeam1Wins}}</h3>
                         </div>
-                        <div  v-on:click="this.addBetSelected(index,'oddDraw')" class="oddSelected row card padding-10 border-radius-20 b-white">
-                            <h3>Empate</h3>
-                            <h3 class="margin-top-5">{{game.oddDraw}}</h3>
+                        <div  v-on:click="this.addBetSelected(index,'draw')" class="oddSelected row card padding-10 border-radius-20 b-white">
+                            <h5>Empate</h5>
+                            <h3 class="margin-top-5">{{soccerEvent.oddDraw}}</h3>
                         </div>
-                        <div  v-on:click="this.addBetSelected(index,'teamAway')" class="oddSelected row card padding-10 border-radius-20 b-white">
-                            <h3>{{game.teamAway}}</h3>
-                            <h3 class="margin-top-5">{{game.oddTeamAway}}</h3>
+                        <div  v-on:click="this.addBetSelected(index,'team_2')" class="oddSelected row card padding-10 border-radius-20 b-white">
+                            <h5>{{soccerEvent.team2Name}}</h5>
+                            <h3 class="margin-top-5">{{soccerEvent.oddTeam2Wins}}</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="w-30 padding-30">
+        <div class="w-25 padding-30">
             <div class="row row-c card-bulletin border-radius-60 padding-20">
                 <div><h2 class="t-grey">BOLETIM</h2></div>
                 <br>
@@ -149,25 +149,28 @@
             </div>
         </div>
         <div v-if="isAdmin()" v-on:click="this.$router.push('/odd-create')" class="button-float expand but">
-            <i class="fas fa-plus"></i>Criar Evento
+            <i class="fas fa-plus margin-right-5"></i>Criar Evento
         </div>
     </main>
 </template>
 
 <script>
 import GameRepository from '@/data/repository/GameRepository'
-import BetModel from '@/data/model/BetModel'
+import EventRepository from '@/data/repository/EventRepository'
+//import BetModel from '@/data/model/BetModel'
 
 export default{
     name: "HomePage",
     data(){
         return{
             games:[],
+            soccerEvents:[],
             betsSelected:[]
         }
     },
     async mounted(){
         this.games = await GameRepository.getGames()
+        this.soccerEvents = await EventRepository.getSoccerEvents()
     },
     methods:{
         closeElement(elementID){
@@ -205,9 +208,12 @@ export default{
             this.deprogressCircle("circle-2")
             this.progressCircle("circle-3")
         },
-        addBetSelected(gameIndex,targetBet){
-            var bet = new BetModel(this.games[gameIndex],targetBet)
+        addBetSelected(soccerEventIndex, targetBet){
+            console.log(soccerEventIndex, targetBet)
+            /*
+            var bet = new BetModel(this.soccerEvents[soccerEventIndex],targetBet)
             this.betsSelected.push(bet)
+            */
         },
         removeBetSelected(index){
             if (index > -1) { 
@@ -239,6 +245,7 @@ input{
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--color-odd-selected);
 }
 
 .but:hover{
