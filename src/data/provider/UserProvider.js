@@ -35,6 +35,16 @@ class UserProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }
+
+    async getTransactions(){
+        try{
+            const res = await axios.get(baseUrl + '/transactions',{})
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
 }
 
 export default new UserProvider();

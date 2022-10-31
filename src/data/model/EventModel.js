@@ -4,8 +4,8 @@ export default class Event{
     state = "open"
 
     constructor(date,state,eventID){
-        this.date = date,
-        this.state = state,
+        this.date = date
+        this.state = state
         this.eventID = eventID 
     }
 }
