@@ -9,6 +9,19 @@ class UserRepository{
     async login(user){
         await UserProvider.login(user)
     }
+
+    async getTransactions(){
+        const data = await UserProvider.getTransactions()
+
+        var transactionsModel = []
+
+        data['transactions'].forEach(transactionsJson => {
+            var s = transactionsModel.fromJson(transactionsJson)
+            transactionsModel.push(s)
+        })
+
+        return transactionsModel
+    }
 }
 
 export default new UserRepository

@@ -1,13 +1,21 @@
-export default class UserModel{
+export default class UserModel {
+    username = ""
     email = ""
     password = ""
     dateBirthday = ""
     nif = -1
+    iban = ""
+    balance = ""
+    credential = ""
 
-    constructor(email,password,dateBirthday,nif){
-        this.email = email,
-        this.password = password,
-        this.dateBirthday = dateBirthday,
+    constructor(username, nif, iban, email, password, balance, dateBirthday, credential) {
+        this.email = email
+        this.password = password
+        this.dateBirthday = dateBirthday
         this.nif = nif
+        this.username = username
+        this.iban = iban
+        this.balance = balance
+        this.credential = credential
     }
 }

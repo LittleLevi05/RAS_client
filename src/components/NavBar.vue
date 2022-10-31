@@ -19,7 +19,7 @@
                         </li>
                         <li>
                             <div class="">
-                                <router-link to="/login">TÉNIS</router-link>
+                                <router-link to="/transactions">TÉNIS</router-link>
                             </div>
                         </li>
                         <li>
