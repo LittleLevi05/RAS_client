@@ -5,6 +5,8 @@ import SignUpPage from '@/pages/SignUpPage';
 import HomePage from '@/pages/Home';
 import ProfilePage from '@/pages/ProfilePage';
 import OddCreate from '@/pages/OddCreate';
+import BetHistoryPage from '@/pages/BetHistoryPage';
+import TransactionsPage from '@/pages/TransactionsPage';
 
 const routes = [
     {
@@ -35,6 +37,18 @@ const routes = [
         path: '/odd-create',
         component: OddCreate,
         name: 'oddCreate',
+        meta: {auth:true}
+    },
+    {
+        path: '/transactions',
+        component: TransactionsPage,
+        name: 'transactions',
+        meta: {auth:true}
+    },
+    {
+        path: '/bet-history',
+        component: BetHistoryPage,
+        name: 'betHistory',
         meta: {auth:true}
     },
 ];

@@ -19,8 +19,13 @@
                 <br>
             </div>
             <div class="row-e">
-                <div class="col col-ee">
+                <div class="col col-ee expand" v-on:click="consultBetHistory()">
                     <h4 class="t-grey margin-right-5">Consultar histórico de apostas</h4>
+                    <i class="fas fa-arrow-circle-right t-grey"></i>
+                </div>
+                <br>
+                <div class="col col-ee expand" v-on:click="consultTransactionsHistory()">
+                    <h4 class="t-grey margin-right-5">Consultar histórico de Transações</h4>
                     <i class="fas fa-arrow-circle-right t-grey"></i>
                 </div>
                 <br>
@@ -51,6 +56,15 @@ export default{
     data(){
         return{
 
+        }
+    },
+    methods:{
+        consultBetHistory(){
+            this.$router.push('/bet-history')
+        },
+
+        consultTransactionsHistory(){
+            this.$router.push('/transactions')
         }
     }
 }
@@ -120,5 +134,9 @@ input{
     align-items: center;
     border: 2px solid var(--color-odd-selected);
     background-color: var(--color-text-white);
+}
+
+.expand{
+    cursor: pointer;
 }
 </style>

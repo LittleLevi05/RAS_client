@@ -9,11 +9,6 @@
                     <ul v-if="this.$route.name != 'oddCreate'">
                         <li>
                             <div class="">
-                                <router-link to="/signup">TODOS</router-link>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="">
                                 <router-link to="/login">FUTEBOL</router-link>
                             </div>
                         </li>
@@ -25,6 +20,11 @@
                         <li>
                             <div class="">
                                 <router-link to="/login">TÉNIS</router-link>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="">
+                                <router-link to="/login">FÓRMULA 1</router-link>
                             </div>
                         </li>
                     </ul>
