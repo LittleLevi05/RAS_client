@@ -11,6 +11,7 @@ class EventProvider{
                 team2Name: soccerEvent.team2Name,
                 oddTeam1Wins: soccerEvent.oddTeam1Wins,
                 oddTeam2Wins: soccerEvent.oddTeam2Wins,
+                oddDraw: soccerEvent.oddDraw,
                 oddTeam1WinOrDraw: soccerEvent.oddTeam1WinOrDraw,
                 oddTeam2WinOrDraw: soccerEvent.oddTeam2WinOrDraw,
                 oddTeam1orTeam2: soccerEvent.oddTeam1orTeam2,

@@ -1,59 +1,102 @@
 <template>
+    <div class="nav top">
+        <div class="col p-90">
+            <div>
+                <nav>
+                    <ul>
+                        <li>
+                            <div v-on:click="changeForm('formSoccer')" class="t-white">
+                                <b>FUTEBOL</b>
+                            </div>
+                        </li>
+                        <li>
+                            <div  v-on:click="changeForm('formBasket')" class="t-white">
+                                <b>BASQUETEBOL</b>
+                            </div>
+                        </li>
+                        <li>
+                            <div  v-on:click="changeForm('formTennis')" class="t-white">
+                                <b>TÉNIS</b>
+                            </div>
+                        </li>
+                        <li>
+                            <div  v-on:click="changeForm('formFormula1')" class="t-white">
+                                <b>FÓRMULA 1</b>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div> 
+        </div> 
+    </div>
     <main class="row">
-        <h1>
-            Criar ODD
-        </h1>
+        <br>
+        <br>
         <br>
         <!-- Formulario para criar um jogo de futebol -->
-        <div>
-            <input placeholder="Nome equipa 1" v-model="this.soccerEventModel.team1Name"
+        <div id="formSoccer">
+            <div class="col">
+                <input placeholder="Nome equipa 1" v-model="this.soccerEventModel.team1Name"
+                    class="border-radius-20 placeholder margin-right-10">
+
+                <input placeholder="Nome equipa 2" v-model="this.soccerEventModel.team2Name"
+                    class="border-radius-20 placeholder margin-left-10">
+            </div>
+            <br>
+            <div class="col">
+                <input placeholder="Odd Equipa 1 Vence" v-model="this.soccerEventModel.oddTeam1Wins"
+                    class="border-radius-20 placeholder margin-right-10">
+
+                <input placeholder="Odd Equipa 2 vence" v-model="this.soccerEventModel.oddTeam2Wins"
+                    class="border-radius-20 placeholder margin-left-10">
+            </div>
+            <br>
+            <input placeholder="Odd Empate" v-model="this.soccerEventModel.oddDraw"
                 class="border-radius-20 placeholder">
             <br>
-            <input placeholder="Nome equipa 2" v-model="this.soccerEventModel.team2Name"
-                class="border-radius-20 placeholder">
             <br>
-            <input placeholder="Odd Equipa 1 Vence" v-model="this.soccerEventModel.oddTeam1Wins"
-                class="border-radius-20 placeholder">
-            <br>
-            <input placeholder="Odd Equipa 2 vence" v-model="this.soccerEventModel.oddTeam2Wins"
-                class="border-radius-20 placeholder">
-            <br>
-            <input placeholder="Odd Equipa 1 vence ou empate" v-model="this.soccerEventModel.oddTeam1WinOrDraw"
-                class="border-radius-20 placeholder">
-            <br>
-            <input placeholder="Odd Equipa 2 vence ou empate" v-model="this.soccerEventModel.oddTeam2WinOrDraw"
-                class="border-radius-20 placeholder">
+            <div class="col">
+                <input placeholder="Odd Equipa 1 vence ou empate" v-model="this.soccerEventModel.oddTeam1WinOrDraw"
+                    class="border-radius-20 placeholder margin-right-10">
+                <input placeholder="Odd Equipa 2 vence ou empate" v-model="this.soccerEventModel.oddTeam2WinOrDraw"
+                    class="border-radius-20 placeholder margin-left-10">
+                </div>
             <br>
             <input placeholder="Odd Equipa 1 ou equipa 2 vence" v-model="this.soccerEventModel.oddTeam1orTeam2"
                 class="border-radius-20 placeholder">
             <br>
-            <input placeholder="Odd ambos marcam" v-model="this.soccerEventModel.oddBothScore"
-                class="border-radius-20 placeholder">
             <br>
-            <input placeholder="Odd ambos não marcam" v-model="this.soccerEventModel.oddBothNoScore"
-                class="border-radius-20 placeholder">
+            <div class="col">
+                <input placeholder="Odd ambos marcam" v-model="this.soccerEventModel.oddBothScore"
+                    class="border-radius-20 placeholder margin-right-10">
+                <input placeholder="Odd ambos não marcam" v-model="this.soccerEventModel.oddBothNoScore"
+                    class="border-radius-20 placeholder margin-left-10">
+            </div>
             <br>
-            <input placeholder="Equipa 1 vence sem empate" v-model="this.soccerEventModel.oddTeam1WithoutDraw"
-                class="border-radius-20 placeholder">
+            <div class="col">
+                <input placeholder="Equipa 1 vence sem empate" v-model="this.soccerEventModel.oddTeam1WithoutDraw"
+                    class="border-radius-20 placeholder margin-right-10">
+                <input placeholder="Equipa 2 vence sem empate" v-model="this.soccerEventModel.oddTeam2WithoutDraw"
+                    class="border-radius-20 placeholder margin-left-10">
+            </div>
             <br>
-            <input placeholder="Equipa 2 vence sem empate" v-model="this.soccerEventModel.oddTeam2WithoutDraw"
-                class="border-radius-20 placeholder">
-            <br>
+            <div class="col">
             <input placeholder="Mais de 1.5 gols" v-model="this.soccerEventModel.oddMoreThan15"
-                class="border-radius-20 placeholder">
-            <br>
+                class="border-radius-20 placeholder margin-right-10">
             <input placeholder="Mais de 2.5 gols" v-model="this.soccerEventModel.oddMoreThan25"
-                class="border-radius-20 placeholder">
+                class="border-radius-20 placeholder margin-left-10">
+            </div>
             <br>
             <input type="datetime-local" id="start" name="trip-start" min="2022-01-01" max="2023-12-31"
                 v-model="this.soccerEventModel.date">
+            <br>
             <br>
             <button v-on:click="createSoccerEvent()" class="createEvent-button padding-10">
                 <H4 style="color: var(--color-background-nav);">Criar evento</H4>
             </button>
         </div>
         <!-- Formulario para criar um jogo de basketbol -->
-        <div>
+        <div id="formBasket">
             <input placeholder="Nome equipa 1" v-model="this.basketEventModel.team1Name"
                 class="border-radius-20 placeholder">
             <br>
@@ -83,7 +126,7 @@
             </button>
         </div>
         <!-- Formulario para criar um jogo de tennis -->
-        <div>
+        <div id="formTennis">
             <input placeholder="Nome equipa 1" v-model="this.tennisEventModel.team1Name"
                 class="border-radius-20 placeholder">
             <br>
@@ -122,7 +165,7 @@
             </button>
         </div>
         <!-- Formulario para criar uma corrida de Formula1 -->
-        <div>
+        <div id="formFormula1">
             <div class="col">
                 <div>
                     <p>Nome:</p>
@@ -366,9 +409,28 @@ export default {
             basketEventModel: new BasketEventModel(),
             tennisEventModel: new TennisEventModel(),
             formula1EventModel: new Formula1EventModel(),
+            lastFormSelected: "formSoccer"
         }
     },
+    mounted(){
+        this.closeElement("formBasket")
+        this.closeElement("formTennis")
+        this.closeElement("formFormula1")
+    },
     methods: {
+        closeElement(elementID){
+            var modal = document.getElementById(elementID);
+            modal.style.display = "none";
+        },
+        showElement(elementID){
+            var modal = document.getElementById(elementID);
+            modal.style.display = "block";
+        },
+        changeForm(elementID){
+            this.closeElement(this.lastFormSelected)
+            this.showElement(elementID)
+            this.lastFormSelected = elementID
+        },  
         async createSoccerEvent() {
             await EventRepository.createSoccerEvent(this.soccerEventModel)
         },
@@ -389,7 +451,7 @@ export default {
 input {
     border-radius: 10px;
     border-color: var(--color-background-nav);
-    width: 300px;
+    width: 100%;
     height: 40px;
 }
 
@@ -399,14 +461,89 @@ input.placeholder {
 
 .createEvent-button {
     background-color: var(--color-odd-selected);
-    width: 300px;
+    width: 100%;
     height: 40px;
     border-radius: 10px;
     justify-content: center;
     cursor: pointer;
 }
 
+#formSoccer{
+    width: 40%;
+}
+
+#formBasket{
+    width: 40%;
+}
+
+#formFormula1{
+    width: 40%;
+}
+
+#formTennis{
+    width: 40%;
+}
 .createEvent-button:hover {
     background-color: var(--color-odd-selected-2);
+}
+.nav{
+    background-color: var(--color-background-nav-2);
+    width: 100%;
+    height: 50px;
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px 0 rgba(0, 8, 59, 0.2), 0 3px 10px 0 rgba(12, 0, 43, 0.19);
+}
+.top{
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    top:100px;
+}
+
+ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style: none;
+    height: 60px;
+    align-items: center
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+li b{
+    color: var(--color-text-white);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px;
+}
+
+li {
+    padding: 10px;
+    border-radius: 20px;
+}
+
+li:hover{
+    background-color: var(--color-white);
+    cursor: pointer;
+}
+
+li:hover b{
+    color: var(--color-background-nav);
+}
+
+.col{
+    justify-content: space-between;
+}
+
+.profile{
+    cursor: pointer;
 }
 </style>

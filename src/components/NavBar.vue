@@ -6,7 +6,7 @@
             </a>
             <div>
                 <nav>
-                    <ul>
+                    <ul v-if="this.$route.name != 'oddCreate'">
                         <li>
                             <div class="">
                                 <router-link to="/signup">TODOS</router-link>
@@ -28,6 +28,9 @@
                             </div>
                         </li>
                     </ul>
+                    <h1 v-if="this.$route.name == 'oddCreate'" class="t-white">
+                        <i class="fas fa-money-check-alt"></i> CRIAR EVENTO
+                    </h1>
                 </nav>
             </div> 
             <div class="col profile">
