@@ -57,6 +57,15 @@ export default{
     justify-content: center;
     box-shadow: 0 2px 4px 0 rgba(0, 8, 59, 0.2), 0 3px 10px 0 rgba(12, 0, 43, 0.19);
 }
+
+.nav:hover{
+    height: 110px;
+    transition: all 0.5s ease-out;
+}
+.nav:hover img{
+    transition: all 0.5s ease-out;
+    transform: scale(1.15);
+}
 .top{
     position: fixed;
     width: 100%;

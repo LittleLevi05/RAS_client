@@ -9,7 +9,9 @@ class UserProvider{
                 email: user.email,
                 password: user.password,
                 nif: user.email,
-                dateBirthday: user.dateBirthday
+                birthday: user.dateBirthday,
+                iban: user.iban,
+                username: user.username,
             })
 
         }catch(err){
@@ -25,13 +27,8 @@ class UserProvider{
                 password: user.password
             })
 
-            console.log(response)
-            //
-            //if(response.status == 200 && response.data.token){
-            //    localStorage.setItem('user',JSON.stringify(response.data))
-            //}
+            localStorage.setItem('user',JSON.stringify(response.data))
         }catch(err){
-            console.log(err)
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }

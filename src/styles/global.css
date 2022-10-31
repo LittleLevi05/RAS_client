@@ -1,11 +1,12 @@
 :root{
     --color-background: #e3e3e3;
-    --color-background-nav: #16350e;
-    --color-background-nav-2: #235317;
+    --color-background-nav: #07024d;
+    --color-background-nav-2: #07006c;
+    --color-background-nav-3: #5a4eff;
     --color-white: #ffffff;
     --color-text-white: #ffffff;
-    --color-odd-selected: #ee7742;
-    --color-odd-selected-2: #ffa178;
+    --color-odd-selected: #040130;
+    --color-odd-selected-2: #070150;
     --color-text-grey: rgb(72, 71, 71);
     --color-text-grey-2: rgb(115, 115, 115);
     --color-grey: rgb(34, 34, 34);

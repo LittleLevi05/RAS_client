@@ -12,25 +12,30 @@
                     <h1 class="color-sets">REGISTO</h1>
                     <br>
                     <br>
-                    <input placeholder="Email" v-model="this.user.email" class="border-radius-20 placeholder">
+                    <input placeholder="Email" type="email" v-model="this.user.email" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="Password" v-model="this.user.password" class="border-radius-20 placeholder">
+                    <input placeholder="Username" v-model="this.user.username" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="Data de nascimento" v-model="this.user.dateBirthday" class="border-radius-20 placeholder">
+                    <input placeholder="IBAN" v-model="this.user.iban" class="border-radius-20 placeholder">
+                    <br>
+                    <br>
+                    <input placeholder="Password" type="password" v-model="this.user.password" class="border-radius-20 placeholder">
+                    <br>
+                    <br>
+                    <input type="datetime-local" id="start" name="trip-start" min="2022-01-01" max="2023-12-31"
+                        v-model="this.user.dateBirthday">
                     <br>
                     <br>
                     <input placeholder="NIF" v-model="this.user.nif" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <br>
                     <button v-on:click="signup()" class="login-button padding-10">
-                        <H4 class="color-sets">Concluir</H4>
+                        <H4 class="t-white">Concluir</H4>
                     </button>
                     <br>
                 </div>
-
             </div>
             <img class="border-radius-20 padding-20" src="@/assets/Secundary_Image1.jpg">
         </div>
@@ -50,7 +55,12 @@ export default {
     },
     methods:{
         async signup(){
-            await UserRepository.signup(this.user)
+            try{
+                await UserRepository.signup(this.user)
+                this.$router.push('/login')
+            }catch(error){
+                console.log(error)
+            }
         }
     }
 }

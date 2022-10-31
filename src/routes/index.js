@@ -4,7 +4,7 @@ import LoginPage from '@/pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
 import HomePage from '@/pages/HomePage';
 import ProfilePage from '@/pages/ProfilePage';
-import OddCreate from '@/pages/OddCreate';
+import OddCreatePage from '@/pages/OddCreatePage';
 import BetHistoryPage from '@/pages/BetHistoryPage';
 import TransactionsPage from '@/pages/TransactionsPage';
 
@@ -35,7 +35,7 @@ const routes = [
     },
     {
         path: '/odd-create',
-        component: OddCreate,
+        component: OddCreatePage,
         name: 'oddCreate',
         meta: {auth:true}
     },

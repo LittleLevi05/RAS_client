@@ -2,7 +2,7 @@ export default class UserModel {
     username = ""
     email = ""
     password = ""
-    dateBirthday = ""
+    dateBirthday = null
     nif = -1
     iban = ""
     balance = ""

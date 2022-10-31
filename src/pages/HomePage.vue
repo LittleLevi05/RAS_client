@@ -82,8 +82,8 @@
                         <h4 class="t-grey">Total</h4>
                         <h4 class="t-grey margin-top-10">{{this.getCota()*this.buletinModel.amount}}</h4>
                     </div>
-                    <div class="col padding-10" v-on:click="showElement('paymentModal')">
-                        <div class="border-radius-20 card-bet padding-10"><h4>Apostar</h4></div>
+                    <div class="col padding-10" v-on:click="bet()">
+                        <div class="border-radius-20 card-bet padding-10 expand"><h4 class="t-white">Apostar</h4></div>
                     </div>
                 </div>
 
@@ -234,6 +234,7 @@ import EventRepository from '@/data/repository/EventRepository'
 import SoccerEventModel from '@/data/model/SoccerEventModel'
 import BetModel from '@/data/model/BetModel'
 import BuletinModel from '@/data/model/BuletinModel'
+import BuletinRepository from '@/data/repository/BuletinRepository'
 
 export default{
     name: "HomePage",
@@ -341,6 +342,14 @@ export default{
                     cotaTotalS = cotaTotalS + this.getSoccerOddValueByOddSelected(this.betsSelected[j].oddSelected,this.getEventByBet(this.betsSelected[j]))   
                 }
                 return cotaTotalS
+            }
+        },
+        async bet(){
+            this.buletinModel.gain = this.getCota()*this.buletinModel.amount
+            try{
+                await BuletinRepository.createBuletin(this.buletinModel,this.betsSelected)
+            }catch(error){
+                console.log(error)
             }
         }
     }
@@ -539,7 +548,7 @@ a{
 }
 
 .event:hover{
-    background-color: var(--color-text-grey);
+    background-color: var(--color-background-nav-3);
 }
 
 .event:hover > div > div> h3{

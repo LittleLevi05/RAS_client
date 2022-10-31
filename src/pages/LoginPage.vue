@@ -14,17 +14,17 @@
                     <br>
                     <br>
                     <br>
-                    <input placeholder="Email" v-model="this.user.email" class="border-radius-20 placeholder">
+                    <input placeholder="Email" type="email" v-model="this.user.email" class="border-radius-20 placeholder">
                     <br>
                     <br>
-                    <input placeholder="Password" v-model="this.user.password" class="border-radius-20 placeholder">
+                    <input placeholder="Password" type="password" v-model="this.user.password" class="border-radius-20 placeholder">
                     <br>
                     <a class="color-sets forgot-pass-sets" href="">Esqueci-me da palavra-passe</a>
                     <br>
                     <br>
                     <br>
                     <button v-on:click="login()" class="login-button padding-10">
-                        <H4 style="color: var(--color-background-nav);">Aceder</H4>
+                        <H4 class="t-white">Aceder</H4>
                     </button>
                     <br>
                     <br>
@@ -54,7 +54,12 @@ export default {
     },
     methods:{
         async login(){
-            await UserRepository.login(this.user)
+            try{
+                await UserRepository.login(this.user)
+                this.$router.push('/')
+            }catch(error){
+                console.log(error)
+            }
         }
     }
 }
