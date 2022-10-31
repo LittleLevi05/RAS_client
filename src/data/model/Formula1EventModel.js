@@ -1,4 +1,4 @@
-import EventModel from '@/data/model/Event'
+import EventModel from '@/data/model/EventModel'
 
 export default class Formula1Event extends EventModel {
     driver1Name = ""

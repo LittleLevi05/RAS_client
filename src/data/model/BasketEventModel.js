@@ -1,4 +1,4 @@
-import EventModel from '@/data/model/Event'
+import EventModel from '@/data/model/EventModel'
 
 export default class BasketEvent extends EventModel{
     team1Name = ""

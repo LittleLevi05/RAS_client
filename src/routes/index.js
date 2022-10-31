@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 import LoginPage from '@/pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
-import HomePage from '@/pages/Home';
+import HomePage from '@/pages/HomePage';
 import ProfilePage from '@/pages/ProfilePage';
 import OddCreate from '@/pages/OddCreate';
 import BetHistoryPage from '@/pages/BetHistoryPage';
