@@ -5,7 +5,7 @@
             <br>
             <br>
             <div v-for="(soccerEvent) in soccerEvents" :key="soccerEvent.soccerOddID">
-                <div v-on:click="openSoccerEvent(soccerEvent)" class="col card margin-top-10 padding-20 border-radius-20 b-grey event">
+                <div class="col card margin-top-10 padding-20 border-radius-20 b-grey event">
                     <div class="row w-40 margin-right-50">
                         <div class="col">
                             <h3 class="t-grey">{{soccerEvent.team1Name}}</h3>
@@ -13,6 +13,8 @@
                             <h3 class="t-grey">{{soccerEvent.team2Name}}</h3>
                         </div>
                         <h5 class="margin-top-5 t-grey-2">{{soccerEvent.date}}</h5>
+                        <br>
+                        <div v-on:click="openSoccerEvent(soccerEvent)" class="card border-radius-20 padding-10 seeMore"> Ver mais <i class="fas fa-arrow-right"></i></div>
                     </div>
                     <div class="col w-60">
                         <div v-on:click="this.addBetSelected(soccerEvent.eventID,'team_1_win')" class="oddSelected row card padding-10 border-radius-20 b-white">
@@ -36,8 +38,8 @@
                 <div><h2 class="t-grey">BOLETIM</h2></div>
                 <br>
                 <div class="w-90 col col-e border-radius-20">
-                    <div class="card w-90 padding-10 oddType border-radius-20 margin-right-20"><h4 class="t-grey">Simples</h4></div>
-                    <div class="card w-90 padding-10 oddType border-radius-20"><h4 class="t-grey">Múltiplas</h4></div>
+                    <div v-on:click="changeBuletinType('s')" class="card w-90 padding-10 oddType border-radius-20 margin-right-20"><h4 class="t-grey">Simples</h4></div>
+                    <div v-on:click="changeBuletinType('m')" class="card w-90 padding-10 oddType border-radius-20"><h4 class="t-grey">Múltiplas</h4></div>
                 </div>
                 <br>
                 <div class="w-90" v-for="(bet,index) in betsSelected" :key="bet.betID">
@@ -67,18 +69,18 @@
                 <div class="col-e card-value w-90 card border-radius-20">
                     <div class="col padding-10">
                         <h4 class="t-grey">Cota:</h4>
-                        <h4 class="t-grey">(valor)</h4>
+                        <h4 class="t-grey">{{this.getCota()}}</h4>
                     </div>
-                    <div class="col padding-10">
-                        <h4 class="t-grey">Montante:</h4>
-                        <h4 class="t-grey">(valor)</h4>
+                    <div class="col padding-10 center">
+                        <h4 class="t-grey margin-right-5">Montante</h4>
+                        <input placeholder="valor" class="border-radius-20 margin-right-5" v-model="this.buletinModel.amount">
                         <h4 class="t-grey">$</h4>
                     </div>
                 </div>
                 <div class="col-e card-value w-90 card margin-top-10 border-radius-20">
                     <div class="row row-c padding-10">
-                        <h4 class="t-grey">Total de ganhos</h4>
-                        <h4 class="t-grey margin-top-10">(valor)</h4>
+                        <h4 class="t-grey">Total</h4>
+                        <h4 class="t-grey margin-top-10">{{this.getCota()*this.buletinModel.amount}}</h4>
                     </div>
                     <div class="col padding-10" v-on:click="showElement('paymentModal')">
                         <div class="border-radius-20 card-bet padding-10"><h4>Apostar</h4></div>
@@ -154,7 +156,7 @@
         </div>
 
         <div id="soccerEventModal" class="modal">
-            <div class="modal-content border-radius-20 center">
+            <div class="modal-content border-radius-20">
                 <span class="close" v-on:click="closeElement('soccerEventModal')">&times;</span>
                 <h1 class="w-100 t-grey">{{soccerEventSelected.team1Name}} x {{soccerEventSelected.team2Name}}</h1>
                 <h5 class="w-100 t-grey-2">{{soccerEventSelected.date}}</h5>
@@ -231,6 +233,7 @@
 import EventRepository from '@/data/repository/EventRepository'
 import SoccerEventModel from '@/data/model/SoccerEventModel'
 import BetModel from '@/data/model/BetModel'
+import BuletinModel from '@/data/model/BuletinModel'
 
 export default{
     name: "HomePage",
@@ -238,7 +241,8 @@ export default{
         return{
             soccerEvents:[],
             soccerEventSelected: new SoccerEventModel(),
-            betsSelected:[]
+            betsSelected:[],
+            buletinModel: new BuletinModel(),
         }
     },
     async mounted(){
@@ -317,6 +321,27 @@ export default{
             if (oddSelected == "team_2_without_draw") return event.oddTeam2WithoutDraw
             if (oddSelected == "total_goals_more_15") return event.oddMoreThan15
             if (oddSelected == "total_goals_more_25") return event.oddMoreThan25
+            if (oddSelected == "draw") return event.oddDraw
+        },
+        changeBuletinType(type){
+            this.buletinModel.type = type
+        },
+        getCota(){
+            var cotaTotalM = 1;
+            var cotaTotalS = 0
+
+            if (this.buletinModel.type == "m"){
+                for (var i = 0; i < this.betsSelected.length; i++){
+                    cotaTotalM = cotaTotalM * this.getSoccerOddValueByOddSelected(this.betsSelected[i].oddSelected,this.getEventByBet(this.betsSelected[i]))   
+                }
+
+                return cotaTotalM
+            }else if (this.buletinModel.type == "s"){
+                for (var j = 0; j < this.betsSelected.length; j++){
+                    cotaTotalS = cotaTotalS + this.getSoccerOddValueByOddSelected(this.betsSelected[j].oddSelected,this.getEventByBet(this.betsSelected[j]))   
+                }
+                return cotaTotalS
+            }
         }
     }
 }
@@ -358,6 +383,15 @@ input{
     align-items: center;
 }
 
+.seeMore{
+    background-color: var(--color-white);
+}
+
+.seeMore:hover{
+    background-color: var(--color-odd-selected);
+    cursor: pointer;
+}
+
 .oddSelected2:hover{
     background-color: var(--color-odd-selected);
     cursor: pointer;
@@ -372,6 +406,11 @@ input{
 
 a{
     text-decoration: none;
+}
+
+.center{
+    display: flex;
+    align-items: center;
 }
 .col-progress{
     display:flex;
@@ -501,7 +540,6 @@ a{
 
 .event:hover{
     background-color: var(--color-text-grey);
-    cursor: pointer;
 }
 
 .event:hover > div > div> h3{
