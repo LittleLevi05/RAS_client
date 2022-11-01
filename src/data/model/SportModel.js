@@ -8,4 +8,13 @@ export default class Sport{
         this.name = name
         this.type = type 
     }
+
+    static fromJson(json){
+
+        return new Sport(
+            this.sportID = json['id'],
+            this.name = json['sport'],
+            this.type = json['type']
+        )
+    }
 }

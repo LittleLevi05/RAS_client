@@ -34,10 +34,8 @@
             <br>
             <br>
             <br>
-            <select name="Tipo" id="type" v-model="this.sportModel.type" class="border-radius-20 placeholder">
-                <option value="collective">coletivo</option>
-                <option value="dual">Dupla</option>
-                <option value="individual">individual</option>
+            <select name="Tipo" id="type" v-model="this.sportModel.type" class="border-radius-20 placeholder">               
+                <option v-for="(soccerEvent) in soccerEvents" :key="soccerEvent.soccerOddID" value=""></option>
             </select>
             <br>
             <br>
@@ -90,6 +88,7 @@ import SportModel from '@/data/model/SportModel'
 import BetTypeModel from '@/data/model/BetTypeModel'
 import EventModel from '@/data/model/EventModel'
 import AdminRepository from '@/data/repository/AdminRepository'
+import EventRepository from '@/data/repository/EventRepository'
 
 
 export default {
@@ -99,12 +98,15 @@ export default {
             sportModel: new SportModel(),
             betTypeModel: new BetTypeModel(),
             eventModel: new EventModel(),
+            sports: [],
             lastFormSelected: "formSport"
         }
     },
-    mounted() {
+    async mounted() {
         this.closeElement("formBetType")
         this.closeElement("formEvent")
+        this.sports = await EventRepository.getSports()
+        console.log(this.sports)
     },
     methods: {
         closeElement(elementID) {

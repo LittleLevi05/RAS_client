@@ -1,3 +1,3 @@
-const baseUrl = "http://localhost:3000"
+const baseUrl = "https://raw.githubusercontent.com/henriqueparola/RAS_resources/main"
 
 export default baseUrl

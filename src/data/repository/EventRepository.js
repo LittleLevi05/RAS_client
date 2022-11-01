@@ -1,22 +1,20 @@
 import EventProvider from '@/data/provider/EventProvider'
 import SoccerEventModel from '@/data/model/SoccerEventModel'
+import SportModel from '@/data/model/SportModel'
 
 class EventRepository{
 
-    async createSoccerEvent(soccerEvent){
-        await EventProvider.createSoccerEvent(soccerEvent)
-    }
+    async getSports(){
+        const data = await EventProvider.getSports()
 
-    async createBasketEvent(basketEvent){
-        await EventProvider.createBasketEvent(basketEvent)
-    }
+        var sportsModel = []
+        console.log(data['desportos'])
+        data['desportos'].forEach(sportModel => {
+            var s = SportModel.fromJson(sportModel)
+            sportsModel.push(s)
+        })
 
-    async createTennisEvent(tennisEvent){
-        await EventProvider.createTennisEvent(tennisEvent)
-    }
-
-    async createFormula1Event(formula1Event){
-        await EventProvider.createFormula1Event(formula1Event)
+        return sportsModel
     }
     
     async getSoccerEvents(){
