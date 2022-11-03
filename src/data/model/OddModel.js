@@ -12,7 +12,7 @@ export default class OddModel{
     static fromJson(json){
         return new OddModel(
             this.nome = json["nome"],
-            this.odd = json["odd"],
+            this.odd = json["valor"],
             this.oddID = json["oddID"]
         )
     }

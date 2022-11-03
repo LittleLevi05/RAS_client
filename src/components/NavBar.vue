@@ -8,23 +8,13 @@
                 <nav>
                     <ul v-if="this.$route.name != 'oddCreate'">
                         <li>
-                            <div class="">
-                                <router-link to="/login">FUTEBOL</router-link>
+                            <div class="t-white">
+                                <router-link to="/"><i class="fas fa-calendar-week margin-right-5"></i>EVENTOS</router-link>
                             </div>
                         </li>
                         <li>
-                            <div class="">
-                                <router-link to="/signup">BASQUETEBOL</router-link>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="">
-                                <router-link to="/transactions">TÉNIS</router-link>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="">
-                                <router-link to="/login">FÓRMULA 1</router-link>
+                            <div class="t-white">
+                                <router-link to="/profile"> <i class="fas fa-user-alt margin-right-5"></i>MINHA CONTA</router-link>
                             </div>
                         </li>
                     </ul>

@@ -1,5 +1,6 @@
 import EventProvider from '@/data/provider/EventProvider'
 import SoccerEventModel from '@/data/model/SoccerEventModel'
+import EventModel from '@/data/model/EventModel'
 import SportModel from '@/data/model/SportModel'
 
 class EventRepository{
@@ -28,6 +29,20 @@ class EventRepository{
         })
 
         return soccerEventsModel
+    }
+
+    async getSportsColetiveEventsByID(sportID){
+        try{
+            var data = await EventProvider.getSportsColetiveEventsByID(sportID)
+            var eventos = []
+            data["eventos"].forEach((evento) =>{
+                eventos.push(EventModel.fromJson(evento))
+            })
+
+            return eventos
+        }catch(err){
+            console.log(err)
+        }
     }
 }
 

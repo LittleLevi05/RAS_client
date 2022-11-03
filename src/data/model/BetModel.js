@@ -3,13 +3,11 @@ export default class BetModel{
     eventID = 0
     oddSelected = ""
     buletinID = 0
-    sport = ""
 
-    constructor(betID,eventID,oddSelected,buletinID,sport){
+    constructor(betID,eventID,oddSelected,buletinID){
         this.betID = betID
         this.eventID = eventID
         this.oddSelected = oddSelected
         this.buletinID = buletinID
-        this.sport = sport
     }
 }
