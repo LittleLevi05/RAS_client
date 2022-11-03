@@ -5,8 +5,7 @@ class EventProvider{
 
     async getSports(){
         try{
-            const res = await axios.get(baseUrl + '/sports.json',{})
-            console.log(res.data)
+            const res = await axios.get(baseUrl + '/esporte',{})
             return res.data
         }catch(err){
             console.log(err)

@@ -8,9 +8,9 @@ class EventRepository{
         const data = await EventProvider.getSports()
 
         var sportsModel = []
-        console.log(data['desportos'])
-        data['desportos'].forEach(sportModel => {
-            var s = SportModel.fromJson(sportModel)
+
+        data['esportes'].forEach(sportJson => {
+            var s = SportModel.fromJson(sportJson)
             sportsModel.push(s)
         })
 

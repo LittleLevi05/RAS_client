@@ -29,7 +29,7 @@
                         </li>
                     </ul>
                     <h1 v-if="this.$route.name == 'oddCreate'" class="t-white">
-                        <i class="fas fa-money-check-alt"></i> CRIAR EVENTO
+                        <i class="fas fa-money-check-alt"></i> GERENCIAR APOSTAS
                     </h1>
                 </nav>
             </div> 
@@ -114,5 +114,9 @@ li:hover a{
 
 .profile{
     cursor: pointer;
+}
+
+h4{
+    text-decoration: none;
 }
 </style>

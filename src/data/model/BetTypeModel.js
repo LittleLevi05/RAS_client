@@ -1,16 +1,32 @@
+import OddModel from "./OddModel"
+
 export default class BetTypeModel {
     betTypeID = 0
-    name = ""
+    nome = ""
     sportList = []
     oddList = []
     eventID = 0
 
-
-    constructor(betTypeID, name, sportList, oddList, eventID) {
+    constructor(betTypeID, nome, sportList, oddList, eventID) {
         this.betTypeID = betTypeID
-        this.name = name
+        this.nome = nome
         this.sportList = sportList
         this.oddList = oddList
         this.eventID = eventID
+    }
+
+    static fromJson(json){
+        var listaDeOdds = []
+
+        json["listaDeOdds"].forEach((odd) =>{
+            listaDeOdds.push(OddModel.fromJson(odd))
+        })
+        return new BetTypeModel(
+            this.betTypeID = json["betTypeID"],
+            this.nome = json["nome"],
+            this.sportList = json["sportList"],
+            this.oddList = listaDeOdds,
+            this.eventID = json["eventID"]
+        )
     }
 }

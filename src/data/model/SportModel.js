@@ -1,20 +1,19 @@
-export default class Sport{
-    sportID = 0
-    name = ""
-    type = ""
+export default class SportModel{
+    idesporte = 0
+    nome = ""
+    tipo = ""
 
-    constructor(sportID,name,type){
-        this.sportID = sportID
-        this.name = name
-        this.type = type 
+    constructor(idesporte,nome,tipo){
+        this.idesporte = idesporte
+        this.nome = nome
+        this.tipo = tipo 
     }
 
     static fromJson(json){
-
-        return new Sport(
-            this.sportID = json['id'],
-            this.name = json['sport'],
-            this.type = json['type']
+        return new SportModel(
+            this.idesporte = json['idesporte'],
+            this.nome = json['nome'],
+            this.tipo = json['tipo']
         )
     }
 }

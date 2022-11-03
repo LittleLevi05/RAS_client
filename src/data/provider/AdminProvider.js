@@ -4,12 +4,10 @@ import baseUrl from '@/data/base_url'
 class AdminProvider{
 
     async createSport(sport){
-
         try{
             await axios.put(baseUrl + '/sport',{
-                sportID: sport.sportID,
-                name: sport.name,
-                type: sport.type
+                name: sport.nome,
+                type: sport.tipo
             })
 
         }catch(err){
@@ -20,13 +18,21 @@ class AdminProvider{
 
     async createBetType(betType){
 
+        var sportsIDJson = []
+        betType.sportList.forEach(element => {
+            sportsIDJson.push({sportID: element.idesporte})
+        });
+
+        var oddNamesJson = []
+        betType.oddList.forEach(element => {
+            oddNamesJson.push({oddName: element.nome})
+        });
+
         try{
             await axios.put(baseUrl + '/betType',{
-                betTypeID: betType.betTypeID,
-                name: betType.name,
-                sportList: betType.sportList,
-                oddList: betType.oddList,
-                eventID: betType.eventID
+                betTypeName: betType.name,
+                sportsID: sportsIDJson,
+                oddNames: oddNamesJson,
             })
 
         }catch(err){
@@ -51,6 +57,45 @@ class AdminProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }
+
+    async getBetTypeStructureBySport(desportoID){
+        try{
+            const res = await axios.get(baseUrl + '/tipo-de-aposta-estrutura',{
+                desportoID: desportoID
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
+    async createTeam(equipa){
+        try{
+            await axios.put(baseUrl + '/equipa',{
+                equipa: equipa
+            })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
+    async createPlayer(jogador){
+        console.log(jogador)
+        try{
+            await axios.put(baseUrl + '/jogador',{
+                jogador: jogador
+            })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
 }
 
 export default new AdminProvider();

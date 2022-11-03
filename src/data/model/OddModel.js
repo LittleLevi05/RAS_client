@@ -1,11 +1,19 @@
 export default class OddModel{
-    OddID = 0
-    name = ""
+    oddID = 0
+    nome = ""
     odd = 0
 
-    constructor(OddID,name,odd){
-        this.OddID = OddID
-        this.name = name
+    constructor(nome,odd,oddID){
+        this.oddID = oddID
+        this.nome = nome
         this.odd = odd
+    }
+
+    static fromJson(json){
+        return new OddModel(
+            this.nome = json["nome"],
+            this.odd = json["odd"],
+            this.oddID = json["oddID"]
+        )
     }
 }
