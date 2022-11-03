@@ -23,10 +23,11 @@ class EventProvider{
         }   
     }
 
-    async getSportsColetiveEventsByID(sportID){
+    async getSportsColetiveEventsByID(esportID){
         try{
-            const res = await axios.get(baseUrl + '/eventos-desporto-coletivo',{
-                sportID: sportID
+            console.log("ID esporte: ",esportID)
+            const res = await axios.post(baseUrl + '/eventos-desporto-coletivo',{
+                "sportID": esportID
             })
             return res.data
         }catch(err){

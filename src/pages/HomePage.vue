@@ -1,11 +1,13 @@
 <template>
     <main class="col">
         <div class="sidenav">
-            <a href="">Novo Tipo de aposta</a>
-            <a href="">Alterar um tipo de aposta</a>
+            <h2 class="t-white margin-left-10"><i class="fas fa-volleyball-ball margin-right-5"></i>DESPORTOS</h2>
+            <br>
+            <h3 class="t-white expand margin-left-10 margin-top-10 desporto" v-on:click="trocarEsporte(esporte.idesporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</h3>
         </div>
         <div class="w-60 eventos padding-30">
-            <input class="border-radius-20">
+            <h4><i class="fas fa-search margin-right-5"></i>Procurar equipa</h4>
+            <input class="border-radius-20 margin-top-5">
             <br>
             <br>
             <div v-for="(evento,index) in eventosPorDesporto" :key="index">
@@ -183,11 +185,12 @@ export default{
             betsSelected:[],
             buletinModel: new BuletinModel(),
             eventosPorDesporto:[],
-            idEsporteSelecionado: 1
+            esportes: []
         }
     },
     async mounted(){
-        this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(this.idEsporteSelecionado)
+        this.esportes = await EventRepository.getSports()
+        this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(1)
         console.log(this.eventosPorDesporto)
     },
     methods:{
@@ -287,6 +290,10 @@ export default{
             }catch(error){
                 console.log(error)
             }
+        },
+        async trocarEsporte(idEsporte){
+            this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(idEsporte)
+            console.log(this.eventosPorDesporto)
         }
     }
 }
@@ -294,6 +301,10 @@ export default{
 </script>
 
 <style scoped>
+.desporto:hover{ 
+    cursor: pointer; 
+    color: var(--color-text-grey-2);
+}
 .eventos{
     margin-left: 15%;
 }
