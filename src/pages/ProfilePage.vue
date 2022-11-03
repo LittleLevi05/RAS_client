@@ -10,10 +10,10 @@
                 <br>
                 <div class="col">
                     <div class="optSelected row card padding-10 border-radius-10 b-white margin-right-50">
-                        <h3 class="margin-top-5">Levantar</h3>
+                        <router-link to="/withdraw"><h3 class="margin-top-5">Levantar</h3></router-link>
                     </div>
                     <div class="optSelected row card padding-10 border-radius-10 b-white">
-                        <h3 class="margin-top-5">Depositar</h3>
+                        <router-link to="/deposit"><h3 class="margin-top-5">Depositar</h3></router-link>
                     </div>
                 </div>
                 <br>

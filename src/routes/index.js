@@ -7,6 +7,8 @@ import ProfilePage from '@/pages/ProfilePage';
 import OddCreatePage from '@/pages/OddCreatePage';
 import BetHistoryPage from '@/pages/BetHistoryPage';
 import TransactionsPage from '@/pages/TransactionsPage';
+import DepositPage from '@/pages/DepositPage';
+import WithdrawalPage from '@/pages/WithdrawalPage';
 
 const routes = [
     {
@@ -49,6 +51,18 @@ const routes = [
         path: '/bet-history',
         component: BetHistoryPage,
         name: 'betHistory',
+        meta: {auth:true}
+    },
+    {
+        path: '/deposit',
+        component: DepositPage,
+        name: 'deposit',
+        meta: {auth:true}
+    },
+    {
+        path: '/withdraw',
+        component: WithdrawalPage,
+        name: 'withdraw',
         meta: {auth:true}
     },
 ];
