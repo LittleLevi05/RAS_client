@@ -242,7 +242,7 @@ export default{
         },
         isAdmin(){
             // Return true if users is admin
-            return false
+            return true
         },
         openEvent(index){
             this.eventSelected = this.eventosPorDesporto[index]  

@@ -96,6 +96,18 @@ class AdminProvider{
         }
     }
 
+    async getEventsOtherHouses(){
+        try{
+            var res = await axios.get(baseUrl + '/eventos-outras-casas',{
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
 }
 
 export default new AdminProvider();

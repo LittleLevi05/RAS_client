@@ -1,4 +1,5 @@
 import UserProvider from '@/data/provider/UserProvider'
+import TransactionModel from '@/data/model/TransactionsModel'
 
 class UserRepository{
 
@@ -16,9 +17,11 @@ class UserRepository{
         var transactionsModel = []
 
         data['transactions'].forEach(transactionsJson => {
-            var s = transactionsModel.fromJson(transactionsJson)
+            var s = transactionsModel.push(TransactionModel.fromJson(transactionsJson))
             transactionsModel.push(s)
         })
+
+        console.log(transactionsModel)
 
         return transactionsModel
     }

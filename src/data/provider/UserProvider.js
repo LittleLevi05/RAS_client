@@ -34,9 +34,20 @@ class UserProvider{
     }
 
     async getTransactions(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
         try{
-            const res = await axios.get(baseUrl + '/transactions',{})
+            var res = await axios({
+                method: "post",
+                url: baseUrl + "/transaction-user",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
             return res.data
+
         }catch(err){
             console.log(err)
             throw {"errorStatus":err.response.status,"errorData":err.response.data}

@@ -2,10 +2,8 @@
     <main>
         <div class="divout border-radius-20 row">
             <div class="col">
-                <div><router-link to="/profile"><i class="fa-thin fa-arrow-left"></i></router-link></div>
                 <div><h2>Histórico de transações</h2></div>
             </div>
-            <br>
             <br>
             <h3>Saldo: valor €</h3>
             <br>
@@ -13,17 +11,15 @@
                 <thead>
                     <tr>
                         <th>Data</th>
-                        <th>Descrição</th>
+                        <th>Valor</th>
                         <th>Operação</th>
-                        <th>Saldo após movimento</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>cell1_1</td>
-                        <td>cell2_1</td>
-                        <td>cell3_1</td>
-                        <td>cell4_1</td>
+                    <tr v-for="(transacao,index) in transacoes" :key="index" >
+                        <td>{{transacao.date}}</td>
+                        <td>{{transacao.amount}}</td>
+                        <td>{{transacao.type}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -32,12 +28,28 @@
 </template>
 
 <script>
+import UserRepository from '@/data/repository/UserRepository';
+
 export default {
     name: "TransactionsPage",
+    data(){
+        return{
+            transacoes: []
+        }
+    },
+    async mounted(){
+        this.transacoes = await UserRepository.getTransactions()
+        console.log(this.transacoes)
+    }
 }
 </script>
 
 <style scoped>
+.col-e{
+    display: flex;
+    justify-content: space-around;
+}
+
 main {
     display: flex;
     justify-content: center;

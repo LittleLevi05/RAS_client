@@ -1,4 +1,4 @@
-export default class Transaction{
+export default class TransactionModel{
     idTransaction = 0
     type = ""
     date = null
@@ -15,12 +15,12 @@ export default class Transaction{
 
     static fromJson(json){
         const dateF = new Date(json['date'])
-        return new Transaction(
+        return new TransactionModel(
             this.idTransaction = json['idTransaction'],
+            this.date = dateF,
             this.type = json['type'],
-            this.amount = json['amount'],
+            this.amount = json['amout'],
             this.userID = json['userID'],
-            this.date = json['date']
         )
     }
 }

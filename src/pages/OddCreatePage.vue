@@ -29,12 +29,17 @@
                                 <b>JOGADORES</b>
                             </div>
                         </li>
+                        <li>
+                            <div v-on:click="changeForm('formEventos')" class="t-white">
+                                <b>EVENTOS DE OUTRAS CASAS</b>
+                            </div>
+                        </li>
                     </ul>
                 </nav>
             </div>
         </div>
     </div>
-    <main class="row">
+    <main class="row events">
         <br>
         <br>
         <br>
@@ -144,12 +149,57 @@
                 <H4 class="t-white">Criar Jogador</H4>
             </button>
         </div>
+
+        <!-- Eventos de outras casas de apostas -->
+        <div id="formEventos">
+            <div class="sidenav">
+                <h2 class="t-white margin-left-10">CASAS DE APOSTAS</h2>
+                <br>
+                <h3 class="t-white expand margin-left-10 margin-top-10 desporto" v-on:click="trocarCasaDeAposta(index)" v-for="(betHouse,index) in betHouses" :key="index">{{betHouse}}</h3>
+            </div>
+            <h3>Eventos de outras casas</h3>
+            <div class="events" v-for="(evento,index) in actualHouseBet.events" :key="index">
+                <div class="col card margin-top-10 padding-20 border-radius-20 b-grey event">
+                    <div class="row w-40 margin-right-50">
+                        <div class="col">
+                            <h3 class="t-grey">{{evento.equipa1}}</h3>
+                            <h2 class="t-grey">-</h2>
+                            <h3 class="t-grey">{{evento.equipa2}}</h3>
+                        </div>
+                        <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
+                        <br>
+                        <div v-on:click="openEvent(index)" class="card border-radius-20 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="eventModal" class="modal">
+            <div class="modal-content border-radius-20">
+                <span class="close" v-on:click="closeElement('eventModal')">&times;</span>
+                <h1 class="w-100 t-grey">{{eventSelected.equipa1}} x {{eventSelected.equipa2}}</h1>
+                <h5 class="w-100 t-grey-2">{{eventSelected.date}}</h5>
+                <br>
+                <div class="row w-100">
+                    <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
+                        <h4>{{betType.nome}}</h4>
+                        <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
+                            <div v-on:click="this.addBetSelected(this.eventSelected.eventID,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                                <h5>{{odd.nome}}</h5>
+                                <h4 class="margin-top-5">{{odd.odd}}</h4>
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </template>
 
 <script>
 import SportModel from '@/data/model/SportModel'
 import BetTypeModel from '@/data/model/BetTypeModel'
+import HouseBetModel from '@/data/model/HouseBetModel'
 import OddModel from '@/data/model/OddModel'
 import EventModel from '@/data/model/EventModel'
 import AdminRepository from '@/data/repository/AdminRepository'
@@ -174,7 +224,11 @@ export default {
             tipoEsporte: "Coletivo",
             ultimoTipoDeEsporteSelecionado: "formColetivo",
             equipa: "",
-            jogador: ""
+            jogador: "",
+            eventsOtherHouses: [],
+            betHouses: [],
+            actualHouseBet: new HouseBetModel(),
+            eventSelected: new EventModel(),
         }
     },
     async mounted() {
@@ -183,9 +237,16 @@ export default {
         this.closeElement("formIndividual")
         this.closeElement("formEquipa")
         this.closeElement("formJogador")
+        this.closeElement("formEventos")
 
         this.esportes = await EventRepository.getSports()
         this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
+
+        this.eventsOtherHouses = await AdminRepository.getEventsOtherHouses()
+
+        this.eventsOtherHouses.forEach((house)=>{
+            this.betHouses.push(house["house"])
+        })
 
         const selector = document.getElementById("sportSelected")
         selector.addEventListener("click", (event) => {
@@ -246,6 +307,14 @@ export default {
             this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
             console.log(this.tiposDeApostas)
         },
+        trocarCasaDeAposta(index){
+            this.actualHouseBet = this.eventsOtherHouses[index]
+            console.log(this.actualHouseBet)
+        },
+        openEvent(index){
+            this.eventSelected = this.actualHouseBet.events[index]  
+            this.showElement("eventModal")
+        },
         async trocarTipoEsporte(){
             console.log(this.tipoEsporte)
             if (this.tipoEsporte == "Coletivo"){
@@ -276,6 +345,23 @@ select {
     height: 40px;
 }
 
+.events{
+    width: 100%;
+}
+
+.desporto:hover{ 
+    cursor: pointer; 
+    color: var(--color-text-grey-2);
+}
+
+.seeMore{
+    background-color: var(--color-white);
+}
+
+.seeMore:hover{
+    background-color: var(--color-odd-selected);
+    cursor: pointer;
+}
 input.placeholder {
     text-align: center;
 }

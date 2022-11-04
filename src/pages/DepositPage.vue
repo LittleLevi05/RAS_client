@@ -17,7 +17,7 @@
                 <br>
                 <div>
                     <h4>Método de pagamento</h4>
-                    <div class="col">
+                    <div class="col center">
                         <div class="card padding-20 card-p margin-right-20">
                             <img height="50" src="@/assets/MBWay.png">
                         </div>
@@ -59,6 +59,19 @@ export default {
 </script>
 
 <style scoped>
+.card-p{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+}
+
+.card-p:hover{
+    
+}
+
 main {
     display: flex;
     justify-content: center;
@@ -88,6 +101,11 @@ main {
     border: 2px solid var(--color-odd-selected);
 }
 
+.center{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
 .optSelected h3 {
     color: var(--color-odd-selected)
 }

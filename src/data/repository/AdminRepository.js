@@ -1,5 +1,6 @@
 import AdminProvider from '@/data/provider/AdminProvider'
 import BetTypeModel from '../model/BetTypeModel'
+import HouseBetModel from "../model/HouseBetModel"
 
 class AdminRepository{
 
@@ -33,6 +34,18 @@ class AdminRepository{
 
     async createPlayer(jogador){
         await AdminProvider.createPlayer(jogador)
+    }
+
+    async getEventsOtherHouses(){
+        var data = await AdminProvider.getEventsOtherHouses()
+
+        var houses = []
+        
+        data["jsonResul"].forEach((house) =>{
+            houses.push(HouseBetModel.fromJson(house))
+        })
+
+        return houses
     }
 }
 
