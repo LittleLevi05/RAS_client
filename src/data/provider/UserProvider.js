@@ -124,6 +124,49 @@ class UserProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }   
     }
+
+    async getBuletinsHistory(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            var res = await axios({
+                method: "get",
+                url: baseUrl + "/boletim",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
+    async getBetsFromBuletin(buletinID){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            var res = await axios({
+                method: "post",
+                url: baseUrl + "/apostas-do-boletim",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data: {buletinID: buletinID}
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
 }
 
 export default new UserProvider();

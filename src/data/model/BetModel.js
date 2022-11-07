@@ -12,4 +12,13 @@ export default class BetModel{
         this.oddSelected = oddSelected
         this.buletinID = buletinID
     }
+
+    static fromJson(json){
+        return new BetModel(
+            this.betID = json["betID"],
+            this.event = EventModel.fromJson(json["evento"]),
+            this.oddSelected = json["oddSelected"],
+            this.buletinID = json["buletinID"]
+        )
+    }
 }

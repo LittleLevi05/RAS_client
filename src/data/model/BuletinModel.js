@@ -12,4 +12,14 @@ export default class BuletinModel{
         this.type = type 
         this.userID = userID
     }
+
+    static fromJson(json){
+        return new BuletinModel(
+            this.buletinID = json["idbuletin"],
+            this.amount = json["amount"], 
+            this.gain = json["gain"], 
+            this.type = json["type"],
+            this.userID = -1
+        )
+    }
 }

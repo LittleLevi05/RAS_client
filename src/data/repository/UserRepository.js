@@ -1,6 +1,8 @@
 import UserProvider from '@/data/provider/UserProvider'
 import TransactionModel from '@/data/model/TransactionsModel'
 import User from '@/data/model/UserModel'
+import BuletinModel from '../model/BuletinModel'
+import BetModel from '../model/BetModel'
 
 class UserRepository{
 
@@ -38,6 +40,32 @@ class UserRepository{
 
     async raise(amount){
         await UserProvider.raise(amount)
+    }
+
+    async getBuletinsHistory(){
+        const data = await UserProvider.getBuletinsHistory()
+
+        var buletins = []
+
+        data['boletins'].forEach(buletinJson => {
+            var b = BuletinModel.fromJson(buletinJson)
+            buletins.push(b)
+        })
+
+        return buletins
+    }
+
+    async getBetsFromBuletin(buletinID){
+        const data = await UserProvider.getBetsFromBuletin(buletinID)
+        
+        var apostas = []
+        
+        data['apostas'].forEach(apostaJson => {
+            var b = BetModel.fromJson(apostaJson)
+            apostas.push(b)
+        })
+
+        return apostas
     }
 }
 

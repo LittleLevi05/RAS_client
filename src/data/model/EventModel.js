@@ -21,9 +21,11 @@ export default class Event{
     static fromJson(json){
         var tiposDeApostas = []
 
-        json["tipoDeApostas"].forEach((tipoDeAposta) =>{
-            tiposDeApostas.push(BetTypeModel.fromJson(tipoDeAposta))
-        })
+        if(json["tipoDeApostas"]){
+            json["tipoDeApostas"].forEach((tipoDeAposta) =>{
+                tiposDeApostas.push(BetTypeModel.fromJson(tipoDeAposta))
+            })
+        }
 
         return new Event(
             this.eventID = json["eventoID"],
