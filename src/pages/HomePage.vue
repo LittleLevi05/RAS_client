@@ -7,10 +7,10 @@
         </div>
         <div class="w-60 eventos padding-30">
             <h4><i class="fas fa-search margin-right-5"></i>Procurar equipa</h4>
-            <input class="border-radius-20 margin-top-5">
+            <input id="procurarEquipaInput" class="border-radius-20 margin-top-5">
             <br>
             <br>
-            <div v-for="(evento,index) in eventosPorDesporto" :key="index">
+            <div v-for="(evento,index) in eventosPorDesportoFiltro" :key="index">
                 <div class="col card margin-top-10 padding-20 border-radius-20 b-grey event">
                     <div class="row w-40 margin-right-50">
                         <div class="col">
@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            <h4 v-if="eventosPorDesporto.length == 0">Não há eventos deste desporto</h4>
         </div>
         <div class="w-25 padding-30">
             <div class="row row-c card-bulletin border-radius-20 padding-20">
@@ -38,7 +39,7 @@
                     <div class="card card-betSelected row padding-10 border-radius-20">
                         <div class="col border-radius-20">
                             <div class="col">
-                                <h4>{{getEventByBet(bet).equipa1}}</h4>-<h4>{{getEventByBet(bet).equipa2}}</h4>
+                                <h4>{{bet.event.equipa1}}</h4>-<h4>{{bet.event.equipa2}}</h4>
                             </div>
                             <span class="close" v-on:click="removeBetSelected(index)">&times;</span>
                         </div>
@@ -51,7 +52,7 @@
                                 <h4>{{bet.oddSelected}}</h4>
                             </div>
                             <div class="card border-radius-10 padding-10 margin-top-10">
-                                <h4>Cota: {{getOddValueByOddSelected(bet.oddSelected,getEventByBet(bet))}}</h4>
+                                <h4>Cota: {{getOddValueByOddSelected(bet.oddSelected,bet.event)}}</h4>
                             </div>
                         </div>
                     </div>
@@ -74,7 +75,7 @@
                         <h4 class="t-grey">Total</h4>
                         <h4 class="t-grey margin-top-10">{{this.getCota()*this.buletinModel.amount}}</h4>
                     </div>
-                    <div class="col padding-10" v-on:click="bet()">
+                    <div class="col padding-10" v-on:click="criarBoletim()">
                         <div class="border-radius-20 card-bet padding-10 expand"><h4 class="t-white">Apostar</h4></div>
                     </div>
                 </div>
@@ -157,7 +158,7 @@
                     <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
                         <h4>{{betType.nome}}</h4>
                         <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
-                            <div v-on:click="this.addBetSelected(this.eventSelected.eventID,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                            <div v-on:click="this.addBetSelected(this.eventSelected,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
                                 <h5>{{odd.nome}}</h5>
                                 <h4 class="margin-top-5">{{odd.odd}}</h4>
                             </div>     
@@ -185,13 +186,31 @@ export default{
             betsSelected:[],
             buletinModel: new BuletinModel(),
             eventosPorDesporto:[],
+            eventosPorDesportoFiltro:[],
             esportes: []
         }
     },
     async mounted(){
         this.esportes = await EventRepository.getSports()
         this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(1)
-        console.log(this.eventosPorDesporto)
+        this.eventosPorDesportoFiltro = this.eventosPorDesporto
+        
+        var procurarEquipaInput = document.getElementById("procurarEquipaInput")
+        procurarEquipaInput.addEventListener("change", (event) => {
+            var equipa = event.target.value
+            var eventosDaEquipa = []
+            this.eventosPorDesporto.forEach(e =>{
+                if (e.equipa1 == equipa || e.equipa2 == equipa){
+                    eventosDaEquipa.push(e)
+                }
+            })
+
+            if (eventosDaEquipa.length > 0){
+                this.eventosPorDesportoFiltro = eventosDaEquipa
+            }else{
+                this.eventosPorDesportoFiltro = this.eventosPorDesporto
+            }
+        }, false);
     },
     methods:{
         closeElement(elementID){
@@ -229,10 +248,8 @@ export default{
             this.deprogressCircle("circle-2")
             this.progressCircle("circle-3")
         },
-        addBetSelected(eventIndex, oddSelected){
-            //console.log(soccerEventIndex, targetBet)
-            var bet = new BetModel(-1,eventIndex,oddSelected,-1)
-           console.log(bet)
+        addBetSelected(event, oddSelected){
+            var bet = new BetModel(-1,event,oddSelected,-1)
             this.betsSelected.push(bet)
         },
         removeBetSelected(index){
@@ -247,12 +264,6 @@ export default{
         openEvent(index){
             this.eventSelected = this.eventosPorDesporto[index]  
             this.showElement("eventModal")
-        },
-        getEventByBet(bet){
-            for (var i = 0; i < this.eventosPorDesporto.length; i++){
-                if (this.eventosPorDesporto[i].eventID == bet.eventID)
-                    return this.eventosPorDesporto[i]
-            }
         },
         getOddValueByOddSelected(oddSelected,event){
             console.log(oddSelected)
@@ -272,18 +283,18 @@ export default{
 
             if (this.buletinModel.type == "m"){
                 for (var i = 0; i < this.betsSelected.length; i++){
-                    cotaTotalM = cotaTotalM * this.getOddValueByOddSelected(this.betsSelected[i].oddSelected,this.getEventByBet(this.betsSelected[i]))   
+                    cotaTotalM = cotaTotalM * this.getOddValueByOddSelected(this.betsSelected[i].oddSelected,this.betsSelected[i].event)   
                 }
 
                 return cotaTotalM
             }else if (this.buletinModel.type == "s"){
                 for (var j = 0; j < this.betsSelected.length; j++){
-                    cotaTotalS = cotaTotalS + this.getOddValueByOddSelected(this.betsSelected[j].oddSelected,this.getEventByBet(this.betsSelected[j]))   
+                    cotaTotalS = cotaTotalS + this.getOddValueByOddSelected(this.betsSelected[j].oddSelected,this.betsSelected[j].event)   
                 }
                 return cotaTotalS
             }
         },
-        async bet(){
+        async criarBoletim(){
             this.buletinModel.gain = this.getCota()*this.buletinModel.amount
             try{
                 await BuletinRepository.createBuletin(this.buletinModel,this.betsSelected)
@@ -293,7 +304,8 @@ export default{
         },
         async trocarEsporte(idEsporte){
             this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(idEsporte)
-            console.log(this.eventosPorDesporto)
+            this.eventosPorDesportoFiltro = this.eventosPorDesporto
+            //console.log(this.eventosPorDesporto)
         }
     }
 }
@@ -348,6 +360,7 @@ input{
 
 .seeMore:hover{
     background-color: var(--color-odd-selected);
+    color: var(--color-text-white);
     cursor: pointer;
 }
 

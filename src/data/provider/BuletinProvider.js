@@ -7,21 +7,22 @@ class BuletinProvider{
         console.log(buletin)
         console.log(bets)
 
-        var json = '{ "gain":"'+buletin.gain+'" , "type":"'+buletin.type+'", "amount":"'+buletin.amount+'", "bets": [ '
-        var i = 1;
+        var jsonObj ={}
 
-        bets.forEach((bet) => {
-            if (i == bets.length){
-                json = json + '{ "event":"'+bet.eventID+'", "oddSelected":"'+bet.oddSelected+'", "sport": "'+bet.sport+'" } '
-            }else{
-                json = json + '{ "event":"'+bet.eventID+'", "oddSelected":"'+bet.oddSelected+'", "sport": "'+bet.sport+'" }, '
-            }
-            i++;
+        jsonObj["gain"] = buletin.gain 
+        jsonObj["type"] = buletin.type 
+        jsonObj["amount"] = buletin.amount 
+        var betsJson = []
+
+        bets.forEach((bet) =>{
+            var betJson = {}
+            betJson["event"] = bet.event.eventID 
+            betJson["oddSelected"] = bet.oddSelected  
+            betJson["sport"] = bet.event.sportID
+            betsJson.push(betJson) 
         })
 
-        json = json + " ] }"
-
-        const jsonObj = JSON.parse(json);
+        jsonObj["bets"] = betsJson
 
         let user = JSON.parse(localStorage.getItem('user'))
 

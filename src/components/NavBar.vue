@@ -25,15 +25,26 @@
             </div> 
             <div class="col profile">
                 <i class="fas fa-user margin-right-10 t-white"></i>
-                <router-link to="/profile"><h4 class="t-white">Bem-vindo, <i>Carlos</i></h4></router-link>
+                <router-link to="/profile"><h4 class="t-white">Bem-vindo, <i>{{user.username}}</i></h4></router-link>
             </div>
         </div> 
     </div>
 </template>
 
 <script>
+import User from '@/data/model/UserModel';
+import UserRepository from '@/data/repository/UserRepository';
+
 export default{
     name: 'NavBar',
+    data(){
+        return{
+            user: new User()
+        }
+    },  
+    async mounted(){
+        this.user = await UserRepository.getUserData()
+    }
 } 
 </script>
 

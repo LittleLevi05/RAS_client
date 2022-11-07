@@ -53,6 +53,77 @@ class UserProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }
+
+    async getUserData(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            var res = await axios({
+                method: "get",
+                url: baseUrl + "/utilizador",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
+    async deposit(amount){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonData = {}
+        jsonData["amount"] = amount
+
+        try{
+            var res = await axios({
+                method: "post",
+                url: baseUrl + "/deposito",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data:jsonData
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
+
+    async raise(amount){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonData = {}
+        jsonData["amount"] = amount
+
+        try{
+            var res = await axios({
+                method: "post",
+                url: baseUrl + "/levantamento",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data:jsonData
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
 }
 
 export default new UserProvider();

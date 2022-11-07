@@ -1,5 +1,6 @@
 import UserProvider from '@/data/provider/UserProvider'
 import TransactionModel from '@/data/model/TransactionsModel'
+import User from '@/data/model/UserModel'
 
 class UserRepository{
 
@@ -24,6 +25,19 @@ class UserRepository{
         console.log(transactionsModel)
 
         return transactionsModel
+    }
+
+    async getUserData(){
+        const data = await UserProvider.getUserData()
+        return User.fromJson(data["user"])
+    }
+
+    async deposit(amount){
+        await UserProvider.deposit(amount)
+    }
+
+    async raise(amount){
+        await UserProvider.raise(amount)
     }
 }
 

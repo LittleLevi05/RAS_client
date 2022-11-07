@@ -33,7 +33,7 @@
                     <br>
                     <br>
                     <p class="color-sets">Não tem conta?</p>
-                    <a class="color-sets" href="@/pages/SignUpPage.vue">Registe-se já</a>
+                    <a v-on:click="this.$router.push('/signup')">Registe-se já</a>
                 </div>
             </div>
             <img class="border-radius-20 padding-20" src="@/assets/Secundary_Image1.jpg">
@@ -144,5 +144,9 @@ img{
     max-width:100%;
     max-height:100%;
     height: auto;
+}
+
+a:hover{
+    cursor: pointer;
 }
 </style>

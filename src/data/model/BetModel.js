@@ -1,12 +1,14 @@
+import EventModel from '@/data/model/EventModel'
+
 export default class BetModel{
     betID = 0
-    eventID = 0
+    event = new EventModel()
     oddSelected = ""
     buletinID = 0
 
-    constructor(betID,eventID,oddSelected,buletinID){
+    constructor(betID,event,oddSelected,buletinID){
         this.betID = betID
-        this.eventID = eventID
+        this.event = event
         this.oddSelected = oddSelected
         this.buletinID = buletinID
     }

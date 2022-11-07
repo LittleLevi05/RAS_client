@@ -7,8 +7,8 @@
                 <br>
                 <div class="row">
                     <div class="col">
-                        <input class="forms_inputs" type="number" placeholder="0">
-                        <div class="icons icon_currency">€</div>
+                        <input class="forms_inputs" type="number" :placeholder="0" v-model="this.amount">
+                        <div class="icons icon_currency"> €</div>
                     </div>
                     <h5 class="t-grey-2">Min 10€</h5>
                 </div>
@@ -37,8 +37,8 @@
                     </div>
                 </div>
                 <br>
-                <div class="optSelected row card padding-10 border-radius-10 b-white">
-                    <h3 class="margin-top-5">Depositar {valor}€</h3>
+                <div v-on:click="deposit" class="optSelected row card padding-10 border-radius-10 b-white">
+                    <h3 class="margin-top-5">Depositar {{amount}} €</h3>
                 </div>
             </div>
         </div>
@@ -46,14 +46,19 @@
 </template>
 
 <script>
+import UserRepository from '@/data/repository/UserRepository';
+
 export default {
     name: "DepositPage",
     data() {
         return {
-
+            amount: 0
         }
     },
     methods: {
+        async deposit(){
+            await UserRepository.deposit(this.amount)
+        }
     }
 }
 </script>

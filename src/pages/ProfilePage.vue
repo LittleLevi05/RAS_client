@@ -2,9 +2,9 @@
     <main>
         <div class="row-e card padding-50 border-radius-20">
             <div class="row">
-                <h2 class="t-grey">Carlos Pereira</h2>
+                <h3 class="t-grey">{{user.username}}</h3>
                 <br>
-                <h5 class="t-grey-2">Saldo: (valor)$</h5>
+                <h2 class="t-grey-2">Saldo: {{user.balance}}$</h2>
                 <br>
                 <hr>
                 <br>
@@ -32,27 +32,27 @@
                 <div class="row sec-2">
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar username:</h4>
-                        <input>
+                        <input :placeholder="user.username">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar palavra-passe:</h4>
-                        <input>
+                        <input type="password">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar IBAN:</h4>
-                        <input>
+                        <input :placeholder="user.iban">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar Data de Nascimento:</h4>
-                        <input>
+                        <input :placeholder="user.dateBirthday">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar NIF:</h4>
-                        <input>
+                        <input :placeholder="user.nif">
                     </div>
                     <br>
                     <button v-on:click="criarEsporte()" class="createEvent-button padding-10 margin-top-10">
@@ -65,12 +65,19 @@
 </template>
 
 <script>
+import User from '@/data/model/UserModel'
+import UserRepository from '@/data/repository/UserRepository'
+
 export default{
     name:"ProfilePage",
     data(){
         return{
-
+            user: new User(),
         }
+    },
+    async mounted(){
+        this.user = await UserRepository.getUserData()
+        return(this.user)
     },
     methods:{
         consultBetHistory(){
@@ -79,7 +86,7 @@ export default{
 
         consultTransactionsHistory(){
             this.$router.push('/transactions')
-        }
+        },
     }
 }
 </script>

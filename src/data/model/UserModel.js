@@ -18,4 +18,17 @@ export default class UserModel {
         this.balance = balance
         this.credential = credential
     }
+
+    static fromJson(json){
+        return new UserModel(
+            this.username = json["username"],
+            this.nif = json["nif"],
+            this.iban =  json["iban"],
+            this.email = json["email"],
+            this.password = json["password"],
+            this.balance = json["balance"],
+            this.dateBirthday = json["birthday"],
+            this.credential = json["credential"]
+        )
+    }
 }

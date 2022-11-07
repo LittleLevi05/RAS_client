@@ -5,7 +5,7 @@
                 <div><h2>Histórico de transações</h2></div>
             </div>
             <br>
-            <h3>Saldo: valor €</h3>
+            <h3>Saldo: {{user.balance}} €</h3>
             <br>
             <table class="blueTable">
                 <thead>
@@ -29,17 +29,19 @@
 
 <script>
 import UserRepository from '@/data/repository/UserRepository';
+import User from '@/data/model/UserModel';
 
 export default {
     name: "TransactionsPage",
     data(){
         return{
-            transacoes: []
+            transacoes: [],
+            user: new User()
         }
     },
     async mounted(){
         this.transacoes = await UserRepository.getTransactions()
-        console.log(this.transacoes)
+        this.user = await UserRepository.getUserData()
     }
 }
 </script>

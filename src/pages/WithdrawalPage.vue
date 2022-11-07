@@ -7,27 +7,26 @@
                 <br>
                 <div class="row">
                     <div class="col">
-                        <input class="forms_inputs" type="number" placeholder="0">
+                        <input class="forms_inputs" type="number" placeholder="0" v-model="this.amount">
                         <div class="icons icon_currency">€</div>
                     </div>
-                    <h5 class="t-grey-2">Saldo após o levantamento: (valor)$</h5>
+                    <h5 class="t-grey-2">Saldo após o levantamento: {{this.user.balance - this.amount}}$</h5>
                 </div>
 
                 <br>
                 <hr>
                 <br>
                 <div>
-                    <h4>Levantar</h4>
                     <div class="col">
                         <div class="rowa">
                             <h5>IBAN</h5>
-                            <P>{iban do utilizador}</P>
+                            <P>{{this.user.iban}}</P>
                         </div>
                     </div>
                 </div>
                 <br>
-                <div class="optSelected row card padding-10 border-radius-10 b-white">
-                    <h3 class="margin-top-5">Levantar {valor}€</h3>
+                <div v-on:click="raise" class="optSelected row card padding-10 border-radius-10 b-white">
+                    <h3 class="margin-top-5">Levantar {{this.amount}}€</h3>
                 </div>
             </div>
         </div>
@@ -35,14 +34,25 @@
 </template>
 
 <script>
+import UserRepository from '@/data/repository/UserRepository';
+import User from '@/data/model/UserModel';
+
 export default {
     name: "WithdrawPage",
     data() {
         return {
-
+            amount: 0,
+            user: new User() 
         }
     },
+    async mounted(){
+        this.user = await UserRepository.getUserData()
+    },  
     methods: {
+        async raise(){
+            //console.log(this.amount)
+            await UserRepository.raise(this.amount)
+        }
     }
 }
 </script>
