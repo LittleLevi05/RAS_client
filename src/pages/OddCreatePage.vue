@@ -304,8 +304,8 @@ export default {
         },
         async trocarEsporte(){
             console.log(this.esporteEvento)
-            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
-            console.log(this.tiposDeApostas)
+            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento+1)
+            //console.log(this.tiposDeApostas)
         },
         trocarCasaDeAposta(index){
             this.actualHouseBet = this.eventsOtherHouses[index]

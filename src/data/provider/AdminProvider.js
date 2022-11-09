@@ -60,7 +60,7 @@ class AdminProvider{
 
     async getBetTypeStructureBySport(desportoID){
         try{
-            const res = await axios.get(baseUrl + '/tipo-de-aposta-estrutura',{
+            const res = await axios.post(baseUrl + '/tipo-de-aposta-estrutura',{
                 desportoID: desportoID
             })
 

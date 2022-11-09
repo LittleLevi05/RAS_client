@@ -20,6 +20,7 @@ class AdminRepository{
         var data =  await AdminProvider.getBetTypeStructureBySport(desportoID)
         
         var tiposDeApostas = []
+        console.log(data)
 
         data["estrutura"].forEach((tipoDeAposta) =>{
             tiposDeApostas.push(BetTypeModel.fromJson(tipoDeAposta))
