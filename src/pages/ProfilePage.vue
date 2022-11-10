@@ -32,27 +32,27 @@
                 <div class="row sec-2">
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar username:</h4>
-                        <input :placeholder="user.username">
+                        <input :placeholder="user.username" v-model="this.user.password">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar palavra-passe:</h4>
-                        <input type="password">
+                        <input type="password" v-model="this.user.password">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar IBAN:</h4>
-                        <input :placeholder="user.iban">
+                        <input :placeholder="user.iban" v-model="this.user.iban">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar Data de Nascimento:</h4>
-                        <input :placeholder="user.dateBirthday">
+                        <input :placeholder="user.dateBirthday" v-model="this.user.dateBirthday">
                     </div>
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar NIF:</h4>
-                        <input :placeholder="user.nif">
+                        <input :placeholder="user.nif" v-model="this.user.nif">
                     </div>
                     <br>
                     <button v-on:click="changeProfile()" class="createEvent-button padding-10 margin-top-10">
