@@ -33,6 +33,23 @@ class UserProvider{
         }
     }
 
+    async changeProfile(user){
+        try{
+            await axios.put(baseUrl + '/changeProfile',{
+                email: user.email,
+                password: user.password,
+                nif: user.email,
+                birthday: user.dateBirthday,
+                iban: user.iban,
+                username: user.username,
+            })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
     async getTransactions(){
         let user = JSON.parse(localStorage.getItem('user'))
 

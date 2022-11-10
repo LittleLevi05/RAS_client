@@ -55,7 +55,7 @@
                         <input :placeholder="user.nif">
                     </div>
                     <br>
-                    <button v-on:click="criarEsporte()" class="createEvent-button padding-10 margin-top-10">
+                    <button v-on:click="changeProfile()" class="createEvent-button padding-10 margin-top-10">
                         <H4 class="t-white">Atualizar perfil</H4>
                     </button>
                 </div>
@@ -87,6 +87,13 @@ export default{
         consultTransactionsHistory(){
             this.$router.push('/transactions')
         },
+        async changeProfile(){
+            try{
+                await UserRepository.changeProfile(this.user)
+            }catch(error){
+                console.log(error)
+            }
+        }
     }
 }
 </script>

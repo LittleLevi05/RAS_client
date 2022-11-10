@@ -14,6 +14,10 @@ class UserRepository{
         await UserProvider.login(user)
     }
 
+    async changeProfile(user){
+        await UserProvider.changeProfile(user)
+    }
+
     async getTransactions(){
         const data = await UserProvider.getTransactions()
 
