@@ -52,7 +52,7 @@
                     <br>
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar NIF:</h4>
-                        <input :placeholder="user.nif" v-model="this.user.nif">
+                        <input placeholder="nif" v-model="this.user.nif">
                     </div>
                     <br>
                     <button v-on:click="changeProfile()" class="createEvent-button padding-10 margin-top-10">

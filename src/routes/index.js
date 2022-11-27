@@ -9,6 +9,8 @@ import BetHistoryPage from '@/pages/BetHistoryPage';
 import TransactionsPage from '@/pages/TransactionsPage';
 import DepositPage from '@/pages/DepositPage';
 import WithdrawalPage from '@/pages/WithdrawalPage';
+import AdminHomePage from '@/pages/AdminHomePage';
+import SpeHomePage from '@/pages/SpeHomePage';
 
 const routes = [
     {
@@ -63,6 +65,18 @@ const routes = [
         path: '/withdraw',
         component: WithdrawalPage,
         name: 'withdraw',
+        meta: {auth:true}
+    },
+    {
+        path: '/admin-home',
+        component: AdminHomePage,
+        name: 'adminHomePage',
+        meta: {auth:true}
+    },
+    {
+        path: '/spe-home',
+        component: SpeHomePage,
+        name: 'speHomePage',
         meta: {auth:true}
     },
 ];

@@ -44,6 +44,22 @@ class EventRepository{
             console.log(err)
         }
     }
+
+    async setEventState(state,eventID){
+        await EventProvider.setEventState(state,eventID)
+    }
+
+    async addSport(name,type){
+        await EventProvider.addSport(name,type)
+    }
+
+    async addTeam(name){
+        await EventProvider.addTeam(name)
+    }
+
+    async addPlayer(name){
+        await EventProvider.addPlayer(name)
+    }
 }
 
 export default new EventRepository

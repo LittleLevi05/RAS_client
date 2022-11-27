@@ -71,6 +71,27 @@ class UserRepository{
 
         return apostas
     }
+
+    async getUsers(){
+        const data = await UserProvider.getUsers()
+
+        var users = []
+
+        data['users'].forEach(userJson => {
+            var b = User.fromJson(userJson)
+            users.push(b)
+        })
+
+        return users    
+    }
+
+    async setUserAdmin(userEmail){
+        await UserProvider.setUserAdmin(userEmail)
+    }
+
+    async setUserSpe(userEmail){
+        await UserProvider.setUserSpe(userEmail)
+    }
 }
 
 export default new UserRepository

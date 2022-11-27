@@ -184,6 +184,74 @@ class UserProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }
+
+    async getUsers(){
+        let user = JSON.parse(localStorage.getItem('user'))
+        console.log(user)
+
+        try{
+            var res = await axios({
+                method: "get",
+                url: baseUrl + "/user",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }    
+    }
+
+    async setUserAdmin(userEmail){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonData = {}
+        jsonData["email"] = userEmail
+
+        try{
+            await axios({
+                method: "post",
+                url: baseUrl + "/user/admin",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data: jsonData
+            })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }    
+    }
+
+    async setUserSpe(userEmail){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonData = {}
+        jsonData["email"] = userEmail
+
+        try{
+            await axios({
+                method: "post",
+                url: baseUrl + "/user/spe",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data: jsonData
+            })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }    
+    }
 }
 
 export default new UserProvider();
