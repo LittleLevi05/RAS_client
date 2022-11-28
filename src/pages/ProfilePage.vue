@@ -1,31 +1,30 @@
 <template>
     <main>
-        <div class="row-e card padding-50 border-radius-20">
+        <div class="row-e card-2 padding-50 border-radius-5">
             <div class="row">
-                <h3 class="t-grey">{{user.username}}</h3>
+                <h3 class="t-grey"><i class="fas fa-user margin-right-5"></i>{{user.username}}</h3>
                 <br>
                 <h2 class="t-grey-2">Saldo: {{user.balance}}$</h2>
                 <br>
                 <hr>
-                <br>
                 <div class="col">
-                    <div class="optSelected row card padding-10 border-radius-10 b-white margin-right-50">
-                        <router-link to="/withdraw"><h3 class="margin-top-5">Levantar</h3></router-link>
+                    <div class="optSelected row card padding-10 border-radius-5 b-white margin-right-50">
+                        <h3> <i class="fas fa-money-check-alt"></i> LEVANTAR </h3>
                     </div>
-                    <div  class="optSelected row card padding-10 border-radius-10 b-white">
-                        <router-link to="/deposit"><h3 class="margin-top-5">Depositar</h3></router-link>
+                    <div  class="optSelected row card padding-10 border-radius-5 b-white">
+                        <h3> <i class="fas fa-hand-holding-usd"></i> DEPOSITAR </h3>
                     </div>
                 </div>
                 <br>
             </div>
             <div class="row-e">
                 <div class="col col-ee expand" v-on:click="consultBetHistory()">
-                    <h4 class="t-grey margin-right-5">Consultar histórico de apostas</h4>
+                    <h4 class="t-grey margin-right-5">CONSULTAR HISTÓTICO DE APOSTAS</h4>
                     <i class="fas fa-arrow-circle-right t-grey"></i>
                 </div>
                 <br>
                 <div class="col col-ee expand" v-on:click="consultTransactionsHistory()">
-                    <h4 class="t-grey margin-right-5">Consultar histórico de Transações</h4>
+                    <h4 class="t-grey margin-right-5">CONSULTAR HISTÓRICO DE TRANSAÇÕES</h4>
                     <i class="fas fa-arrow-circle-right t-grey"></i>
                 </div>
                 <br>
@@ -164,7 +163,21 @@ input{
 }
 
 .card{
-    background-color: var(--color-background);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+}
+
+.card-2{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
 }
 
 .optSelected{

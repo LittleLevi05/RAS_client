@@ -41,22 +41,22 @@
 
             <!-- Eventos -->
             <div class="w-40">
-                <div class="item-spe w-90">
+                <div v-if="eventoColetivo" class="item-spe w-90">
                     <h3><i class="fas fa-trophy margin-right-5"></i>EVENTOS</h3>
 
                     <br>
                     
                     <ul class="col betHouses">
-                        <li class="t-white expand margin-left-5 margin-top-5 desporto" v-on:click="trocarEsporte2(esporte.idesporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</li>
+                        <li class="t-white expand margin-left-5 margin-top-5 desporto" v-on:click="trocarEsporte2(esporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</li>
                     </ul>
 
-                    <div v-for="(evento,index) in eventosPorDesportoFiltro" :key="index">
+                    <div v-for="(evento,index) in eventosColetivos" :key="index">
                         <div class="row card margin-top-10 padding-20 border-radius-10 b-grey event">
                             <div class="row w-100 margin-right-50">
                                 <div class="col-2">
-                                    <h4 class="t-grey margin-right-5">{{evento.equipa1}}</h4>
+                                    <h4 class="t-grey margin-right-5">{{evento.team1Name}}</h4>
                                     <h3 class="t-grey  margin-right-5"> X </h3>
-                                    <h4 class="t-grey">{{evento.equipa2}}</h4>
+                                    <h4 class="t-grey">{{evento.team2Name}}</h4>
                                 </div>
                                 <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                                 <h3 class="margin-top-5 t-grey-2"><i class="fas fa-satellite-dish margin-right-5"></i>{{this.stateToString(evento.state)}}</h3>
@@ -72,6 +72,46 @@
                                 </button>
                                 <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 w-30">
                                     <H5 class="t-white">FECHAR</H5>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div v-if="eventoDual" class="item-spe w-90">
+                    <h3><i class="fas fa-trophy margin-right-5"></i>EVENTOS</h3>
+
+                    <br>
+                    
+                    <ul class="col betHouses">
+                        <li class="t-white expand margin-left-5 margin-top-5 desporto" v-on:click="trocarEsporte2(esporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</li>
+                    </ul>
+
+                    <div v-for="(evento,index) in eventosDuais" :key="index">
+                        <div class="row card margin-top-10 padding-20 border-radius-10 b-grey event">
+                            <div class="row w-100 margin-right-50">
+                                <div class="col-2">
+                                    <h4 class="t-grey margin-right-5">{{evento.player1Name}}</h4>
+                                    <h3 class="t-grey  margin-right-5"> X </h3>
+                                    <h4 class="t-grey">{{evento.player2Name}}</h4>
+                                </div>
+                                <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
+                                <h3 class="margin-top-5 t-grey-2"><i class="fas fa-satellite-dish margin-right-5"></i>{{this.stateToString(evento.state)}}</h3>
+                                <br>
+                            </div>
+
+                            <div class="col w-100">
+                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-50">
+                                    <H5 class="t-white">ABRIR</H5>
+                                </button>
+                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-20">
+                                    <H5 class="t-white">SUSPENDER</H5>
+                                </button>
+                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 w-20">
+                                    <H5 class="t-white">FECHAR</H5>
+                                </button>
+                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-4 padding-10 margin-top-10 w-20">
+                                    <H5 class="t-white">CRIAR PROMOÇÃO</H5>
                                 </button>
                             </div>
                         </div>
@@ -148,14 +188,21 @@ export default {
             idEsporteSelecionado: 1,
             playerName: "",
             teamName: "",
+            individualPlayersSelected: [],
+            eventosColetivos:[],
+            eventosDuais:[],
+            eventosIndividuais:[],
+            eventoColetivo: true,
+            eventoDual: false,
+            eventosIndividual: false
         }
     },
     async mounted() {
         this.esportes = await EventRepository.getSports()
         this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
 
-        this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(1)
-        this.eventosPorDesportoFiltro = this.eventosPorDesporto
+        this.eventosColetivos = await EventRepository.getEventsBySportID(1,"c")
+        //this.eventosPorDesportoFiltro = this.eventosPorDesporto
 
         this.users = await UserRepository.getUsers()
 
@@ -239,11 +286,23 @@ export default {
         async criarEvento(){
 
         },
-        async trocarEsporte2(idEsporte){
-            this.idEsporteSelecionado = idEsporte
-            this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(idEsporte)
-            this.eventosPorDesportoFiltro = this.eventosPorDesporto
-            //console.log(this.eventosPorDesporto)
+        async trocarEsporte2(esporte){
+            if(esporte.tipo == "c"){
+                this.eventoColetivo = true 
+                this.eventoDual = false 
+                this.eventIndividual = false 
+                this.eventosColetivos = await EventRepository.getEventsBySportID(esporte.idesporte,"c")
+            }else if(esporte.tipo == "d"){
+                this.eventoColetivo = false 
+                this.eventoDual = true 
+                this.eventIndividual = false 
+                this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"d")
+            }else if(esporte.tipo == "i"){
+                this.eventoColetivo = false 
+                this.eventoDual = false 
+                this.eventIndividual = true 
+                this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"i")
+            }
         },
         dateToString(date){
             return date
@@ -266,9 +325,9 @@ export default {
         },
         async setEventState(state,eventID){
             EventRepository.setEventState(state,eventID)
-            
-            this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(this.idEsporteSelecionado)
-            this.eventosPorDesportoFiltro = this.eventosPorDesporto
+            this.$forceUpdate();
+            //await EventRepository.getSportsColetiveEventsByID(this.idEsporteSelecionado)
+            //this.eventosPorDesportoFiltro = this.eventosPorDesporto
         },
         stateToString(state){
             if (state == "o") return "Aberto"

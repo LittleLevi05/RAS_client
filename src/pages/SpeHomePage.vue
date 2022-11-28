@@ -45,30 +45,48 @@
                         </select>
 
                         <select name="sportSelectedEvent" v-model="this.esporteEvento" v-on:change="trocarEsporte" id="sportSelected" class="border-radius-20 placeholder margin-top-10 margin-left-10">               
-                            <option v-for="(esporte,index) in esportes" :key="esporte.idesporte" :value="index">{{esporte.nome}}</option>
+                            <option v-for="(esporte) in esportes" :key="esporte.idesporte" :value="esporte.idesporte">{{esporte.nome}}</option>
                         </select> 
                     </div> 
 
                     <div id="formColetivo" class="col">
-                        <input placeholder="Equipa 1" class="margin-top-10">
-                        <input placeholder="Equipa 2" class="margin-top-10 margin-left-10">    
+                        <select v-model="this.eventColetive.team1Name" class="border-radius-20 placeholder margin-top-10 margin-left-10">               
+                            <option v-for="(team,index) in teams" :key="index" :value="team.id">{{team.nome}}</option>
+                        </select> 
+                        <select v-model="this.eventColetive.team2Name" id="sportSelected" class="border-radius-20 placeholder margin-top-10 margin-left-10">               
+                            <option v-for="(team,index) in teams" :key="index" :value="team.id">{{team.nome}}</option>
+                        </select>   
                     </div>
 
-                    <div id="formIndividual" class="col">
-                        <input placeholder="Jogador 1" class="margin-top-10">
-                        <input placeholder="Jogador 2" class="margin-top-10 margin-left-10">    
+                    <div id="formDual" class="col">
+                        <select v-model="this.eventDual.player1Name" class="border-radius-20 placeholder margin-top-10 margin-left-10">               
+                            <option v-for="(player,index) in players" :key="index" :value="player.id">{{player.nome}}</option>
+                        </select> 
+                        <select v-model="this.eventDual.player2Name" id="sportSelected" class="border-radius-20 placeholder margin-top-10 margin-left-10">               
+                            <option v-for="(player,index) in players" :key="index" :value="player.id">{{player.nome}}</option>
+                        </select>       
                     </div>
 
-                    <input type="datetime-local" id="start" name="trip-start" min="2022-01-01" max="2023-12-31" class="margin-top-10">
+                    <div id="formIndividual" class="row">   
+                        <select id="playerSelected" class="border-radius-20 placeholder margin-top-10 margin-left-10">               
+                            <option v-for="(player,index) in players" :key="index" :value="player.id">{{player.nome}}</option>
+                        </select> 
+                        <div id={{player.nome}} class="card border-radius-10 padding-10 margin-top-10 w-90 row" v-for="(player,index) in individualPlayersSelected" :key="index">
+                            <span class="close" v-on:click="removeElementFromList(index,this.individualPlayersSelected)">&times;</span>
+                            <h5> {{player.nome}} </h5> 
+                        </div>
+                    </div>
+
+                    <input type="datetime-local" v-model="eventModel.date" id="start" name="trip-start" min="2022-01-01" max="2023-12-31" class="margin-top-10">
 
                     <div class="margin-top-10" v-for="(tipoDeAposta) in this.tiposDeApostas" :key=tipoDeAposta.nome>
                         <h3>{{tipoDeAposta.nome}}</h3>
                         <div v-for="(odd,index) in tipoDeAposta.oddList" :key="index">
-                            <input :placeholder=odd.nome class="margin-top-10">
+                            <input v-model="odd.odd" :placeholder=odd.nome class="margin-top-10">
                         </div>
                     </div>
 
-                    <button v-on:click="criarEvento()" class="createEvent-button padding-10 margin-top-10">
+                    <button v-on:click="addEvent" class="createEvent-button padding-10 margin-top-10">
                         <H4 class="t-white">Criar Evento</H4>
                     </button>
                 </div>
@@ -76,27 +94,57 @@
 
             <div class="w-60 col">
                 <!-- Eventos -->
-                <div class="w-50 justify-center">
+
+                <!-- Eventos Coletivos -->
+                <div v-if="eventoColetivo" class="w-50 justify-center">
                     <div class="item-spe w-80">
                         <h3><i class="fas fa-trophy margin-right-5"></i>EVENTOS</h3>
 
                         <br>
                         
                         <ul class="col betHouses">
-                            <li class="t-white expand margin-left-5 margin-top-5 desporto" v-on:click="trocarEsporte2(esporte.idesporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</li>
+                            <li class="t-white expand margin-left-5 margin-top-5 desporto" v-on:click="trocarEsporte2(esporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</li>
                         </ul>
 
-                        <div v-for="(evento,index) in eventosPorDesportoFiltro" :key="index">
+                        <div v-for="(evento,index) in eventosColetivos" :key="index">
                             <div class="col card margin-top-10 padding-20 border-radius-10 b-grey event">
                                 <div class="row w-100 margin-right-50">
                                     <div class="col-2">
-                                        <h4 class="t-grey margin-right-5">{{evento.equipa1}}</h4>
-                                        <h3 class="t-grey  margin-right-5"> X </h3>
-                                        <h4 class="t-grey">{{evento.equipa2}}</h4>
+                                        <h4 class="t-grey margin-right-5">{{evento.team1Name}}</h4>
+                                        <h3 class="t-grey  margin-right-5"> x </h3>
+                                        <h4 class="t-grey">{{evento.team2Name}}</h4>
                                     </div>
                                     <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                                     <br>
-                                    <div v-on:click="openEvent2(index)" class="card border-radius-10 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                                    <div v-on:click="openEventColetive(index)" class="card border-radius-10 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eventos Duais -->
+                <div v-if="eventoDual" class="w-50 justify-center">
+                    <div class="item-spe w-80">
+                        <h3><i class="fas fa-trophy margin-right-5"></i>EVENTOS</h3>
+
+                        <br>
+                        
+                        <ul class="col betHouses">
+                            <li class="t-white expand margin-left-5 margin-top-5 desporto" v-on:click="trocarEsporte2(esporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</li>
+                        </ul>
+
+                        <div v-for="(evento,index) in eventosDuais" :key="index">
+                            <div class="col card margin-top-10 padding-20 border-radius-10 b-grey event">
+                                <div class="row w-100 margin-right-50">
+                                    <div class="col-2">
+                                        <h4 class="t-grey margin-right-5">{{evento.player1Name}}</h4>
+                                        <h3 class="t-grey  margin-right-5"> x </h3>
+                                        <h4 class="t-grey">{{evento.player2Name}}</h4>
+                                    </div>
+                                    <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
+                                    <br>
+                                    <div v-on:click="openEventDual(index)" class="card border-radius-10 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -119,10 +167,10 @@
                         <div v-for="(evento,index) in actualHouseBet.events" :key="index">
                             <div class="col card margin-top-10 padding-20 border-radius-10 b-grey event">
                                 <div class="row w-100 margin-right-50">
-                                    <div class="col">
-                                        <h4 class="t-grey margin-right-5">{{evento.equipa1}}</h4>
+                                    <div class="col-2">
+                                        <h4 class="t-grey margin-right-5">{{evento.team1Name}}</h4>
                                         <h3 class="t-grey margin-right-5">X</h3>
-                                        <h4 class="t-grey">{{evento.equipa2}}</h4>
+                                        <h4 class="t-grey">{{evento.team2Name}}</h4>
                                     </div>
                                     <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                                     <br>
@@ -136,10 +184,10 @@
             </div>
         </div>
 
-        <div id="eventEditModal" class="modal">
+        <div id="eventColetiveEditModal" class="modal">
             <div class="modal-content border-radius-10">
-                <span class="close" v-on:click="closeElement('eventEditModal')">&times;</span>
-                <h1 class="w-100 t-grey">{{eventSelected.equipa1}} x {{eventSelected.equipa2}}</h1>
+                <span class="close" v-on:click="closeElement('eventColetiveEditModal')">&times;</span>
+                <h1 class="w-100 t-grey">{{eventSelected.team1Name}} x {{eventSelected.team2Name}}</h1>
                 <h5 class="w-100 t-grey-2 margin-top-5"><i class="fas fa-calendar-week margin-right-5"></i>{{this.dateToString(eventSelected.date)}}</h5>
                 <div class="row w-100">
                     <div class="margin-top-10 row w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
@@ -157,17 +205,46 @@
                     <button v-on:click="updateEvent()" class="createEvent-button margin-right-10 padding-10">
                         <H4 class="t-white">ATUALIZAR</H4>
                     </button>
-                    <button v-on:click="closeElement('eventEditModal')" class="createEvent-button padding-10">
+                    <button v-on:click="closeElement('eventColetiveEditModal')" class="createEvent-button padding-10">
                         <H4 class="t-white">CANCELAR</H4>
                     </button>
                 </div>
             </div>
         </div>
 
+        <div id="eventDualEditModal" class="modal">
+            <div class="modal-content border-radius-10">
+                <span class="close" v-on:click="closeElement('eventDualEditModal')">&times;</span>
+                <h1 class="w-100 t-grey">{{eventSelected.player1Name}} x {{eventSelected.player2Name}}</h1>
+                <h5 class="w-100 t-grey-2 margin-top-5"><i class="fas fa-calendar-week margin-right-5"></i>{{this.dateToString(eventSelected.date)}}</h5>
+                <div class="row w-100">
+                    <div class="margin-top-10 row w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
+                        <h4><i class="far fa-credit-card margin-right-5"></i>{{betType.nome}}</h4>
+                        <div class="col w-100" v-for="(odd,index) in betType.oddList" :key="index">
+                            <div v-on:click="this.addBetSelected(this.eventSelected.eventID,odd.nome)" class="w-100 row padding-10 border-radius-10 b-white margin-right-10">
+                                <h5>{{odd.nome}}</h5>
+                                <input v-model="odd.odd" class="border-radius-20 placeholder">
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="col">
+                    <button v-on:click="updateEvent()" class="createEvent-button margin-right-10 padding-10">
+                        <H4 class="t-white">ATUALIZAR</H4>
+                    </button>
+                    <button v-on:click="closeElement('eventDualEditModal')" class="createEvent-button padding-10">
+                        <H4 class="t-white">CANCELAR</H4>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
         <div id="eventModal" class="modal">
             <div class="modal-content border-radius-10">
                 <span class="close" v-on:click="closeElement('eventModal')">&times;</span>
-                <h1 class="w-100 t-grey">{{eventSelected.equipa1}} x {{eventSelected.equipa2}}</h1>
+                <h1 class="w-100 t-grey">{{eventSelected.team1Name}} x {{eventSelected.team2Name}}</h1>
                 <h5 class="w-100 t-grey-2">{{eventSelected.date}}</h5>
                 <br>
                 <div class="row w-100">
@@ -192,6 +269,9 @@ import BetTypeModel from '@/data/model/BetTypeModel'
 import HouseBetModel from '@/data/model/HouseBetModel'
 import OddModel from '@/data/model/OddModel'
 import EventModel from '@/data/model/EventModel'
+import EventColetive from '@/data/model/EventColetive'
+import EventIndividual from '@/data/model/EventIndividual'
+import EventDual from '@/data/model/EventDual'
 import AdminRepository from '@/data/repository/AdminRepository'
 import EventRepository from '@/data/repository/EventRepository'
 
@@ -219,14 +299,46 @@ export default {
             eventSelected: new EventModel(),
             eventosPorDesporto:[],
             eventosPorDesportoFiltro:[],
+            eventColetive: new EventColetive(),
+            eventDual: new EventDual(),
+            eventIndividual: new EventIndividual(),
+            players: [],
+            teams: [],
+            individualPlayersSelected: [],
+            eventosColetivos:[],
+            eventosDuais:[],
+            eventosIndividuais:[],
+            eventoColetivo: true,
+            eventoDual: false,
+            eventosIndividual: false
         }
     },
     async mounted() {
+        this.closeElement("formIndividual")
+        this.closeElement("formDual")
+
+        this.teams = await EventRepository.getTeams()
+        this.players = await EventRepository.getPlayers()
+
         this.esportes = await EventRepository.getSports()
         this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
 
-        this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(1)
-        this.eventosPorDesportoFiltro = this.eventosPorDesporto
+        this.eventosColetivos = await EventRepository.getEventsBySportID(1,"c")
+        // this.eventosPorDesportoFiltro = this.eventosPorDesporto
+
+        const selector = document.getElementById("sportSelected")
+        selector.addEventListener("click", (event) => {
+            this.esportesSelecionados.push(this.esportes[event.target.value])
+        }, false);
+
+        const selector2 = document.getElementById("playerSelected")
+        selector2.addEventListener("click", (event) => {
+            this.players.forEach(p =>{
+                if (p.id == event.target.value){
+                    this.individualPlayersSelected.push(p)
+                }
+            })
+        }, false);
 
         this.eventsOtherHouses = await AdminRepository.getEventsOtherHouses()
 
@@ -235,12 +347,6 @@ export default {
         })
 
         this.actualHouseBet = this.eventsOtherHouses[0]
-
-        const selector = document.getElementById("sportSelected")
-        selector.addEventListener("click", (event) => {
-            this.esportesSelecionados.push(this.esportes[event.target.value])
-        }, false);
-
     },
     methods: {
         closeElement(elementID) {
@@ -249,7 +355,7 @@ export default {
         },
         showElement(elementID) {
             var modal = document.getElementById(elementID);
-            modal.style.display = "block";
+            modal.style.display = "flex";
         },
         changeForm(elementID) {
             this.closeElement(this.lastFormSelected)
@@ -257,7 +363,7 @@ export default {
             this.lastFormSelected = elementID
         },
         changeForm2(elementID) {
-            console.log(elementID)
+            // console.log(elementID)
             this.closeElement(this.ultimoTipoDeEsporteSelecionado)
             this.showElement(elementID)
             this.ultimoTipoDeEsporteSelecionado = elementID
@@ -284,11 +390,11 @@ export default {
             betType.oddList = this.oddNames
             betType.sportList = this.esportesSelecionados
 
-            await AdminRepository.createBetType(betType)
+            await EventRepository.createBetType(betType)
         },
         async trocarEsporte(){
             console.log(this.esporteEvento)
-            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento+1)
+            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
             //console.log(this.tiposDeApostas)
         },
         trocarCasaDeAposta(index){
@@ -303,20 +409,67 @@ export default {
             this.eventSelected = this.eventosPorDesporto[index]  
             this.showElement("eventEditModal")
         },
+        openEventColetive(index){
+            this.eventSelected = this.eventosColetivos[index]  
+            this.showElement("eventColetiveEditModal")
+        },
+        openEventDual(index){
+            this.eventSelected = this.eventosDuais[index]  
+            this.showElement("eventDualEditModal")
+        },
         async trocarTipoEsporte(){
-            console.log(this.tipoEsporte)
+            // console.log(this.tipoEsporte)
             if (this.tipoEsporte == "Coletivo"){
                 this.changeForm2("formColetivo")
             }else if(this.tipoEsporte == "Individual"){
                 this.changeForm2("formIndividual")
+            }else if(this.tipoEsporte == "Dual"){
+                this.changeForm2("formDual")
             }
         },
-        async criarEvento(){
-
+        async addEvent(){
+            if(this.tipoEsporte == "Coletivo"){
+                this.eventColetive.date = this.eventModel.date
+                this.eventColetive.betTypeList = this.tiposDeApostas
+                this.eventColetive.sportID = this.esporteEvento
+                EventRepository.addEventColetive(this.eventColetive)
+            }else if(this.tipoEsporte == "Dual"){
+                this.eventDual.date = this.eventModel.date
+                this.eventDual.betTypeList = this.tiposDeApostas
+                this.eventDual.sportID = this.esporteEvento
+                EventRepository.addEventDual(this.eventDual)
+            }else if(this.tipoEsporte == "Individual"){
+                this.eventIndividual.date = this.eventModel.date 
+                this.eventIndividual.betTypeList = this.tiposDeApostas
+                this.eventDual.sportID = this.esporteEvento
+                var i = 0
+                this.eventIndividual.players = {}
+                this.individualPlayersSelected.forEach(p => {
+                    this.eventIndividual.players[i] = p.id
+                    i = i + 1
+                })
+                EventRepository.addEventIndiviual(this.eventIndividual)
+            }
         },
-        async trocarEsporte2(idEsporte){
-            this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(idEsporte)
-            this.eventosPorDesportoFiltro = this.eventosPorDesporto
+        async trocarEsporte2(esporte){
+            if(esporte.tipo == "c"){
+                this.eventoColetivo = true 
+                this.eventoDual = false 
+                this.eventIndividual = false 
+                this.eventosColetivos = await EventRepository.getEventsBySportID(esporte.idesporte,"c")
+            }else if(esporte.tipo == "d"){
+                this.eventoColetivo = false 
+                this.eventoDual = true 
+                this.eventIndividual = false 
+                this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"d")
+            }else if(esporte.tipo == "i"){
+                this.eventoColetivo = false 
+                this.eventoDual = false 
+                this.eventIndividual = true 
+                this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"i")
+            }
+            //this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(idEsporte)
+            //this.eventosPorDesportoFiltro = this.eventosPorDesporto
             //console.log(this.eventosPorDesporto)
         },
         dateToString(date){

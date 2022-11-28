@@ -3,80 +3,125 @@
         <div class="sidenav">
             <h2 class="t-white margin-left-10"><i class="fas fa-volleyball-ball margin-right-5"></i>DESPORTOS</h2>
             <br>
-            <h3 class="t-white expand margin-left-10 margin-top-10 desporto" v-on:click="trocarEsporte(esporte.idesporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</h3>
+            <h3 class="t-white expand margin-left-10 margin-top-10 desporto" v-on:click="trocarEsporte(esporte)" v-for="(esporte,index) in esportes" :key="index">{{esporte.nome}}</h3>
         </div>
-        <div class="w-60 eventos padding-30">
-            <h4><i class="fas fa-search margin-right-5"></i>Procurar equipa</h4>
-            <input id="procurarEquipaInput" class="border-radius-20 margin-top-5">
+        <div v-if="eventoColetivo" class="w-60 eventos padding-30">
+            <img src="@/assets/messi_ronaldo.jpg">
+            <h5><i class="fas fa-search margin-right-5 margin-top-5"></i>PROCURAR EQUIPA</h5>
+            <input id="procurarEquipaInput" class="border-radius-5 margin-top-5">
             <br>
             <br>
-            <div v-for="(evento,index) in eventosPorDesportoFiltro" :key="index">
-                <div class="col card margin-top-10 padding-20 border-radius-20 b-grey event">
+            <div v-for="(evento,index) in eventosColetivos" :key="index">
+                <div class="col margin-top-10 padding-20 border-radius-20 b-grey event">
                     <div class="row w-40 margin-right-50">
                         <div class="col">
-                            <h3 class="t-grey">{{evento.equipa1}}</h3>
+                            <h3 class="t-grey">{{evento.team1Name}}</h3>
                             <h2 class="t-grey">-</h2>
-                            <h3 class="t-grey">{{evento.equipa2}}</h3>
+                            <h3 class="t-grey">{{evento.team2Name}}</h3>
                         </div>
                         <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                         <br>
-                        <div v-on:click="openEvent(index)" class="card border-radius-20 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                        <div v-on:click="openEventColetive(index)" class="card border-radius-5 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
                     </div>
                 </div>
             </div>
-            <h4 v-if="eventosPorDesporto.length == 0">Não há eventos deste desporto</h4>
+            <h4 v-if="eventosColetivos.length == 0">Não há eventos deste desporto</h4>
+        </div>
+        <div v-if="eventoDual" class="w-60 eventos padding-30">
+            <h5><i class="fas fa-search margin-right-5"></i>PROCURAR ATLETA</h5>
+            <input id="procurarEquipaInput" class="border-radius-5 margin-top-5">
+            <br>
+            <br>
+            <div v-for="(evento,index) in eventosDuais" :key="index">
+                <div class="col margin-top-10 padding-20 border-radius-20 b-grey event">
+                    <div class="row w-40 margin-right-50">
+                        <div class="col">
+                            <h3 class="t-grey">{{evento.player1Name}}</h3>
+                            <h2 class="t-grey">-</h2>
+                            <h3 class="t-grey">{{evento.player2Name}}</h3>
+                        </div>
+                        <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
+                        <br>
+                        <div v-on:click="openEventDual(index)" class="card border-radius-5 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                </div>
+            </div>
+            <h4 v-if="eventosDuais.length == 0">Não há eventos deste desporto</h4>
         </div>
         <div class="w-25 padding-30">
-            <div class="row row-c card-bulletin border-radius-20 padding-20">
+            <div class="row row-c card-bulletin border-radius-5 padding-20">
                 <div><h2 class="t-grey">BOLETIM</h2></div>
                 <br>
-                <div class="w-90 col col-e border-radius-20">
-                    <div v-on:click="changeBuletinType('s')" class="card w-90 padding-10 oddType border-radius-20 margin-right-20"><h4 class="t-grey">Simples</h4></div>
-                    <div v-on:click="changeBuletinType('m')" class="card w-90 padding-10 oddType border-radius-20"><h4 class="t-grey">Múltiplas</h4></div>
+                <div class="w-90 col col-e border-radius-5">
+                    <div v-on:click="changeBuletinType('s')" class="card w-90 padding-10 oddType border-radius-5 margin-right-20"><h4 class="t-grey">Simples</h4></div>
+                    <div v-on:click="changeBuletinType('m')" class="card w-90 padding-10 oddType border-radius-5"><h4 class="t-grey">Múltiplas</h4></div>
                 </div>
                 <br>
-                <div class="w-90" v-for="(bet,index) in betsSelected" :key="bet.betID">
-                    <div class="card card-betSelected row padding-10 border-radius-20">
-                        <div class="col border-radius-20">
+                <div class="w-90" v-for="(bet,index) in apostasColetivas" :key="bet.betID">
+                    <div class="card card-betSelected row padding-10 border-radius-5">
+                        <div class="col border-radius-5">
                             <div class="col">
-                                <h4>{{bet.event.equipa1}}</h4>-<h4>{{bet.event.equipa2}}</h4>
+                                <h4>{{bet.eventColetive.team1Name}}</h4>-<h4>{{bet.eventColetive.team2Name}}</h4>
                             </div>
-                            <span class="close" v-on:click="removeBetSelected(index)">&times;</span>
+                            <span class="close" v-on:click="removeBetColetiveSelected(index)">&times;</span>
                         </div>
                         <br>
                         <hr>
                         <br>
-                        <div class="row border-radius-20">
+                        <div class="row border-radius-5">
                             <div class="col">
                                 <h4 clas="t-grey">Resultado: </h4>
                                 <h4>{{bet.oddSelected}}</h4>
                             </div>
-                            <div class="card border-radius-10 padding-10 margin-top-10">
-                                <h4>Cota: {{getOddValueByOddSelected(bet.oddSelected,bet.event)}}</h4>
+                            <div class="card border-radius-5 padding-10 margin-top-10">
+                                <h4>Cota: {{getOddValueByOddSelected(bet.oddSelected,bet.eventColetive)}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="w-90" v-for="(bet,index) in apostasDuais" :key="bet.betID">
+                    <div class="card card-betSelected row padding-10 border-radius-5">
+                        <div class="col border-radius-5">
+                            <div class="col">
+                                <h4>{{bet.eventDual.player1Name}}</h4>-<h4>{{bet.eventDual.player2Name}}</h4>
+                            </div>
+                            <span class="close" v-on:click="removeBetDualSelected(index)">&times;</span>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="row border-radius-5">
+                            <div class="col">
+                                <h4 clas="t-grey">Resultado: </h4>
+                                <h4>{{bet.oddSelected}}</h4>
+                            </div>
+                            <div class="card border-radius-5 padding-10 margin-top-10">
+                                <h4>Cota: {{getOddValueByOddSelected(bet.oddSelected,bet.eventDual)}}</h4>
                             </div>
                         </div>
                     </div>
                     <br>
                 </div>
                 <br>
-                <div class="col-e card-value w-90 card border-radius-20">
+                <div class="col-e card-value w-90 card border-radius-5">
                     <div class="col padding-10">
                         <h4 class="t-grey">Cota:</h4>
                         <h4 class="t-grey">{{this.getCota()}}</h4>
                     </div>
                     <div class="col padding-10 center">
                         <h4 class="t-grey margin-right-5">Montante</h4>
-                        <input placeholder="valor" class="border-radius-20 margin-right-5" v-model="this.buletinModel.amount">
+                        <input placeholder="valor" class="border-radius-5 margin-right-5" v-model="this.buletinModel.amount">
                         <h4 class="t-grey">$</h4>
                     </div>
                 </div>
-                <div class="col-e card-value w-90 card margin-top-10 border-radius-20">
+                <div class="col-e card-value w-90 card margin-top-10 border-radius-5">
                     <div class="row row-c padding-10">
                         <h4 class="t-grey">Total</h4>
                         <h4 class="t-grey margin-top-10">{{this.getCota()*this.buletinModel.amount}}</h4>
                     </div>
                     <div class="col padding-10" v-on:click="criarBoletim()">
-                        <div class="border-radius-20 card-bet padding-10 expand"><h4 class="t-white">Apostar</h4></div>
+                        <div class="border-radius-5 card-bet padding-10 expand"><h4 class="t-white">Apostar</h4></div>
                     </div>
                 </div>
 
@@ -144,21 +189,38 @@
                 </div>
             </div>
         </div>
-        <div v-if="isAdmin()" v-on:click="this.$router.push('/odd-create')" class="button-float expand but">
-            <i class="fas fa-plus margin-right-5"></i>Criar Evento
-        </div>
 
-        <div id="eventModal" class="modal">
+        <div id="eventColetiveModal" class="modal">
             <div class="modal-content border-radius-20">
-                <span class="close" v-on:click="closeElement('eventModal')">&times;</span>
-                <h1 class="w-100 t-grey">{{eventSelected.equipa1}} x {{eventSelected.equipa2}}</h1>
+                <span class="close" v-on:click="closeElement('eventColetiveModal')">&times;</span>
+                <h1 class="w-100 t-grey">{{eventSelected.team1Name}} x {{eventSelected.team2Name}}</h1>
                 <h5 class="w-100 t-grey-2">{{eventSelected.date}}</h5>
                 <br>
                 <div class="row w-100">
                     <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
                         <h4>{{betType.nome}}</h4>
                         <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
-                            <div v-on:click="this.addBetSelected(this.eventSelected,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                            <div v-on:click="this.addBetColetiveSelected(this.eventSelected,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                                <h5>{{odd.nome}}</h5>
+                                <h4 class="margin-top-5">{{odd.odd}}</h4>
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="eventDualModal" class="modal">
+            <div class="modal-content border-radius-20">
+                <span class="close" v-on:click="closeElement('eventDualModal')">&times;</span>
+                <h1 class="w-100 t-grey">{{eventSelected.player1Name}} x {{eventSelected.player2Name}}</h1>
+                <h5 class="w-100 t-grey-2">{{eventSelected.date}}</h5>
+                <br>
+                <div class="row w-100">
+                    <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
+                        <h4>{{betType.nome}}</h4>
+                        <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
+                            <div v-on:click="this.addBetDualSelected(this.eventSelected,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
                                 <h5>{{odd.nome}}</h5>
                                 <h4 class="margin-top-5">{{odd.odd}}</h4>
                             </div>     
@@ -173,7 +235,8 @@
 <script>
 import EventRepository from '@/data/repository/EventRepository'
 import EventModel from '@/data/model/EventModel'
-import BetModel from '@/data/model/BetModel'
+import BetColetive from '@/data/model/BetColetive'
+import BetDual from '@/data/model/BetDual'
 import BuletinModel from '@/data/model/BuletinModel'
 import BuletinRepository from '@/data/repository/BuletinRepository'
 
@@ -187,13 +250,22 @@ export default{
             buletinModel: new BuletinModel(),
             eventosPorDesporto:[],
             eventosPorDesportoFiltro:[],
-            esportes: []
+            esportes: [],
+            individualPlayersSelected: [],
+            eventosColetivos:[],
+            eventosDuais:[],
+            eventosIndividuais:[],
+            eventoColetivo: true,
+            eventoDual: false,
+            eventosIndividual: false,
+            apostasColetivas:[],
+            apostasDuais:[],
         }
     },
     async mounted(){
         this.esportes = await EventRepository.getSports()
-        this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(1)
-        this.eventosPorDesportoFiltro = this.eventosPorDesporto
+
+        this.eventosColetivos = await EventRepository.getEventsBySportID(1,"c")
         
         var procurarEquipaInput = document.getElementById("procurarEquipaInput")
         procurarEquipaInput.addEventListener("change", (event) => {
@@ -248,22 +320,35 @@ export default{
             this.deprogressCircle("circle-2")
             this.progressCircle("circle-3")
         },
-        addBetSelected(event, oddSelected){
-            var bet = new BetModel(-1,event,oddSelected,-1)
-            this.betsSelected.push(bet)
+        addBetColetiveSelected(event, oddSelected){
+            var bet = new BetColetive(-1,oddSelected,-1,event)
+            this.apostasColetivas.push(bet)
         },
-        removeBetSelected(index){
+        addBetDualSelected(event, oddSelected){
+            var bet = new BetDual(-1,oddSelected,-1,event)
+            this.apostasDuais.push(bet)
+        },
+        removeBetColetiveSelected(index){
             if (index > -1) { 
-                this.betsSelected.splice(index, 1);
+                this.apostasColetivas.splice(index, 1);
+            }
+        },
+        removeBetDualSelected(index){
+            if (index > -1) { 
+                this.apostasDuais.splice(index, 1);
             }
         },
         isAdmin(){
             // Return true if users is admin
             return true
         },
-        openEvent(index){
-            this.eventSelected = this.eventosPorDesporto[index]  
-            this.showElement("eventModal")
+        openEventColetive(index){
+            this.eventSelected = this.eventosColetivos[index]  
+            this.showElement("eventColetiveModal")
+        },
+        openEventDual(index){
+            this.eventSelected = this.eventosDuais[index]  
+            this.showElement("eventDualModal")
         },
         getOddValueByOddSelected(oddSelected,event){
             console.log(oddSelected)
@@ -282,30 +367,53 @@ export default{
             var cotaTotalS = 0
 
             if (this.buletinModel.type == "m"){
-                for (var i = 0; i < this.betsSelected.length; i++){
-                    cotaTotalM = cotaTotalM * this.getOddValueByOddSelected(this.betsSelected[i].oddSelected,this.betsSelected[i].event)   
+                for (var i = 0; i < this.apostasColetivas.length; i++){
+                    cotaTotalM = cotaTotalM * this.getOddValueByOddSelected(this.apostasColetivas[i].oddSelected,this.apostasColetivas[i].eventColetive)   
+                }
+
+                for (i = 0; i < this.apostasDuais.length; i++){
+                    cotaTotalM = cotaTotalM * this.getOddValueByOddSelected(this.apostasDuais[i].oddSelected,this.apostasDuais[i].eventDual)   
                 }
 
                 return cotaTotalM
             }else if (this.buletinModel.type == "s"){
-                for (var j = 0; j < this.betsSelected.length; j++){
-                    cotaTotalS = cotaTotalS + this.getOddValueByOddSelected(this.betsSelected[j].oddSelected,this.betsSelected[j].event)   
+                for (var j = 0; j < this.apostasColetivas.length; j++){
+                    cotaTotalS = cotaTotalS + this.getOddValueByOddSelected(this.apostasColetivas[j].oddSelected,this.apostasColetivas[j].eventColetive)   
                 }
+                
+
+                for (j = 0; j < this.apostasDuais.length; j++){
+                    cotaTotalS = cotaTotalS + this.getOddValueByOddSelected(this.apostasDuais[j].oddSelected,this.apostasDuais[j].eventDual)   
+                }
+
                 return cotaTotalS
             }
         },
         async criarBoletim(){
             this.buletinModel.gain = this.getCota()*this.buletinModel.amount
             try{
-                await BuletinRepository.createBuletin(this.buletinModel,this.betsSelected)
+                await BuletinRepository.createBuletin(this.buletinModel,this.apostasColetivas,this.apostasDuais)
             }catch(error){
                 console.log(error)
             }
         },
-        async trocarEsporte(idEsporte){
-            this.eventosPorDesporto = await EventRepository.getSportsColetiveEventsByID(idEsporte)
-            this.eventosPorDesportoFiltro = this.eventosPorDesporto
-            //console.log(this.eventosPorDesporto)
+        async trocarEsporte(esporte){
+            if(esporte.tipo == "c"){
+                this.eventoColetivo = true 
+                this.eventoDual = false 
+                this.eventIndividual = false 
+                this.eventosColetivos = await EventRepository.getEventsBySportID(esporte.idesporte,"c")
+            }else if(esporte.tipo == "d"){
+                this.eventoColetivo = false 
+                this.eventoDual = true 
+                this.eventIndividual = false 
+                this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"d")
+            }else if(esporte.tipo == "i"){
+                this.eventoColetivo = false 
+                this.eventoDual = false 
+                this.eventIndividual = true 
+                this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"i")
+            }
         }
     }
 }
@@ -421,21 +529,28 @@ a{
 
 .oddType:hover{
     cursor: pointer;
-    background-color: var(--color-grey);
+    background-color: var(--color-background-nav-4);
 }
 .oddType:hover h4{
     color: var(--color-white)
 }
 .card-bulletin{
     background-color: var(--color-background);
-    border: 2px solid var(--color-background-nav);
     position: fixed;
     z-index: 100;
     top:60px;
     overflow-x: scroll;
     max-height: 85%;
-    overflow-x:hidden
+    overflow-x:hidden;
+
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
 }
+
 
 .card-bet{
     background-color: var(--color-odd-selected);
@@ -510,16 +625,31 @@ a{
     background-color: var(--color-white);
 }
 
+.event{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+}
+
 .event:hover{
-    background-color: var(--color-background-nav-3);
+    background-color: var(--color-background);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    cursor: pointer;
 }
 
 .event:hover > div > div> h3{
-    color: var(--color-white);
+    color: var(--color-grey);
 }
 
 .event:hover > div > h5{
-    color: var(--color-white);
+    color: var(--color-grey);
 }
 
 .sidenav {
@@ -544,5 +674,10 @@ a{
 
 .sidenav a:hover {
     color: #f1f1f1;
+}
+
+img{
+    width: 100%;
+    border-radius: 5px;
 }
 </style>

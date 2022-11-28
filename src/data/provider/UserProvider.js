@@ -55,8 +55,8 @@ class UserProvider{
 
         try{
             var res = await axios({
-                method: "post",
-                url: baseUrl + "/transaction-user",
+                method: "get",
+                url: baseUrl + "/user/transactions",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -77,7 +77,7 @@ class UserProvider{
         try{
             var res = await axios({
                 method: "get",
-                url: baseUrl + "/utilizador",
+                url: baseUrl + "/user/data",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -148,7 +148,7 @@ class UserProvider{
         try{
             var res = await axios({
                 method: "get",
-                url: baseUrl + "/boletim",
+                url: baseUrl + "/bet/buletin",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -169,7 +169,7 @@ class UserProvider{
         try{
             var res = await axios({
                 method: "post",
-                url: baseUrl + "/apostas-do-boletim",
+                url: baseUrl + "/bet/buletin-bets",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]

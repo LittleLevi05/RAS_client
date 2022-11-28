@@ -1,7 +1,11 @@
 import EventProvider from '@/data/provider/EventProvider'
 import SoccerEventModel from '@/data/model/SoccerEventModel'
-import EventModel from '@/data/model/EventModel'
 import SportModel from '@/data/model/SportModel'
+import PlayerModel from '@/data/model/PlayerModel'
+import TeamModel from '@/data/model/TeamModel'
+import EventIndividual from '../model/EventIndividual'
+import EventColetive from '../model/EventColetive'
+import EventDual from '../model/EventDual'
 
 class EventRepository{
 
@@ -31,13 +35,24 @@ class EventRepository{
         return soccerEventsModel
     }
 
-    async getSportsColetiveEventsByID(sportID){
+    async getEventsBySportID(sportID,sportType){
         try{
-            var data = await EventProvider.getSportsColetiveEventsByID(sportID)
+            var data = await EventProvider.getEventsBySportID(sportID)
             var eventos = []
-            data["eventos"].forEach((evento) =>{
-                eventos.push(EventModel.fromJson(evento))
-            })
+
+            if(sportType == "c"){
+                data["eventos"].forEach((evento) =>{
+                    eventos.push(EventColetive.fromJson(evento))
+                })
+            }else if(sportType == "d"){
+                data["eventos"].forEach((evento) =>{
+                    eventos.push(EventDual.fromJson(evento))
+                })
+            }else if(sportType == "i"){
+                data["eventos"].forEach((evento) =>{
+                    eventos.push(EventIndividual.fromJson(evento))
+                })
+            }
 
             return eventos
         }catch(err){
@@ -59,6 +74,48 @@ class EventRepository{
 
     async addPlayer(name){
         await EventProvider.addPlayer(name)
+    }
+
+    async addEventColetive(eventColetive){
+        await EventProvider.addEventColetive(eventColetive)
+    }
+
+    async addEventIndiviual(eventIndividual){
+        await EventProvider.addEventIndividual(eventIndividual)
+    }
+
+    async addEventDual(eventDual){
+        await EventProvider.addEventDual(eventDual)
+    }
+
+    async getTeams(){
+        const data = await EventProvider.getTeams()
+
+        var teams = []
+
+        data['teams'].forEach(teamJson => {
+            var team = TeamModel.fromJson(teamJson)
+            teams.push(team)
+        })
+
+        return teams   
+    }
+
+    async getPlayers(){
+        const data = await EventProvider.getPlayers()
+
+        var players = []
+
+        data['players'].forEach(playerJson => {
+            var player = PlayerModel.fromJson(playerJson)
+            players.push(player)
+        })
+
+        return players   
+    }
+
+    async createBetType(betType){
+        await EventProvider.createBetType(betType)
     }
 }
 

@@ -1,4 +1,4 @@
-import EventModel from "./EventModel"
+import EventColetive from "./EventColetive"
 
 export default class HouseBetModel{
     house = ""
@@ -13,7 +13,7 @@ export default class HouseBetModel{
         var events = []
 
         json["eventos"].forEach((event) =>{
-            events.push(EventModel.fromJson(event))
+            events.push(EventColetive.fromJson(event))
         })
 
         return new HouseBetModel(

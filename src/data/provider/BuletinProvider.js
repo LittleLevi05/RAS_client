@@ -3,10 +3,7 @@ import baseUrl from '@/data/base_url'
 
 class BuletinProvider{
 
-    async createBuletin(buletin,bets){
-        console.log(buletin)
-        console.log(bets)
-
+    async createBuletin(buletin,apostasColetivas,apostasDuais){
         var jsonObj ={}
 
         jsonObj["gain"] = buletin.gain 
@@ -14,11 +11,19 @@ class BuletinProvider{
         jsonObj["amount"] = buletin.amount 
         var betsJson = []
 
-        bets.forEach((bet) =>{
+        apostasColetivas.forEach((bet) =>{
             var betJson = {}
-            betJson["event"] = bet.event.eventID 
+            betJson["event"] = bet.eventColetive.eventID 
             betJson["oddSelected"] = bet.oddSelected  
-            betJson["sport"] = bet.event.sportID
+            betJson["sport"] = bet.eventColetive.sportID
+            betsJson.push(betJson) 
+        })
+
+        apostasDuais.forEach((bet) =>{
+            var betJson = {}
+            betJson["event"] = bet.eventDual.eventID 
+            betJson["oddSelected"] = bet.oddSelected  
+            betJson["sport"] = bet.eventDual.sportID
             betsJson.push(betJson) 
         })
 
@@ -28,8 +33,8 @@ class BuletinProvider{
 
         try{
             await axios({
-                method: "put",
-                url: baseUrl + "/buletin",
+                method: "post",
+                url: baseUrl + "/bet/buletin",
                 data: jsonObj,
                 headers: { 
                     "Content-Type": "application/json", 

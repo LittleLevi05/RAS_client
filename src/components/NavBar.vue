@@ -6,8 +6,8 @@
             </a>
             <div>
                 <nav>
-                    <ul v-if="this.$route.name != 'oddCreate'">
-                        <li>
+                    <ul>
+                        <li v-if="isApostador()">
                             <div class="t-white">
                                 <router-link to="/"><i class="fas fa-calendar-week margin-right-5"></i>EVENTOS</router-link>
                             </div>
@@ -17,10 +17,12 @@
                                 <router-link to="/profile"> <i class="fas fa-user-alt margin-right-5"></i>MINHA CONTA</router-link>
                             </div>
                         </li>
+                        <li>
+                            <div class="t-white">
+                                <router-link to="/profile"> <i class="fas fa-bell margin-right-5"></i>NOTIFICAÇÕES</router-link>
+                            </div>
+                        </li>
                     </ul>
-                    <h1 v-if="this.$route.name == 'oddCreate'" class="t-white">
-                        <i class="fas fa-money-check-alt"></i> GERENCIAR APOSTAS
-                    </h1>
                 </nav>
             </div> 
             <div class="col profile">
@@ -44,6 +46,13 @@ export default{
     },  
     async mounted(){
         this.user = await UserRepository.getUserData()
+    },
+    methods:{
+        async isApostador(){
+            this.user = await UserRepository.getUserData()
+            if (this.user.credential == "a") return true 
+            else false
+        }
     }
 } 
 </script>
@@ -98,7 +107,7 @@ li a{
 
 li {
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 5px;
 }
 
 li:hover{

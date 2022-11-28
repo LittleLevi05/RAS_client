@@ -1,18 +1,13 @@
+import EventModel from '@/data/model/EventModel'
 import BetTypeModel from "./BetTypeModel"
 
-export default class Event{
-    eventID = 0
-    date = null
-    state = "open"
-    betTypeList = []
-    sportID = 0
+export default class EventIndividual extends EventModel{
+    players = {}
 
-    constructor(eventID,sportID,date,state,betTypeList){
-        this.date = date
-        this.sportID = sportID
-        this.state = state
-        this.eventID = eventID 
-        this.betTypeList = betTypeList
+    constructor(eventID,sportID,date,state,betTypeList,players){
+        super(eventID,sportID,date,state,betTypeList)
+        
+        this.players = players
     }
 
     static fromJson(json){
@@ -24,12 +19,13 @@ export default class Event{
             })
         }
 
-        return new Event(
+        return new EventIndividual(
             this.eventID = json["eventoID"],
             this.sportID = json["sportID"],
             this.date = json["date"],
             this.state = json["state"],
-            this.betTypeList = tiposDeApostas
+            this.betTypeList = tiposDeApostas,
+            this.players = json["jogadores"],
         )
     }
 }

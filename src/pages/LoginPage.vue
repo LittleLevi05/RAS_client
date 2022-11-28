@@ -56,7 +56,10 @@ export default {
         async login(){
             try{
                 await UserRepository.login(this.user)
-                this.$router.push('/')
+                var credential = (await UserRepository.getUserData()).credential
+                if (credential == "a") this.$router.push('/admin-home')
+                if (credential == "s") this.$router.push('/spe-home')
+                if (credential == "u") this.$router.push('/')
             }catch(error){
                 console.log(error)
             }

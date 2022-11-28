@@ -2,7 +2,7 @@
     <main>
         <div class="divout border-radius-20 row">
             <div class="col">
-                <div><h2>Histórico de transações</h2></div>
+                <div><h2>HISTÓRICO DE TRANSAÇÕES</h2></div>
             </div>
             <br>
             <h3>Saldo: {{user.balance}} €</h3>
@@ -19,7 +19,7 @@
                     <tr v-for="(transacao,index) in transacoes" :key="index" >
                         <td>{{transacao.date}}</td>
                         <td>{{transacao.amount}}</td>
-                        <td>{{transacao.type}}</td>
+                        <td>{{typeToString(transacao.type)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -42,6 +42,17 @@ export default {
     async mounted(){
         this.transacoes = await UserRepository.getTransactions()
         this.user = await UserRepository.getUserData()
+    },
+    methods:{
+        typeToString(type){
+            if (type=="be"){
+                return "APOSTA"
+            }else if (type=="de"){
+                return "DEPÓSITO"
+            }else if (type=="ra"){
+                return "LEVANTAMENTO"
+            }
+        }
     }
 }
 </script>
@@ -63,9 +74,6 @@ h2, h3 {
 }
 
 .divout {
-    border-style: dotted;
-    border-width: 2px;
-    margin-top: 2%;
     margin-left: 10%;
     margin-right: 10%;
     width: 40%;
@@ -73,8 +81,13 @@ h2, h3 {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-color: var(--color-background-nav);
-    background-color: var(--color-background);
+    
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
 }
 
 th {

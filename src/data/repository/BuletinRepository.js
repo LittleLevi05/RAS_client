@@ -1,8 +1,8 @@
 import BuletinProvider from '@/data/provider/BuletinProvider'
 
 class BuletinRepository{
-    async createBuletin(buletin,bets){
-        await BuletinProvider.createBuletin(buletin,bets)
+    async createBuletin(buletin,apostasColetivas,apostasDuais){
+        await BuletinProvider.createBuletin(buletin,apostasColetivas,apostasDuais)
     }
 }
 

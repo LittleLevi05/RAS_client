@@ -2,16 +2,16 @@
     <main>
         <div class="divout border-radius-20 row">
             <div class="col">
-                <div><h2>Histórico de Apostas</h2></div>
+                <div><h2>HISTÓRICO DE APOSTAS</h2></div>
             </div>
             <br>
             <table class="blueTable">
                 <thead>
                     <tr>
-                        <th>Montante depositado</th>
-                        <th>Ganho potencial</th>
-                        <th>Tipo</th>
-                        <th>Eventos</th>
+                        <th>MONTANTE DEPOSITADO</th>
+                        <th>GANHO POTENCIAL</th>
+                        <th>TIPO</th>
+                        <th>EVENTOS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -19,23 +19,39 @@
                         <td>{{boletim.amount}}</td>
                         <td>{{boletim.gain}}</td>
                         <td>{{boletim.type}}</td>
-                        <td><div v-on:click="openBetsFromBuletin(boletim.buletinID)" class="card w-90 padding-10 oddType border-radius-20"><h4 class="t-grey">Ver eventos<i class="margin-left-5 fas fa-arrow-right"></i></h4></div></td>
+                        <td><div v-on:click="openBetsFromBuletin(boletim.buletinID)" class="card w-90 padding-10 oddType border-radius-5"><h4 class="">Ver eventos<i class="margin-left-5 fas fa-arrow-right"></i></h4></div></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <div id="apostasDoBoletim" class="modal">
-            <div class="modal-content border-radius-20">
+            <div class="modal-content border-radius-5">
                 <span class="close" v-on:click="closeElement('apostasDoBoletim')">&times;</span>
-                <div v-for="(aposta,index) in apostasDoBoletim" :key="index">
+                <div v-for="(aposta,index) in apostasDoBoletim['coletiveBets']" :key="index">
                     <br>
                     <br>
                     <div class="col">
                         <div class="col">
-                            <h4>{{aposta.event.equipa1}}</h4>
+                            <h4>{{aposta.eventColetive.team1Name}}</h4>
                             <h4 class="margin-left-10">x</h4>
-                            <h4 class="margin-left-10">{{aposta.event.equipa2}}</h4>
+                            <h4 class="margin-left-10">{{aposta.eventColetive.team2Name}}</h4>
+                        </div>
+                        <div class="col">
+                            <h3>Aposta selecionada: </h3>
+                            <h3>{{aposta.oddSelected}}</h3>
+                        </div>
+                    </div>
+                    <hr class="margin-top-10">
+                </div>
+                <div v-for="(aposta,index) in apostasDoBoletim['dualBets']" :key="index">
+                    <br>
+                    <br>
+                    <div class="col">
+                        <div class="col">
+                            <h4>{{aposta.eventDual.player1Name}}</h4>
+                            <h4 class="margin-left-10">x</h4>
+                            <h4 class="margin-left-10">{{aposta.eventDual.player2Name}}</h4>
                         </div>
                         <div class="col">
                             <h3>Aposta selecionada: </h3>
@@ -62,7 +78,6 @@ export default {
     },
     async mounted(){
         this.boletins = await UserRepository.getBuletinsHistory()
-        //console.log(this.boletins) 
     },
     methods:{
         closeElement(elementID){
@@ -75,7 +90,7 @@ export default {
         },
         async openBetsFromBuletin(buletinID){
             this.apostasDoBoletim = await UserRepository.getBetsFromBuletin(buletinID) 
-            //console.log(this.apostasDoBoletim)
+            console.log(this.apostasDoBoletim)
             this.showElement("apostasDoBoletim")
         }
     }
@@ -100,9 +115,6 @@ h2, h3 {
 }
 
 .divout {
-    border-style: dotted;
-    border-width: 2px;
-    margin-top: 2%;
     margin-left: 10%;
     margin-right: 10%;
     width: 40%;
@@ -111,7 +123,12 @@ h2, h3 {
     justify-content: center;
     align-items: center;
     border-color: var(--color-background-nav);
-    background-color: var(--color-background);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
 }
 
 th {

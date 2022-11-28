@@ -2,7 +2,8 @@ import UserProvider from '@/data/provider/UserProvider'
 import TransactionModel from '@/data/model/TransactionsModel'
 import User from '@/data/model/UserModel'
 import BuletinModel from '../model/BuletinModel'
-import BetModel from '../model/BetModel'
+import BetColetive from '../model/BetColetive'
+import BetDual from '../model/BetDual'
 
 class UserRepository{
 
@@ -61,15 +62,30 @@ class UserRepository{
 
     async getBetsFromBuletin(buletinID){
         const data = await UserProvider.getBetsFromBuletin(buletinID)
-        
-        var apostas = []
-        
-        data['apostas'].forEach(apostaJson => {
-            var b = BetModel.fromJson(apostaJson)
-            apostas.push(b)
-        })
 
-        return apostas
+        console.log(data)
+        
+        var bets = {}
+        bets["coletiveBets"] = []
+        bets["dualBets"] = []
+        
+        var coletiveBets = data['apostas']["betsColetiveSports"]
+        if (coletiveBets){
+            coletiveBets.forEach(apostaJson => {
+                var b = BetColetive.fromJson(apostaJson)
+                bets["coletiveBets"].push(b)
+            })
+        }
+
+        var dualBets = data['apostas']["betsDualSports"]
+        if (dualBets){
+            dualBets.forEach(apostaJson => {
+                var b = BetDual.fromJson(apostaJson)
+                bets["dualBets"].push(b)
+            })
+        }
+
+        return bets
     }
 
     async getUsers(){
