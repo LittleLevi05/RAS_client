@@ -16,6 +16,8 @@ class BuletinProvider{
             betJson["event"] = bet.eventColetive.eventID 
             betJson["oddSelected"] = bet.oddSelected  
             betJson["sport"] = bet.eventColetive.sportID
+            betJson["gain"] = bet.gain 
+            betJson["amount"] = bet.amount
             betsJson.push(betJson) 
         })
 
@@ -24,6 +26,8 @@ class BuletinProvider{
             betJson["event"] = bet.eventDual.eventID 
             betJson["oddSelected"] = bet.oddSelected  
             betJson["sport"] = bet.eventDual.sportID
+            betJson["gain"] = bet.gain 
+            betJson["amount"] = bet.amount
             betsJson.push(betJson) 
         })
 

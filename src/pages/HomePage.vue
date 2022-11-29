@@ -200,7 +200,7 @@
                     <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
                         <h4>{{betType.nome}}</h4>
                         <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
-                            <div v-on:click="this.addBetColetiveSelected(this.eventSelected,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                            <div v-on:click="this.addBetColetiveSelected(this.eventSelected,odd)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
                                 <h5>{{odd.nome}}</h5>
                                 <h4 class="margin-top-5">{{odd.odd}}</h4>
                             </div>     
@@ -220,7 +220,7 @@
                     <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
                         <h4>{{betType.nome}}</h4>
                         <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
-                            <div v-on:click="this.addBetDualSelected(this.eventSelected,odd.nome)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                            <div v-on:click="this.addBetDualSelected(this.eventSelected,odd)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
                                 <h5>{{odd.nome}}</h5>
                                 <h4 class="margin-top-5">{{odd.odd}}</h4>
                             </div>     
@@ -321,11 +321,13 @@ export default{
             this.progressCircle("circle-3")
         },
         addBetColetiveSelected(event, oddSelected){
-            var bet = new BetColetive(-1,oddSelected,-1,event)
+            var bet = new BetColetive(-1,oddSelected.nome,-1,event)
+            bet.gain = oddSelected.odd
             this.apostasColetivas.push(bet)
         },
         addBetDualSelected(event, oddSelected){
-            var bet = new BetDual(-1,oddSelected,-1,event)
+            var bet = new BetDual(-1,oddSelected.nome,-1,event)
+            bet.gain = oddSelected.odd
             this.apostasDuais.push(bet)
         },
         removeBetColetiveSelected(index){
@@ -391,6 +393,29 @@ export default{
         },
         async criarBoletim(){
             this.buletinModel.gain = this.getCota()*this.buletinModel.amount
+
+            if (this.buletinModel.type == "s"){
+                var ac = 0
+                for (const aposta of this.apostasColetivas){
+                    aposta.gain = aposta.gain * this.buletinModel.amount
+                    aposta.amount = this.buletinModel.amount
+                    ac++
+                }
+
+                var ad = 0
+                for (const aposta of this.apostasDuais){
+                    aposta.gain = aposta.gain * this.buletinModel.amount
+                    aposta.amount = this.buletinModel.amount
+                    ad++
+                }
+
+                
+                this.buletinModel.amount = (this.buletinModel.amount * ac) + (this.buletinModel.amount * ad)
+                console.log(this.buletinModel)
+            }
+            
+            console.log(this.apostasDuais)
+            console.log(this.apostasColetivas)
             try{
                 await BuletinRepository.createBuletin(this.buletinModel,this.apostasColetivas,this.apostasDuais)
             }catch(error){

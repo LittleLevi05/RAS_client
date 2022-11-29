@@ -2,6 +2,8 @@ export default class BetModel{
     betID = 0
     oddSelected = ""
     buletinID = 0
+    gain = 0
+    amount = 0
 
     constructor(betID,oddSelected,buletinID){
         this.betID = betID
