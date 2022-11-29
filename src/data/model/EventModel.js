@@ -1,4 +1,5 @@
 import BetTypeModel from "./BetTypeModel"
+import PromotionModel from "./PromotionModel"
 
 export default class Event{
     eventID = 0
@@ -6,13 +7,15 @@ export default class Event{
     state = "open"
     betTypeList = []
     sportID = 0
+    promotion = new PromotionModel()
 
-    constructor(eventID,sportID,date,state,betTypeList){
+    constructor(eventID,sportID,date,state,betTypeList,promotion){
         this.date = date
         this.sportID = sportID
         this.state = state
         this.eventID = eventID 
         this.betTypeList = betTypeList
+        this.promotion = promotion
     }
 
     static fromJson(json){
@@ -24,12 +27,19 @@ export default class Event{
             })
         }
 
+        var promotion = null
+
+        if(json["promotion"]){
+            promotion = PromotionModel.fromJson(json["promotion"])
+        }
+
         return new Event(
             this.eventID = json["eventoID"],
             this.sportID = json["sportID"],
             this.date = json["date"],
             this.state = json["state"],
-            this.betTypeList = tiposDeApostas
+            this.betTypeList = tiposDeApostas,
+            this.promotion = promotion
         )
     }
 }

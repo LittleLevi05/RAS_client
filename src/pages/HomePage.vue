@@ -23,6 +23,11 @@
                         <br>
                         <div v-on:click="openEventColetive(index)" class="card border-radius-5 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
                     </div>
+                    <div v-if="evento.promotion" class="row">
+                        <h2><i class="fas fa-chart-line margin-right-5"></i>PROMOÇÃO</h2>
+                        <h5>Montante mínimo: {{evento.promotion.minAmount}}$</h5>
+                        <h5>Ganho: {{evento.promotion.perElevation}}x mais</h5>
+                    </div>
                 </div>
             </div>
             <h4 v-if="eventosColetivos.length == 0">Não há eventos deste desporto</h4>
@@ -43,6 +48,11 @@
                         <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                         <br>
                         <div v-on:click="openEventDual(index)" class="card border-radius-5 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                    </div>
+                    <div v-if="evento.promotion" class="row">
+                        <h2><i class="fas fa-chart-line margin-right-5"></i>PROMOÇÃO</h2>
+                        <h5>Montante mínimo: {{evento.promotion.minAmount}}$</h5>
+                        <h5>Ganho: {{evento.promotion.perElevation}}x mais</h5>
                     </div>
                 </div>
             </div>
@@ -428,11 +438,13 @@ export default{
                 this.eventoDual = false 
                 this.eventIndividual = false 
                 this.eventosColetivos = await EventRepository.getEventsBySportID(esporte.idesporte,"c")
+                //console.log(this.eventosColetivos)
             }else if(esporte.tipo == "d"){
                 this.eventoColetivo = false 
                 this.eventoDual = true 
                 this.eventIndividual = false 
                 this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"d")
+                //console.log(this.eventosDuais)
             }else if(esporte.tipo == "i"){
                 this.eventoColetivo = false 
                 this.eventoDual = false 

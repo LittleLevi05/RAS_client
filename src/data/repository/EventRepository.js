@@ -42,6 +42,8 @@ class EventRepository{
             var data = await EventProvider.getEventsBySportID(sportID)
             var eventos = []
 
+            console.log(data)
+
             if(sportType == "c"){
                 data["eventos"].forEach((evento) =>{
                     eventos.push(EventColetive.fromJson(evento))

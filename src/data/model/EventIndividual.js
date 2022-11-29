@@ -1,11 +1,12 @@
 import EventModel from '@/data/model/EventModel'
 import BetTypeModel from "./BetTypeModel"
+import PromotionModel from "./PromotionModel"
 
 export default class EventIndividual extends EventModel{
     players = {}
 
-    constructor(eventID,sportID,date,state,betTypeList,players){
-        super(eventID,sportID,date,state,betTypeList)
+    constructor(eventID,sportID,date,state,betTypeList,players,promotion){
+        super(eventID,sportID,date,state,betTypeList,promotion)
         
         this.players = players
     }
@@ -19,6 +20,11 @@ export default class EventIndividual extends EventModel{
             })
         }
 
+        var promotion = null
+        if(json["promotion"]){
+            promotion = PromotionModel.fromJson(json["promotion"])
+        }
+
         return new EventIndividual(
             this.eventID = json["eventoID"],
             this.sportID = json["sportID"],
@@ -26,6 +32,7 @@ export default class EventIndividual extends EventModel{
             this.state = json["state"],
             this.betTypeList = tiposDeApostas,
             this.players = json["jogadores"],
+            this.promotion = promotion
         )
     }
 }
