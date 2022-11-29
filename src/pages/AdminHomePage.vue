@@ -67,7 +67,7 @@
                                 <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
                                     <H6 class="t-white">ABRIR</H6>
                                 </button>
-                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
+                                <button v-on:click="suspendEvent(evento)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">SUSPENDER</H5>
                                 </button>
                                 <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 margin-right-10 w-15">
@@ -110,7 +110,7 @@
                                 <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">ABRIR</H5>
                                 </button>
-                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
+                                <button v-on:click="suspendEvent(evento)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">SUSPENDER</H5>
                                 </button>
                                 <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 margin-right-10 w-15">
@@ -202,6 +202,18 @@
                 </button>
                 </div>
             </div>
+
+            <div id="suspendModal" class="modal">
+                <div class="modal-content border-radius-5">
+                    <span class="close" v-on:click="closeElement('suspendModal')">&times;</span>
+                    <h3>SUSPENDER EVENTO</h3>
+                    <br>
+                    <input placeholder="Motivo da suspensão do evento" v-model="this.suspendText" class="border-radius-20 placeholder">
+                    <button v-on:click="suspendEvent_()" class="createEvent-button padding-10 margin-top-10">
+                        <H4 class="t-white">SUSPENDER</H4>
+                    </button>
+                </div>
+            </div> 
         </div>
     </main>
 </template>
@@ -253,6 +265,7 @@ export default {
             eventoDual: false,
             eventosIndividual: false,
             promotion: new PromotionModel(),
+            suspendText: "",
         }
     },
     async mounted() {
@@ -375,6 +388,15 @@ export default {
             UserRepository.setUserSpe(userEmail)
             this.users = await UserRepository.getUsers()
         },
+        async suspendEvent_(){
+            try{
+                EventRepository.suspendEvent(this.eventSelected.eventID,this.suspendText)
+                this.$forceUpdate();
+                this.closeElement("suspendModal")
+            }catch(err){
+                console.log(err)
+            }
+        },
         async setEventState(state,eventID){
             EventRepository.setEventState(state,eventID)
             this.$forceUpdate();
@@ -416,6 +438,10 @@ export default {
             }catch(error){
                 console.log(error)
             }
+        },
+        suspendEvent(event){
+            this.eventSelected = event 
+            this.showElement("suspendModal")
         }
     }
 }

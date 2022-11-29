@@ -66,6 +66,10 @@ class EventRepository{
         await EventProvider.setEventState(state,eventID)
     }
 
+    async suspendEvent(eventID,suspendText){
+        await EventProvider.suspendEvent(eventID,suspendText)
+    }
+
     async addSport(name,type){
         await EventProvider.addSport(name,type)
     }
