@@ -51,6 +51,8 @@ export default {
                 return "DEPÓSITO"
             }else if (type=="ra"){
                 return "LEVANTAMENTO"
+            }else if (type=="ga"){
+                return "GANHO"
             }
         }
     }

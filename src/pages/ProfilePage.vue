@@ -8,10 +8,10 @@
                 <br>
                 <hr>
                 <div class="col">
-                    <div class="optSelected row card padding-10 border-radius-5 b-white margin-right-50">
+                    <div v-on:click="this.$router.push('/withdraw')" class="optSelected row card padding-10 border-radius-5 b-white margin-right-50">
                         <h3> <i class="fas fa-money-check-alt"></i> LEVANTAR </h3>
                     </div>
-                    <div  class="optSelected row card padding-10 border-radius-5 b-white">
+                    <div  v-on:click="this.$router.push('/deposit')" class="optSelected row card padding-10 border-radius-5 b-white">
                         <h3> <i class="fas fa-hand-holding-usd"></i> DEPOSITAR </h3>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     </div>
                     <br>
                     <button v-on:click="changeProfile()" class="createEvent-button padding-10 margin-top-10">
-                        <H4 class="t-white">Atualizar perfil</H4>
+                        <H4 class="t-white">ATUALIZAR PERFIL</H4>
                     </button>
                 </div>
             </div>
@@ -119,7 +119,7 @@ main{
     background-color: var(--color-odd-selected);
     width: 100%;
     height: 40px;
-    border-radius: 10px;
+    border-radius: 5px;
     justify-content: center;
     cursor: pointer;
 }

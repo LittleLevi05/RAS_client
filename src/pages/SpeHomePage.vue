@@ -321,7 +321,7 @@ export default {
         this.players = await EventRepository.getPlayers()
 
         this.esportes = await EventRepository.getSports()
-        this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
+        this.tiposDeApostas = await EventRepository.getBetTypeStructureBySport(this.esporteEvento)
 
         this.eventosColetivos = await EventRepository.getEventsBySportID(1,"c")
         // this.eventosPorDesportoFiltro = this.eventosPorDesporto
@@ -340,7 +340,7 @@ export default {
             })
         }, false);
 
-        this.eventsOtherHouses = await AdminRepository.getEventsOtherHouses()
+        this.eventsOtherHouses = await EventRepository.getEventsOtherHouses()
 
         this.eventsOtherHouses.forEach((house)=>{
             this.betHouses.push(house["house"])
@@ -373,7 +373,7 @@ export default {
         },
         async createBetType() {
             await AdminRepository.createBetType(this.betTypeModel)
-            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
+            this.tiposDeApostas = await EventRepository.getBetTypeStructureBySport(this.esporteEvento)
         },
         async createEvent() {
             await AdminRepository.createEvent(this.eventModel)
@@ -394,7 +394,7 @@ export default {
         },
         async trocarEsporte(){
             console.log(this.esporteEvento)
-            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
+            this.tiposDeApostas = await EventRepository.getBetTypeStructureBySport(this.esporteEvento)
             //console.log(this.tiposDeApostas)
         },
         trocarCasaDeAposta(index){

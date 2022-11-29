@@ -4,6 +4,7 @@ import User from '@/data/model/UserModel'
 import BuletinModel from '../model/BuletinModel'
 import BetColetive from '../model/BetColetive'
 import BetDual from '../model/BetDual'
+import NotificationModel from '../model/NotificationModel'
 
 class UserRepository{
 
@@ -107,6 +108,27 @@ class UserRepository{
 
     async setUserSpe(userEmail){
         await UserProvider.setUserSpe(userEmail)
+    }
+
+    async addPromotion(promotion){
+        await UserProvider.addPromotion(promotion)
+    }
+
+    async getNotificationsFromUser(){
+        const data = await UserProvider.getNotificationsFromUser()
+
+        var notifications = []
+
+        if(data['notifications']){
+            data['notifications'].forEach(notificationJson => {
+                var n = NotificationModel.fromJson(notificationJson)
+                notifications.push(n)
+            })
+        }
+
+        console.log(notifications)
+
+        return notifications
     }
 }
 

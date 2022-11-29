@@ -291,6 +291,50 @@ class EventProvider{
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
     }
+
+    async addResult(event){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            await axios({
+                method: "post",
+                url: baseUrl + "/event/addResult",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data: event
+            })
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
+    async getBetTypeStructureBySport(desportoID){
+        try{
+            const res = await axios.post(baseUrl + '/event/betTypeStructure',{
+                desportoID: desportoID
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
+
+    async getEventsOtherHouses(){
+        try{
+            var res = await axios.get(baseUrl + '/event/eventsOthersHouses',{
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }
+    }
 }
 
 export default new EventProvider();

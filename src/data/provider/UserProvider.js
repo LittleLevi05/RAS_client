@@ -5,7 +5,7 @@ class UserProvider{
 
     async signup(user){
         try{
-            await axios.put(baseUrl + '/user',{
+            await axios.post(baseUrl + '/user/register',{
                 email: user.email,
                 password: user.password,
                 nif: user.email,
@@ -22,7 +22,7 @@ class UserProvider{
 
     async login(user){
         try{
-            let response = await axios.post(baseUrl + '/user',{
+            let response = await axios.post(baseUrl + '/user/login',{
                 email: user.email,
                 password: user.password
             })
@@ -101,7 +101,7 @@ class UserProvider{
         try{
             var res = await axios({
                 method: "post",
-                url: baseUrl + "/deposito",
+                url: baseUrl + "/user/deposit",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -126,7 +126,7 @@ class UserProvider{
         try{
             var res = await axios({
                 method: "post",
-                url: baseUrl + "/levantamento",
+                url: baseUrl + "/user/raise",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -246,6 +246,55 @@ class UserProvider{
                 },
                 data: jsonData
             })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }    
+    }
+
+    async addPromotion(promotion){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonData = {}
+        jsonData["minAmount"] = promotion.minAmount
+        jsonData["expDate"] = promotion.expDate 
+        jsonData["perElevation"] = promotion.perElevation 
+        jsonData["eventID"] = promotion.eventIDPromotion
+
+        try{
+            var res = await axios({
+                method: "post",
+                url: baseUrl + "/user/promotion",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data:jsonData
+            })
+
+            return res.data
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }      
+    }
+
+    async getNotificationsFromUser(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            var res = await axios({
+                method: "get",
+                url: baseUrl + "/user/notifications",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
+            return res.data
 
         }catch(err){
             console.log(err)

@@ -6,6 +6,8 @@ import TeamModel from '@/data/model/TeamModel'
 import EventIndividual from '../model/EventIndividual'
 import EventColetive from '../model/EventColetive'
 import EventDual from '../model/EventDual'
+import BetTypeModel from '../model/BetTypeModel'
+import HouseBetModel from "../model/HouseBetModel"
 
 class EventRepository{
 
@@ -116,6 +118,35 @@ class EventRepository{
 
     async createBetType(betType){
         await EventProvider.createBetType(betType)
+    }
+
+    async addResult(event){
+        await EventProvider.addResult(event)
+    }
+
+    async getBetTypeStructureBySport(desportoID){
+        var data =  await EventProvider.getBetTypeStructureBySport(desportoID)
+        
+        var tiposDeApostas = []
+        console.log(data)
+
+        data["estrutura"].forEach((tipoDeAposta) =>{
+            tiposDeApostas.push(BetTypeModel.fromJson(tipoDeAposta))
+        })
+
+        return tiposDeApostas
+    }
+
+    async getEventsOtherHouses(){
+        var data = await EventProvider.getEventsOtherHouses()
+
+        var houses = []
+        
+        data["jsonResul"].forEach((house) =>{
+            houses.push(HouseBetModel.fromJson(house))
+        })
+
+        return houses
     }
 }
 

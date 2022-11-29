@@ -64,14 +64,20 @@
                             </div>
 
                             <div class="col w-100">
-                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-30">
+                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
                                     <H6 class="t-white">ABRIR</H6>
                                 </button>
-                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-30">
+                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">SUSPENDER</H5>
                                 </button>
-                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 w-30">
+                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">FECHAR</H5>
+                                </button>
+                                <button v-on:click="addPromotion(evento.eventID)" class="expand set-button-4 padding-10 margin-top-10 margin-right-5 w-15">
+                                    <H5 class="t-white">PROMOÇÃO</H5>
+                                </button>
+                                <button v-on:click="addResult(evento)" class="expand set-button padding-10 margin-top-10 w-15">
+                                    <H5 class="t-white">RESULTADOS</H5>
                                 </button>
                             </div>
                         </div>
@@ -101,17 +107,20 @@
                             </div>
 
                             <div class="col w-100">
-                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-50">
+                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">ABRIR</H5>
                                 </button>
-                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-20">
+                                <button v-on:click="setEventState('s',evento.eventID)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">SUSPENDER</H5>
                                 </button>
-                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 w-20">
+                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-3 padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">FECHAR</H5>
                                 </button>
-                                <button v-on:click="setEventState('c',evento.eventID)" class="expand set-button-4 padding-10 margin-top-10 w-20">
-                                    <H5 class="t-white">CRIAR PROMOÇÃO</H5>
+                                <button v-on:click="addPromotion(evento.eventID)"  class="expand set-button-4 padding-10 margin-top-10 margin-right-10 w-15">
+                                    <H5 class="t-white">PROMOÇÃO</H5>
+                                </button>
+                                <button v-on:click="addResult(evento)" class="expand set-button padding-10 margin-top-10 w-15">
+                                    <H5 class="t-white">RESULTADOS</H5>
                                 </button>
                             </div>
                         </div>
@@ -146,6 +155,53 @@
                 </div>   
             </div>
 
+            <div id="promotionModal" class="modal">
+                <div class="modal-content border-radius-5">
+                    <span class="close" v-on:click="closeElement('promotionModal')">&times;</span>
+                    <h3>CRIAR PROMOÇÃO</h3>
+                    <br>
+                    <input placeholder="Montante mínimo" v-model="this.promotion.minAmount" class="border-radius-20 placeholder">
+                    <input type="datetime-local" id="start" name="trip-start" min="2022-01-01" max="2023-12-31" class="margin-top-10"
+                        v-model="this.promotion.expDate">
+                    <br>
+                    <input placeholder="Percentagem de elevação do ganho" v-model="this.promotion.perElevation" class="border-radius-20 placeholder margin-top-10">
+                    <button v-on:click="addPromotion_" class="createEvent-button padding-10 margin-top-10">
+                        <H4 class="t-white">CRIAR</H4>
+                    </button>
+                </div>
+            </div> 
+
+            <div id="resultEventModal" class="modal">
+                <div class="modal-content border-radius-5">
+                    <span class="close" v-on:click="closeElement('resultEventModal')">&times;</span>
+                    <div class="margin-top-10" v-for="(tipoDeAposta) in this.eventSelected.betTypeList" :key=tipoDeAposta.nome>
+                        <h3>{{tipoDeAposta.nome}}</h3>
+                        <div v-for="(odd,index) in tipoDeAposta.oddList" :key="index">
+                            <div class="col margin-top-10 w-100">
+                                <div class="row w-30">
+                                    <h3 class="">{{odd.nome}}</h3>
+                                    <h5 v-if="odd.odd == -1" class="">Não aconteceu</h5>
+                                    <h5 v-if="odd.odd == 1" class="">Aconteceu</h5>
+                                    <h5 v-if="odd.odd != -1 && odd.odd !=1" class="">Indefinido</h5>
+                                </div>
+                                <div class ="col 70">
+                                    <button v-on:click="odd.odd = 1" class="expand set-button padding-10 margin-right-5 w-100">
+                                        <h5 class="t-white">ACONTECEU</h5>
+                                    </button>
+                                    <button v-on:click="odd.odd = -1" class="expand set-button-2 padding-10 w-100">
+                                        <h5 class="t-white">NÃO ACONTECEU</h5>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                    </div>   
+                    <button v-on:click="addResult_" class="expand set-button-4 padding-10 w-100">
+                    <h5 class="t-white">ADICIONAR RESULTADO</h5>
+                </button>
+                </div>
+            </div>
         </div>
     </main>
 </template>
@@ -154,6 +210,7 @@
 import SportModel from '@/data/model/SportModel'
 import BetTypeModel from '@/data/model/BetTypeModel'
 import HouseBetModel from '@/data/model/HouseBetModel'
+import PromotionModel from '@/data/model/PromotionModel'
 import OddModel from '@/data/model/OddModel'
 import EventModel from '@/data/model/EventModel'
 import AdminRepository from '@/data/repository/AdminRepository'
@@ -194,12 +251,12 @@ export default {
             eventosIndividuais:[],
             eventoColetivo: true,
             eventoDual: false,
-            eventosIndividual: false
+            eventosIndividual: false,
+            promotion: new PromotionModel(),
         }
     },
     async mounted() {
         this.esportes = await EventRepository.getSports()
-        this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
 
         this.eventosColetivos = await EventRepository.getEventsBySportID(1,"c")
         //this.eventosPorDesportoFiltro = this.eventosPorDesporto
@@ -237,10 +294,6 @@ export default {
         async createSport() {
             await AdminRepository.createSport(this.sportModel)
         },
-        async createBetType() {
-            await AdminRepository.createBetType(this.betTypeModel)
-            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento)
-        },
         async createEvent() {
             await AdminRepository.createEvent(this.eventModel)
         },
@@ -260,7 +313,6 @@ export default {
         },
         async trocarEsporte(){
             console.log(this.esporteEvento)
-            this.tiposDeApostas = await AdminRepository.getBetTypeStructureBySport(this.esporteEvento+1)
             //console.log(this.tiposDeApostas)
         },
         trocarCasaDeAposta(index){
@@ -342,6 +394,28 @@ export default {
         },
         addPlayer(){
             EventRepository.addPlayer(this.playerName)
+        },
+        addPromotion(eventID){
+            this.promotion.eventIDPromotion = eventID
+            this.showElement("promotionModal")
+        },
+        async addPromotion_(){
+            try{
+                await UserRepository.addPromotion(this.promotion)
+            }catch(error){
+                console.log(error)
+            }
+        },
+        addResult(event){
+            this.eventSelected = event
+            this.showElement("resultEventModal")
+        },
+        async addResult_(){
+            try{
+                await EventRepository.addResult(this.eventSelected)
+            }catch(error){
+                console.log(error)
+            }
         }
     }
 }
@@ -404,6 +478,15 @@ input.placeholder {
 
 .set-button-3 {
     background-color: var(--color-text-grey-2);
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.set-button-4 {
+    background-color: var(--color-background-nav-2);
     width: 100%;
     height: 40px;
     border-radius: 10px;
