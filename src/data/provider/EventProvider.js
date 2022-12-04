@@ -84,6 +84,30 @@ class EventProvider{
         }    
     }
 
+    async openEvent(eventID,openText){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonData = {}
+        jsonData["openText"] = openText 
+        jsonData["eventID"] = eventID 
+
+        try{
+            await axios({
+                method: "post",
+                url: baseUrl + "/event/open",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data: jsonData
+            })
+
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }    
+    }
+
     async addPlayer(playerName){
         let user = JSON.parse(localStorage.getItem('user'))
 

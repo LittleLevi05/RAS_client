@@ -142,7 +142,12 @@ input {
 }
 
 .card {
-    background-color: var(--color-background);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -webkit-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
+    -moz-box-shadow: 2px 6px 25px -2px rgba(0,0,0,0.49);
 }
 
 .optSelected {

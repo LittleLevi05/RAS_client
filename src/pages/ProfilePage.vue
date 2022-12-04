@@ -19,7 +19,7 @@
             </div>
             <div class="row-e">
                 <div class="col col-ee expand" v-on:click="consultBetHistory()">
-                    <h4 class="t-grey margin-right-5">CONSULTAR HISTÓTICO DE APOSTAS</h4>
+                    <h4 class="t-grey margin-right-5">CONSULTAR HISTÓRICO DE APOSTAS</h4>
                     <i class="fas fa-arrow-circle-right t-grey"></i>
                 </div>
                 <br>

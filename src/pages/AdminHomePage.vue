@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="col w-100">
-                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
+                                <button v-on:click="openSEvent(evento)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
                                     <H6 class="t-white">ABRIR</H6>
                                 </button>
                                 <button v-on:click="suspendEvent(evento)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
@@ -107,7 +107,7 @@
                             </div>
 
                             <div class="col w-100">
-                                <button v-on:click="setEventState('o',evento.eventID)" class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
+                                <button v-on:click="openSEvent(evento)"  class="expand set-button padding-10 margin-top-10 margin-right-10 w-15">
                                     <H5 class="t-white">ABRIR</H5>
                                 </button>
                                 <button v-on:click="suspendEvent(evento)" class="expand set-button-2 padding-10 margin-top-10 margin-right-10 w-15">
@@ -214,6 +214,18 @@
                     </button>
                 </div>
             </div> 
+
+            <div id="openModal" class="modal">
+                <div class="modal-content border-radius-5">
+                    <span class="close" v-on:click="closeElement('openModal')">&times;</span>
+                    <h3>ABRIR EVENTO</h3>
+                    <br>
+                    <input placeholder="Motivo da abertura do evento" v-model="this.openText" class="border-radius-20 placeholder">
+                    <button v-on:click="openEvent_()" class="createEvent-button padding-10 margin-top-10">
+                        <H4 class="t-white">ABRIR</H4>
+                    </button>
+                </div>
+            </div> 
         </div>
     </main>
 </template>
@@ -266,6 +278,7 @@ export default {
             eventosIndividual: false,
             promotion: new PromotionModel(),
             suspendText: "",
+            openText:"",
         }
     },
     async mounted() {
@@ -397,6 +410,15 @@ export default {
                 console.log(err)
             }
         },
+        async openEvent_(){
+            try{
+                EventRepository.openEvent(this.eventSelected.eventID,this.openText)
+                this.$forceUpdate();
+                this.closeElement("openModal")
+            }catch(err){
+                console.log(err)
+            }
+        },
         async setEventState(state,eventID){
             EventRepository.setEventState(state,eventID)
             this.$forceUpdate();
@@ -442,6 +464,10 @@ export default {
         suspendEvent(event){
             this.eventSelected = event 
             this.showElement("suspendModal")
+        },
+        openSEvent(event){
+            this.eventSelected = event 
+            this.showElement("openModal")
         }
     }
 }
