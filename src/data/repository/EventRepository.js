@@ -158,6 +158,54 @@ class EventRepository{
 
         return houses
     }
+
+    async followEvent(eventID){
+        //console.log(eventID)
+        await EventProvider.followEvent(eventID)
+    }
+
+    async cancelEvent(eventID){
+        await EventProvider.cancelEvent(eventID)
+    }
+
+    async getEventsFollow(){
+        try{
+            var data = await EventProvider.getEventsFollow()
+            var eventos = []
+
+            console.log("data",data)
+
+            var i = 0
+            if(data["collectiveTeams"]){
+                data["collectiveTeams"].forEach((evento) =>{
+                    evento["eventoID"] = data["collectiveIds"][i]
+                    eventos.push(EventColetive.fromJson(evento))
+                    i++
+                })
+            }
+
+            console.log("EVENTOS",eventos)
+
+            i = 0
+            if(data["dualPlayers"]){
+                data["dualPlayers"].forEach((evento) =>{
+                    evento["eventoID"] = data["dualIds"][i]
+                    eventos.push(EventDual.fromJson(evento))
+                    i++
+                })
+            }
+            
+            console.log("EVENTOS",eventos)
+            return eventos
+        }catch(err){
+            console.log(err)
+        }  
+    }
+
+    async updateEventOdds(event){
+        await EventProvider.updateEventOdds(event)
+        console.log(event)
+    }   
 }
 
 export default new EventRepository

@@ -28,6 +28,11 @@
                     <i class="fas fa-arrow-circle-right t-grey"></i>
                 </div>
                 <br>
+                <div class="col col-ee expand" v-on:click="consultFollowEvents()">
+                    <h4 class="t-grey margin-right-5">CONSULTAR EVENTOS SEGUIDOS</h4>
+                    <i class="fas fa-arrow-circle-right t-grey"></i>
+                </div>
+                <br>
                 <div class="row sec-2">
                     <div class="col col-e">
                         <h4 class="t-grey-2">Mudar username:</h4>
@@ -82,9 +87,11 @@ export default{
         consultBetHistory(){
             this.$router.push('/bet-history')
         },
-
         consultTransactionsHistory(){
             this.$router.push('/transactions')
+        },
+        consultFollowEvents(){
+            this.$router.push('/follow-events')
         },
         async changeProfile(){
             try{

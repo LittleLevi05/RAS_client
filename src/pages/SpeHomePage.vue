@@ -202,7 +202,7 @@
                 </div>
                 <br>
                 <div class="col">
-                    <button v-on:click="updateEvent()" class="createEvent-button margin-right-10 padding-10">
+                    <button v-on:click="updateEvent('eventColetiveEditModal')" class="createEvent-button margin-right-10 padding-10">
                         <H4 class="t-white">ATUALIZAR</H4>
                     </button>
                     <button v-on:click="closeElement('eventColetiveEditModal')" class="createEvent-button padding-10">
@@ -230,7 +230,7 @@
                 </div>
                 <br>
                 <div class="col">
-                    <button v-on:click="updateEvent()" class="createEvent-button margin-right-10 padding-10">
+                    <button v-on:click="updateEvent(eventDualEditModal)" class="createEvent-button margin-right-10 padding-10">
                         <H4 class="t-white">ATUALIZAR</H4>
                     </button>
                     <button v-on:click="closeElement('eventDualEditModal')" class="createEvent-button padding-10">
@@ -475,8 +475,13 @@ export default {
         dateToString(date){
             return date
         },
-        updateEvent(){
-            console.log(this.eventSelected)
+        async updateEvent(element){
+            if (confirm("Confirma atualizar as odds deste evento?") == true) {
+               await EventRepository.updateEventOdds(this.eventSelected)   
+               this.closeElement(element)
+            } else {
+                console.log("nothing")  
+            }  
         }
     }
 }

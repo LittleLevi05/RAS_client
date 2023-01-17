@@ -9,7 +9,9 @@ import NotificationModel from '../model/NotificationModel'
 class UserRepository{
 
     async signup(user){
+        console.log("tou no provider vou fazer signup")
         await UserProvider.signup(user)
+        console.log("tou no provider já fiz signup")
     }
 
     async login(user){

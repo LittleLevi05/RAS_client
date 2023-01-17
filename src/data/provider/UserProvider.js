@@ -5,6 +5,7 @@ class UserProvider{
 
     async signup(user){
         try{
+            console.log("vou fazer axios")
             await axios.post(baseUrl + '/user/register',{
                 email: user.email,
                 password: user.password,
@@ -13,6 +14,8 @@ class UserProvider{
                 iban: user.iban,
                 username: user.username,
             })
+
+            console.log("acabei axios")
 
         }catch(err){
             console.log(err)
@@ -265,7 +268,7 @@ class UserProvider{
         try{
             var res = await axios({
                 method: "post",
-                url: baseUrl + "/user/promotion",
+                url: baseUrl + "/event/promotion",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]

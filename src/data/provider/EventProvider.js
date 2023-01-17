@@ -64,13 +64,14 @@ class EventProvider{
         let user = JSON.parse(localStorage.getItem('user'))
 
         var jsonData = {}
-        jsonData["suspendText"] = suspendText 
+        jsonData["description"] = suspendText 
         jsonData["eventID"] = eventID 
+        jsonData["state"] = "s"
 
         try{
             await axios({
                 method: "post",
-                url: baseUrl + "/event/suspend",
+                url: baseUrl + "/event/state",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -88,13 +89,14 @@ class EventProvider{
         let user = JSON.parse(localStorage.getItem('user'))
 
         var jsonData = {}
-        jsonData["openText"] = openText 
+        jsonData["description"] = openText 
         jsonData["eventID"] = eventID 
+        jsonData["state"] = "o"
 
         try{
             await axios({
                 method: "post",
-                url: baseUrl + "/event/open",
+                url: baseUrl + "/event/state",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]
@@ -382,6 +384,93 @@ class EventProvider{
             console.log(err)
             throw {"errorStatus":err.response.status,"errorData":err.response.data}
         }
+    }
+
+    async followEvent(eventID){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonObj = {}
+        jsonObj["eventID"] = eventID 
+
+        try{
+            const res =  await axios({
+                method: "post",
+                url: baseUrl + "/event/follow",
+                data: jsonObj,
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
+
+    async cancelEvent(eventID){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        var jsonObj = {}
+        jsonObj["eventID"] = eventID 
+        
+        try{
+            const res =  await axios({
+                method: "post",
+                url: baseUrl + "/event/follow-cancel",
+                data: jsonObj,
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }  
+    }
+
+    async getEventsFollow(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            const res =  await axios({
+                method: "post",
+                url: baseUrl + "/event/follows",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+            return res.data["events"]
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
+
+    async updateEventOdds(event){
+        var jsonObj = {}
+        jsonObj["event"] = event
+        try{
+            const res =  await axios({
+                method: "post",
+                url: baseUrl + "/event/odds",
+                data: jsonObj,
+                headers: { 
+                    "Content-Type": "application/json", 
+                },
+            })
+
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }  
     }
 }
 

@@ -21,7 +21,10 @@
                         </div>
                         <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                         <br>
-                        <div v-on:click="openEventColetive(index)" class="card border-radius-5 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                        <div class="col">
+                            <div v-on:click="followEvent(evento.eventID)" class="card border-radius-5 padding-10 margin-right-10 seeMore w-90"> Seguir <i class="fas fa-pen-alt"></i></div>
+                            <div v-on:click="openEventColetive(index)" class="card border-radius-5 padding-10 seeMore w-90"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                        </div>
                     </div>
                     <div v-if="evento.promotion" class="row">
                         <h2><i class="fas fa-chart-line margin-right-5"></i>PROMOÇÃO</h2>
@@ -47,7 +50,10 @@
                         </div>
                         <h5 class="margin-top-5 t-grey-2">{{evento.date}}</h5>
                         <br>
-                        <div v-on:click="openEventDual(index)" class="card border-radius-5 padding-10 seeMore"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                        <div class="col">
+                            <div v-on:click="followEvent(evento.eventID)" class="card border-radius-5 padding-10 margin-right-10 seeMore w-90"> Seguir <i class="fas fa-pen-alt"></i></div>
+                            <div v-on:click="openEventDual(index)" class="card border-radius-5 padding-10 seeMore w-90"> Ver Odds <i class="fas fa-arrow-right"></i></div>
+                        </div>
                     </div>
                     <div v-if="evento.promotion" class="row">
                         <h2><i class="fas fa-chart-line margin-right-5"></i>PROMOÇÃO</h2>
@@ -451,6 +457,14 @@ export default{
                 this.eventIndividual = true 
                 this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"i")
             }
+        },
+        async followEvent(eventID){
+            if (confirm("Confirma seguir este evento?") == true) {
+                //console.log(eventID)
+                await EventRepository.followEvent(eventID)   
+            } else {
+                console.log("nothing")  
+            }  
         }
     }
 }

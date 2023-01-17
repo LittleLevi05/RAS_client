@@ -56,7 +56,9 @@ export default {
     methods:{
         async signup(){
             try{
+                console.log("vou fazer no signup")
                 await UserRepository.signup(this.user)
+                console.log("sucesso no signup")
                 this.$router.push('/login')
             }catch(error){
                 console.log(error)

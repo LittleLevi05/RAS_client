@@ -11,6 +11,7 @@ import DepositPage from '@/pages/DepositPage';
 import WithdrawalPage from '@/pages/WithdrawalPage';
 import AdminHomePage from '@/pages/AdminHomePage';
 import SpeHomePage from '@/pages/SpeHomePage';
+import FollowEventsPage from '@/pages/FollowEventsPage';
 
 const routes = [
     {
@@ -77,6 +78,12 @@ const routes = [
         path: '/spe-home',
         component: SpeHomePage,
         name: 'speHomePage',
+        meta: {auth:true}
+    },
+    {
+        path: '/follow-events',
+        component: FollowEventsPage,
+        name: 'followEventsPage',
         meta: {auth:true}
     },
 ];
