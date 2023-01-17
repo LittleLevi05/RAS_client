@@ -11,7 +11,7 @@
             <input id="procurarEquipaInput" class="border-radius-5 margin-top-5">
             <br>
             <br>
-            <div v-for="(evento,index) in eventosColetivos" :key="index">
+            <div v-for="(evento,index) in eventosColetivosFiltro" :key="index">
                 <div class="col margin-top-10 padding-20 border-radius-20 b-grey event">
                     <div class="row w-40 margin-right-50">
                         <div class="col">
@@ -37,10 +37,10 @@
         </div>
         <div v-if="eventoDual" class="w-60 eventos padding-30">
             <h5><i class="fas fa-search margin-right-5"></i>PROCURAR ATLETA</h5>
-            <input id="procurarEquipaInput" class="border-radius-5 margin-top-5">
+            <input id="procurarJogadorInput" class="border-radius-5 margin-top-5">
             <br>
             <br>
-            <div v-for="(evento,index) in eventosDuais" :key="index">
+            <div v-for="(evento,index) in eventosDuaisFiltro" :key="index">
                 <div class="col margin-top-10 padding-20 border-radius-20 b-grey event">
                     <div class="row w-40 margin-right-50">
                         <div class="col">
@@ -214,9 +214,9 @@
                 <br>
                 <div class="row w-100">
                     <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
-                        <h4>{{betType.nome}}</h4>
+                        <h4 v-if="betType.oddList.length > 0">{{betType.nome}}</h4>
                         <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
-                            <div v-on:click="this.addBetColetiveSelected(this.eventSelected,odd)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                            <div v-on:click="this.addBetColetiveSelected(this.eventSelected,odd)" class="oddSelected seeMore row card padding-10 border-radius-10 b-white margin-right-10">
                                 <h5>{{odd.nome}}</h5>
                                 <h4 class="margin-top-5">{{odd.odd}}</h4>
                             </div>     
@@ -234,9 +234,9 @@
                 <br>
                 <div class="row w-100">
                     <div class="margin-top-10 col col-e w-100" v-for="(betType,index) in eventSelected.betTypeList" :key="index">
-                        <h4>{{betType.nome}}</h4>
+                        <h4 v-if="betType.oddList.length > 0">{{betType.nome}}</h4>
                         <div class="col col-e" v-for="(odd,index) in betType.oddList" :key="index">
-                            <div v-on:click="this.addBetDualSelected(this.eventSelected,odd)" class="oddSelected row card padding-10 border-radius-20 b-white margin-right-10">
+                            <div v-on:click="this.addBetDualSelected(this.eventSelected,odd)" class="oddSelected seeMore row card padding-10 border-radius-10 b-white margin-right-10">
                                 <h5>{{odd.nome}}</h5>
                                 <h4 class="margin-top-5">{{odd.odd}}</h4>
                             </div>     
@@ -269,7 +269,9 @@ export default{
             esportes: [],
             individualPlayersSelected: [],
             eventosColetivos:[],
+            eventosColetivosFiltro:[],
             eventosDuais:[],
+            eventosDuaisFiltro:[],
             eventosIndividuais:[],
             eventoColetivo: true,
             eventoDual: false,
@@ -282,21 +284,39 @@ export default{
         this.esportes = await EventRepository.getSports()
 
         this.eventosColetivos = await EventRepository.getEventsBySportID(1,"c")
-        
+        this.eventosColetivosFiltro = this.eventosColetivos
+
         var procurarEquipaInput = document.getElementById("procurarEquipaInput")
         procurarEquipaInput.addEventListener("change", (event) => {
             var equipa = event.target.value
             var eventosDaEquipa = []
-            this.eventosPorDesporto.forEach(e =>{
-                if (e.equipa1 == equipa || e.equipa2 == equipa){
+            this.eventosColetivos.forEach(e =>{
+                if (e.team1Name == equipa || e.team2Name == equipa){
                     eventosDaEquipa.push(e)
                 }
             })
 
             if (eventosDaEquipa.length > 0){
-                this.eventosPorDesportoFiltro = eventosDaEquipa
+                this.eventosColetivosFiltro = eventosDaEquipa
             }else{
-                this.eventosPorDesportoFiltro = this.eventosPorDesporto
+                this.eventosColetivosFiltro = this.eventosColetivos
+            }
+        }, false);
+
+        var procurarJogadorInput = document.getElementById("procurarJogadorInput")
+        procurarJogadorInput.addEventListener("change", (event) => {
+            var player = event.target.value
+            var eventosDoJogador = []
+            this.eventosDuais.forEach(p =>{
+                if (p.player1Name == player || p.player2Name == player){
+                    eventosDoJogador.push(p)
+                }
+            })
+
+            if (eventosDoJogador.length > 0){
+                this.eventosDuaisFiltro = eventosDoJogador
+            }else{
+                this.eventosDuaisFiltro = this.eventosDuais
             }
         }, false);
     },
@@ -337,14 +357,22 @@ export default{
             this.progressCircle("circle-3")
         },
         addBetColetiveSelected(event, oddSelected){
-            var bet = new BetColetive(-1,oddSelected.nome,-1,event)
-            bet.gain = oddSelected.odd
-            this.apostasColetivas.push(bet)
+            if (confirm("Confirma que deseja inserir esta aposta em seu boletim?") == true) {
+                var bet = new BetColetive(-1,oddSelected.nome,-1,event)
+                bet.gain = oddSelected.odd
+                this.apostasColetivas.push(bet)
+            } else {
+                console.log("nothing")  
+            }  
         },
         addBetDualSelected(event, oddSelected){
-            var bet = new BetDual(-1,oddSelected.nome,-1,event)
-            bet.gain = oddSelected.odd
-            this.apostasDuais.push(bet)
+            if (confirm("Confirma que deseja inserir esta aposta em seu boletim?") == true) {
+                var bet = new BetDual(-1,oddSelected.nome,-1,event)
+                bet.gain = oddSelected.odd
+                this.apostasDuais.push(bet)
+            } else {
+                console.log("nothing")  
+            }  
         },
         removeBetColetiveSelected(index){
             if (index > -1) { 
@@ -361,11 +389,11 @@ export default{
             return true
         },
         openEventColetive(index){
-            this.eventSelected = this.eventosColetivos[index]  
+            this.eventSelected = this.eventosColetivosFiltro[index]  
             this.showElement("eventColetiveModal")
         },
         openEventDual(index){
-            this.eventSelected = this.eventosDuais[index]  
+            this.eventSelected = this.eventosDuaisFiltro[index]  
             this.showElement("eventDualModal")
         },
         getOddValueByOddSelected(oddSelected,event){
@@ -448,12 +476,14 @@ export default{
                 this.eventoDual = false 
                 this.eventIndividual = false 
                 this.eventosColetivos = await EventRepository.getEventsBySportID(esporte.idesporte,"c")
+                this.eventosColetivosFiltro = this.eventosColetivos
                 //console.log(this.eventosColetivos)
             }else if(esporte.tipo == "d"){
                 this.eventoColetivo = false 
                 this.eventoDual = true 
                 this.eventIndividual = false 
                 this.eventosDuais = await EventRepository.getEventsBySportID(esporte.idesporte,"d")
+                this.eventosDuaisFiltro = this.eventosDuais
                 //console.log(this.eventosDuais)
             }else if(esporte.tipo == "i"){
                 this.eventoColetivo = false 
