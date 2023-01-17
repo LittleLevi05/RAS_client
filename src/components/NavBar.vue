@@ -27,8 +27,7 @@
             </div> 
             <div class="col profile">
                 <i class="fas fa-user margin-right-10 t-white"></i>
-                <h4 class="t-white">Bem-vindo, <i>{{user.username}} - </i></h4>
-                <h4 class="t-white">{{user.balance}} €</h4>
+                <h4 class="t-white">Bem-vindo, <i>{{user.username}}</i></h4>
             </div>
         </div> 
 

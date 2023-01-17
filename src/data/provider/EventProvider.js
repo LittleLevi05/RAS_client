@@ -348,7 +348,7 @@ class EventProvider{
         try{
             await axios({
                 method: "post",
-                url: baseUrl + "/event/addResult",
+                url: baseUrl + "/bet/addResult",
                 headers: { 
                     "Content-Type": "application/json", 
                     'Authorization': user["tokenType"] + ' ' + user["token"]

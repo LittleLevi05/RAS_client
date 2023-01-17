@@ -432,12 +432,20 @@ export default {
                 this.eventColetive.date = this.eventModel.date
                 this.eventColetive.betTypeList = this.tiposDeApostas
                 this.eventColetive.sportID = this.esporteEvento
-                EventRepository.addEventColetive(this.eventColetive)
+                if (confirm("Confirma que deseja criar este evento?") == true) {
+                    EventRepository.addEventColetive(this.eventColetive)
+                } else {
+                    console.log("nothing")  
+                }  
             }else if(this.tipoEsporte == "Dual"){
                 this.eventDual.date = this.eventModel.date
                 this.eventDual.betTypeList = this.tiposDeApostas
                 this.eventDual.sportID = this.esporteEvento
-                EventRepository.addEventDual(this.eventDual)
+                if (confirm("Confirma que deseja criar este evento?") == true) {
+                    EventRepository.addEventDual(this.eventDual)
+                } else {
+                    console.log("nothing")  
+                }  
             }else if(this.tipoEsporte == "Individual"){
                 this.eventIndividual.date = this.eventModel.date 
                 this.eventIndividual.betTypeList = this.tiposDeApostas

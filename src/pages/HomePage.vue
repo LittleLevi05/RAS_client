@@ -433,7 +433,11 @@ export default{
             console.log(this.apostasDuais)
             console.log(this.apostasColetivas)
             try{
-                await BuletinRepository.createBuletin(this.buletinModel,this.apostasColetivas,this.apostasDuais)
+                if (confirm("Confirma que deseja criar este boletim de apostas?") == true) {
+                    await BuletinRepository.createBuletin(this.buletinModel,this.apostasColetivas,this.apostasDuais)
+                } else {
+                    console.log("nothing")  
+                } 
             }catch(error){
                 console.log(error)
             }

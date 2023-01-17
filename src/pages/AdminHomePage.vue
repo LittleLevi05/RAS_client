@@ -434,10 +434,18 @@ export default {
             EventRepository.addSport(this.sportModel.nome,this.sportModel.tipo)
         },
         addTeam(){
-            EventRepository.addTeam(this.teamName)
+            if (confirm("Confirma que deseja criar esta equipa?") == true) {
+                EventRepository.addTeam(this.teamName)
+            } else {
+                console.log("nothing")  
+            }  
         },
         addPlayer(){
-            EventRepository.addPlayer(this.playerName)
+            if (confirm("Confirma que deseja criar este jogador?") == true) {
+               EventRepository.addPlayer(this.playerName)   
+            } else {
+                console.log("nothing")  
+            }  
         },
         addPromotion(eventID){
             this.promotion.eventIDPromotion = eventID
@@ -456,7 +464,11 @@ export default {
         },
         async addResult_(){
             try{
-                await EventRepository.addResult(this.eventSelected)
+                if (confirm("Confirma que deseja adicionar esse resultado ao evento?") == true) {
+                    await EventRepository.addResult(this.eventSelected)
+                } else {
+                    console.log("nothing")  
+                } 
             }catch(error){
                 console.log(error)
             }
