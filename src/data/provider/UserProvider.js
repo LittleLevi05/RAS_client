@@ -53,6 +53,7 @@ class UserProvider{
         }
     }
 
+    // token: check
     async getTransactions(){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -74,6 +75,7 @@ class UserProvider{
         }
     }
 
+    // token: check
     async getUserData(){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -95,6 +97,7 @@ class UserProvider{
         }
     }
 
+    // token: check
     async deposit(amount){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -120,6 +123,7 @@ class UserProvider{
         }   
     }
 
+    // token: check
     async raise(amount){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -145,6 +149,7 @@ class UserProvider{
         }   
     }
 
+    // token: check
     async getBuletinsHistory(){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -166,6 +171,7 @@ class UserProvider{
         }
     }
 
+    // token: check
     async getBetsFromBuletin(buletinID){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -188,6 +194,7 @@ class UserProvider{
         }
     }
 
+    // token: check
     async getUsers(){
         let user = JSON.parse(localStorage.getItem('user'))
         console.log(user)
@@ -210,6 +217,7 @@ class UserProvider{
         }    
     }
 
+    // token: check
     async setUserAdmin(userEmail){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -233,6 +241,7 @@ class UserProvider{
         }    
     }
 
+    // token: check
     async setUserSpe(userEmail){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -256,6 +265,7 @@ class UserProvider{
         }    
     }
 
+    // token: check
     async addPromotion(promotion){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -284,6 +294,7 @@ class UserProvider{
         }      
     }
 
+    // token: check
     async getNotificationsFromUser(){
         let user = JSON.parse(localStorage.getItem('user'))
 

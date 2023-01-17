@@ -3,31 +3,15 @@ import baseUrl from '@/data/base_url'
 
 class EventProvider{
 
+    // token check
     async getSports(){
+        let user = JSON.parse(localStorage.getItem('user'))
         try{
-            const res = await axios.get(baseUrl + '/event/sport',{})
-            return res.data
-        }catch(err){
-            console.log(err)
-            throw {"errorStatus":err.response.status,"errorData":err.response.data}
-        }   
-    }
-
-    async getSoccerEvents(){
-        try{
-            const res = await axios.get(baseUrl + '/soccer-event',{})
-            return res.data
-        }catch(err){
-            console.log(err)
-            throw {"errorStatus":err.response.status,"errorData":err.response.data}
-        }   
-    }
-
-    async getEventsBySportID(sportID){
-        try{
-            console.log("ID esporte: ",sportID)
-            const res = await axios.post(baseUrl + '/event/eventsBySport',{
-                "sportID": sportID
+            const res = await axios.get(baseUrl + '/event/sport',{
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
             })
             return res.data
         }catch(err){
@@ -36,6 +20,49 @@ class EventProvider{
         }   
     }
 
+    // token check
+    async getSoccerEvents(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
+        try{
+            const res = await axios.get(baseUrl + '/soccer-event',{
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+            })
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
+
+    // token check
+    async getEventsBySportID(sportID){
+        let user = JSON.parse(localStorage.getItem('user'))
+        var obj = {}
+        obj["sportID"] = sportID
+        try{
+            console.log("ID esporte: ",sportID)
+            const res = await axios({
+                method: "post",
+                url: baseUrl + '/event/eventsBySport',
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data:  obj
+            })
+           
+            return res.data
+        }catch(err){
+            console.log(err)
+            throw {"errorStatus":err.response.status,"errorData":err.response.data}
+        }   
+    }
+
+    // token check
     async setEventState(state,eventID){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -60,6 +87,7 @@ class EventProvider{
         }    
     }
 
+    // token check
     async suspendEvent(eventID,suspendText){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -85,6 +113,7 @@ class EventProvider{
         }    
     }
 
+    // token check
     async openEvent(eventID,openText){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -110,6 +139,7 @@ class EventProvider{
         }    
     }
 
+    // token check
     async addPlayer(playerName){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -133,6 +163,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async addTeam(teamName){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -156,6 +187,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async addSport(name,type){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -180,6 +212,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async addEventColetive(eventColetive){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -209,6 +242,7 @@ class EventProvider{
         }    
     }
 
+    // token check
     async addEventDual(eventDual){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -238,6 +272,7 @@ class EventProvider{
         }    
     }
 
+    // token check
     async addEventIndividual(eventIndividual){
         // let user = JSON.parse(localStorage.getItem('user'))
 
@@ -268,6 +303,7 @@ class EventProvider{
         */
     }
 
+    // token check
     async getTeams(){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -288,6 +324,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async getPlayers(){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -308,6 +345,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async createBetType(betType){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -342,6 +380,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async addResult(event){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -361,10 +400,22 @@ class EventProvider{
         }
     }
 
+    // token check
     async getBetTypeStructureBySport(desportoID){
+        let user = JSON.parse(localStorage.getItem('user'))
+
         try{
-            const res = await axios.post(baseUrl + '/event/betTypeStructure',{
-                desportoID: desportoID
+            var obj = {}
+            obj["desportoID"] = desportoID
+
+            const res = await axios({
+                method: "post",
+                url: baseUrl + '/event/betTypeStructure',
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
+                data:  obj
             })
 
             return res.data
@@ -374,9 +425,18 @@ class EventProvider{
         }
     }
 
+    // token check
     async getEventsOtherHouses(){
+        let user = JSON.parse(localStorage.getItem('user'))
+
         try{
-            var res = await axios.get(baseUrl + '/event/eventsOthersHouses',{
+            const res = await axios({
+                method: "get",
+                url: baseUrl + '/event/eventsOthersHouses',
+                headers: { 
+                    "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
+                },
             })
 
             return res.data
@@ -386,6 +446,7 @@ class EventProvider{
         }
     }
 
+    // token check
     async followEvent(eventID){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -410,6 +471,7 @@ class EventProvider{
         }   
     }
 
+    // token check
     async cancelEvent(eventID){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -434,6 +496,7 @@ class EventProvider{
         }  
     }
 
+    // token check
     async getEventsFollow(){
         let user = JSON.parse(localStorage.getItem('user'))
 
@@ -453,7 +516,9 @@ class EventProvider{
         }   
     }
 
+    // token check
     async updateEventOdds(event){
+        let user = JSON.parse(localStorage.getItem('user'))
         var jsonObj = {}
         jsonObj["event"] = event
         try{
@@ -463,6 +528,7 @@ class EventProvider{
                 data: jsonObj,
                 headers: { 
                     "Content-Type": "application/json", 
+                    'Authorization': user["tokenType"] + ' ' + user["token"]
                 },
             })
 

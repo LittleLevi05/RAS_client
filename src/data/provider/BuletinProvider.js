@@ -3,6 +3,7 @@ import baseUrl from '@/data/base_url'
 
 class BuletinProvider{
 
+    // token check
     async createBuletin(buletin,apostasColetivas,apostasDuais){
         var jsonObj ={}
 
